@@ -1,0 +1,51 @@
+# Default ignored files
+/shelf/
+workspace.xml
+
+# Editor-based HTTP Client requests
+/httpRequests/
+
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# Gradle files
+.gradle/
+build/
+out/
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Gradle cache
+.gradle/caches/
+.gradle/daemon/
+.gradle/metadata/
+.gradle/native/
+.gradle/wrapper/
+.gradle/gradle-user-home/
+
+# IDE-specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Java class files
+*.class
+
+# JAR files
+*.jar
+*.war
+*.ear
+
+# Log files
+*.log
+
+# Temp files
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# Coverage reports
+/build/reports/coverage/
