@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/space_energy_api.common.iml" filepath="$PROJECT_DIR$/.idea/modules/common/space_energy_api.common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/space_energy_api.common.main.iml" filepath="$PROJECT_DIR$/.idea/modules/common/space_energy_api.common.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/common/space_energy_api.common.test.iml" filepath="$PROJECT_DIR$/.idea/modules/common/space_energy_api.common.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fabric/space_energy_api.fabric.main.iml" filepath="$PROJECT_DIR$/.idea/modules/fabric/space_energy_api.fabric.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/fabric/space_energy_api.fabric.test.iml" filepath="$PROJECT_DIR$/.idea/modules/fabric/space_energy_api.fabric.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/neoforge/space_energy_api.neoforge.main.iml" filepath="$PROJECT_DIR$/.idea/modules/neoforge/space_energy_api.neoforge.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/neoforge/space_energy_api.neoforge.test.iml" filepath="$PROJECT_DIR$/.idea/modules/neoforge/space_energy_api.neoforge.test.iml" />
+    </modules>
+  </component>
+</project>
