@@ -1,11 +1,11 @@
 
 package com.absolutelyaryan.fabric;
 
+import com.absolutelyaryan.SpaceEnergyCommon;
 import net.fabricmc.api.ModInitializer;
 
-import com.absolutelyaryan.ExampleMod;
 
-public final class ExampleModFabric implements ModInitializer {
+public final class SpaceEnergyFabric implements ModInitializer {
     @Override
     public void onInitialize() {
         // This code runs as soon as Minecraft is in a mod-load-ready state.
@@ -13,6 +13,6 @@ public final class ExampleModFabric implements ModInitializer {
         // Proceed with mild caution.
 
         // Run our common setup.
-        ExampleMod.init();
+        SpaceEnergyCommon.init();
     }
 }

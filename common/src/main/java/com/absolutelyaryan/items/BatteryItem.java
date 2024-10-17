@@ -1,10 +1,8 @@
-package com.absolutelyaryan;
+package com.absolutelyaryan.items;
 
+import com.absolutelyaryan.energy.BaseEnergyStorage;
+import com.absolutelyaryan.objects.IEnergyStorage;
 import net.minecraft.world.item.Item;
-
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.CreativeModeTabs;
-import dev.architectury.platform.Platform;
 
 public class BatteryItem extends Item implements IEnergyStorage {
     private final BaseEnergyStorage energyStorage;

@@ -1,5 +1,7 @@
-package com.absolutelyaryan;
+package com.absolutelyaryan.energy;
 
+
+import com.absolutelyaryan.objects.IEnergyStorage;
 
 public class BaseEnergyStorage implements IEnergyStorage {
     protected int energy;

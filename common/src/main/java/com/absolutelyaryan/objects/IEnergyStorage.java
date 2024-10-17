@@ -1,4 +1,4 @@
-package com.absolutelyaryan;
+package com.absolutelyaryan.objects;
 
 
 public interface IEnergyStorage {

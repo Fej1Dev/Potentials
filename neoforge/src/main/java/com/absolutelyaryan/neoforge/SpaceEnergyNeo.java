@@ -1,9 +1,18 @@
 package com.absolutelyaryan.neoforge;
 
+import com.absolutelyaryan.SpaceEnergyCommon;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.common.NeoForge;
 
+@Mod(SpaceEnergyCommon.MOD_ID)
 public class SpaceEnergyNeo {
+
+    public SpaceEnergyNeo(IEventBus modBus){
+        NeoForge.EVENT_BUS.addListener(SpaceEnergyNeo::registerCapabilities);
+    }
 
 
     // Register capabilities here
