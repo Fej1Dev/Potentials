@@ -1,45 +1,24 @@
 package com.absolutelyaryan.items;
 
-import com.absolutelyaryan.energy.BaseEnergyStorage;
+import com.absolutelyaryan.energy.ItemEnergyStorage;
+import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.objects.IEnergyStorage;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
-public class BatteryItem extends Item implements IEnergyStorage {
-    private final BaseEnergyStorage energyStorage;
+public class BatteryItem extends Item implements EnergyProvider.ITEM {
+
+    protected int capacity;
+    protected int maxReceive;
+    protected int maxExtract;
 
     public BatteryItem(Properties properties, int capacity, int maxReceive, int maxExtract) {
         super(properties);
-        this.energyStorage = new BaseEnergyStorage(capacity, maxReceive, maxExtract);
     }
 
     @Override
-    public int getEnergyStored() {
-        return energyStorage.getEnergyStored();
-    }
-
-    @Override
-    public int getMaxEnergyStored() {
-        return energyStorage.getMaxEnergyStored();
-    }
-
-    @Override
-    public boolean canExtract() {
-        return energyStorage.canExtract();
-    }
-
-    @Override
-    public boolean canReceive() {
-        return energyStorage.canReceive();
-    }
-
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        return energyStorage.extractEnergy(maxExtract, simulate);
-    }
-
-    @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        return energyStorage.receiveEnergy(maxReceive, simulate);
+    public IEnergyStorage getEnergy(ItemStack stack) {
+        return new ItemEnergyStorage(stack, capacity, maxReceive, maxExtract);
     }
 }
 

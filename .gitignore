@@ -31,8 +31,6 @@ output/
 bin/
 libs/
 
-.classpath
-.project
 .idea/
 classes/
 .metadata
