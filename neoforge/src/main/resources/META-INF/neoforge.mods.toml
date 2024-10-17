@@ -1,0 +1,38 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+#issueTrackerURL = ""
+license = "Insert License Here"
+
+[[mods]]
+modId = "space_energy_api"
+version = "${version}"
+displayName = "EnergyAPI"
+authors = "Me!"
+description = '''
+This is an example description! Tell everyone what your mod is about!
+'''
+#logoFile = ""
+
+[[dependencies.space_energy_api]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.space_energy_api]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.space_energy_api]]
+modId = "architectury"
+type = "required"
+versionRange = "[13.0.2,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[mixins]]
+config = "space_energy_api.mixins.json"
