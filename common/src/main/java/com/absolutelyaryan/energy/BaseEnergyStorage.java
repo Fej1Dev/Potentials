@@ -1,9 +1,8 @@
 package com.absolutelyaryan.energy;
 
 
-import com.absolutelyaryan.objects.IEnergyStorage;
 
-public class BaseEnergyStorage implements IEnergyStorage {
+public class BaseEnergyStorage implements UniversalEnergyStorage {
     protected int energy;
     protected int capacity;
     protected int maxReceive;
@@ -17,28 +16,18 @@ public class BaseEnergyStorage implements IEnergyStorage {
     }
 
     @Override
-    public int getEnergyStored() {
+    public int getEnergy() {
         return energy;
     }
 
     @Override
-    public int getMaxEnergyStored() {
+    public int getMaxEnergy() {
         return capacity;
     }
 
     @Override
-    public boolean canExtract() {
-        return maxExtract > 0;
-    }
-
-    @Override
-    public boolean canReceive() {
-        return maxReceive > 0;
-    }
-
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        int energyExtracted = Math.min(energy, Math.min(this.maxExtract, maxExtract));
+    public int takeEnergy(int amount, boolean simulate) {
+        int energyExtracted = Math.min(energy, this.maxExtract);
         if (!simulate) {
             energy -= energyExtracted;
         }
@@ -46,11 +35,21 @@ public class BaseEnergyStorage implements IEnergyStorage {
     }
 
     @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        int energyReceived = Math.min(capacity - energy, Math.min(this.maxReceive, maxReceive));
+    public int giveEnergy(int amount, boolean simulate) {
+        int energyReceived = Math.min(capacity - energy, this.maxReceive);
         if (!simulate) {
             energy += energyReceived;
         }
         return energyReceived;
+    }
+
+    @Override
+    public boolean canTakeEnergy() {
+        return maxExtract > 0;
+    }
+
+    @Override
+    public boolean canGiveEnergy() {
+        return maxReceive > 0;
     }
 }

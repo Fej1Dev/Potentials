@@ -1,11 +1,10 @@
 package com.absolutelyaryan.energy;
 
 import com.absolutelyaryan.items.DataComponents;
-import com.absolutelyaryan.objects.IEnergyStorage;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 
-public class ItemEnergyStorage implements IEnergyStorage {
+public class ItemEnergyStorage implements UniversalEnergyStorage {
 
     protected ItemStack stack;
     protected int capacity;
@@ -18,12 +17,6 @@ public class ItemEnergyStorage implements IEnergyStorage {
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
     }
-
-    @Override
-    public int getEnergyStored() {
-        return stack.getOrDefault(DataComponents.ENERGY_DATA_COMPONENT.get(), 0);
-    }
-
     /**unchecked, only for use internally*/
     @ApiStatus.Internal
     public void setUncheckedEnergyStored(int amount) {
@@ -31,40 +24,47 @@ public class ItemEnergyStorage implements IEnergyStorage {
     }
 
     public void setEnergyStored(int amount) {
-        stack.set(DataComponents.ENERGY_DATA_COMPONENT.get(), Math.clamp(amount, 0 ,getMaxEnergyStored()));
+        stack.set(DataComponents.ENERGY_DATA_COMPONENT.get(), Math.clamp(amount, 0 , getMaxEnergy()));
     }
 
-    @Override
-    public int getMaxEnergyStored() {
-        return capacity;
-    }
 
     @Override
-    public boolean canExtract() {
+    public boolean canTakeEnergy() {
         return maxExtract > 0;
     }
 
     @Override
-    public boolean canReceive() {
+    public boolean canGiveEnergy() {
         return maxReceive > 0;
     }
 
     @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        int energyExtracted = Math.min(getEnergyStored(), Math.min(this.maxExtract, maxExtract));
+    public int takeEnergy(int maxExtract, boolean simulate) {
+        int energyExtracted = Math.min(getEnergy(), Math.min(this.maxExtract, maxExtract));
         if (!simulate) {
-            setEnergyStored(getEnergyStored() - energyExtracted);
+            setEnergyStored(getEnergy() - energyExtracted);
         }
         return energyExtracted;
     }
 
     @Override
-    public int receiveEnergy(int maxReceive, boolean simulate) {
-        int energyReceived = Math.min(capacity - getEnergyStored(), Math.min(this.maxReceive, maxReceive));
+    public int giveEnergy(int maxReceive, boolean simulate) {
+        int energyReceived = Math.min(capacity - getEnergy(), Math.min(this.maxReceive, maxReceive));
         if (!simulate) {
-            setEnergyStored(getEnergyStored() + energyReceived);
+            setEnergyStored(getEnergy() + energyReceived);
         }
         return energyReceived;
     }
+
+    @Override
+    public int getEnergy() {
+        return stack.getOrDefault(DataComponents.ENERGY_DATA_COMPONENT.get(), 0);
+    }
+
+    @Override
+    public int getMaxEnergy() {
+        return capacity;
+    }
+
 
 }
