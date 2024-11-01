@@ -1,6 +1,5 @@
 package com.absolutelyaryan.energy;
 
-
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -43,5 +42,3 @@ public interface UniversalEnergyStorage extends EnergyStorage {
         return getMaxEnergy();
     }
 }
-
-

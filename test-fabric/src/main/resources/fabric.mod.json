@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "space_energy_api",
+  "id": "space_energy_test",
   "version": "${version}",
-  "name": "EnergyAPI",
+  "name": "EnergyAPITest",
   "description": "This is an example description! Tell everyone what your mod is about!",
   "authors": [
     "Me!"
@@ -16,14 +16,13 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.absolutelyaryan.fabric.SpaceEnergyFabric"
+      "test.TestFabricMain"
     ],
     "client": [
-      "com.absolutelyaryan.fabric.client.SpaceEnergyFabricClient"
+      "test.client.TestFabricClient"
     ]
   },
   "mixins": [
-    "space_energy_api.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.16.7",

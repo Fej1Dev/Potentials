@@ -1,6 +1,5 @@
 package com.absolutelyaryan.energy;
 
-
 import net.neoforged.neoforge.energy.IEnergyStorage;
 
 public interface UniversalEnergyStorage extends IEnergyStorage {

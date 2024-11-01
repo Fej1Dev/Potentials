@@ -17,6 +17,7 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
     }
+
     /**unchecked, only for use internally*/
     @ApiStatus.Internal
     public void setUncheckedEnergyStored(int amount) {
@@ -24,7 +25,7 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
     }
 
     public void setEnergyStored(int amount) {
-        stack.set(DataComponents.ENERGY_DATA_COMPONENT.get(), Math.clamp(amount, 0 , getMaxEnergy()));
+        stack.set(DataComponents.ENERGY_DATA_COMPONENT.get(), Math.clamp(amount, 0, getMaxEnergy()));
     }
 
 

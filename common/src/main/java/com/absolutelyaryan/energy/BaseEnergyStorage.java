@@ -1,7 +1,5 @@
 package com.absolutelyaryan.energy;
 
-
-
 public class BaseEnergyStorage implements UniversalEnergyStorage {
     protected int energy;
     protected int capacity;
@@ -13,6 +11,10 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
         this.energy = 0;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = Math.clamp(energy, 0, getMaxEnergy());
     }
 
     @Override
