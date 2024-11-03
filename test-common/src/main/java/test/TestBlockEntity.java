@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK {
 
-    private BaseEnergyStorage energy = new BaseEnergyStorage(1024, 1024, 1024);
+    private final BaseEnergyStorage energy = new BaseEnergyStorage(1024, 1024, 1024);
 
     public TestBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TestMain.TEST_BLOCK_ENTITY_TYPE.get(), blockPos, blockState);
@@ -21,6 +21,11 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
 
     @Override
     public UniversalEnergyStorage getEnergy(@Nullable Direction direction) {
+        return energy;
+    }
+
+    @Override
+    public UniversalEnergyStorage getEnergy(String energyType, @Nullable Direction direction) {
         return energy;
     }
 
