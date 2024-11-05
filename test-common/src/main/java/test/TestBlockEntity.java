@@ -38,6 +38,6 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     @Override
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
-        energy.setEnergy(compoundTag.getInt("energy"));
+        energy.setEnergyStored(compoundTag.getInt("energy"));
     }
 }
