@@ -21,6 +21,7 @@ public final class SpaceEnergyFabric implements ModInitializer {
     }
 
     private void registerCapabilities() {
+
         for (BlockEntityType<?> type : BuiltInRegistries.BLOCK_ENTITY_TYPE) {
             //Energy
             EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> {
