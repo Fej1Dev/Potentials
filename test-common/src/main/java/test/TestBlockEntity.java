@@ -24,10 +24,6 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
         return energy;
     }
 
-    @Override
-    public UniversalEnergyStorage getEnergy(String energyType, @Nullable Direction direction) {
-        return energy;
-    }
 
     @Override
     protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
