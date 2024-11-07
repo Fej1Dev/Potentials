@@ -2,7 +2,6 @@ package com.absolutelyaryan.fluid;
 
 import com.absolutelyaryan.items.DataComponents;
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 

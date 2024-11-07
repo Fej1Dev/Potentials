@@ -3,7 +3,6 @@ package com.absolutelyaryan.neoforge.fluid;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.IFluidTank;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,7 +1,6 @@
 package com.absolutelyaryan.neoforge;
 
 import com.absolutelyaryan.SpaceEnergyCommon;
-
 import com.absolutelyaryan.neoforge.energy.NeoForgeEnergyStorage;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidItem;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidTank;

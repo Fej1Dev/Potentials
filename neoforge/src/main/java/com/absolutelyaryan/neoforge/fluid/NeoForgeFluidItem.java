@@ -2,10 +2,8 @@ package com.absolutelyaryan.neoforge.fluid;
 
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.IFluidTank;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.NotNull;
