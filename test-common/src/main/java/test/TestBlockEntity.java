@@ -2,7 +2,10 @@ package test;
 
 import com.absolutelyaryan.energy.BaseEnergyStorage;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
+import com.absolutelyaryan.fluid.BaseFluidTank;
+import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.providers.EnergyProvider;
+import com.absolutelyaryan.providers.FluidProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -11,12 +14,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK {
+import java.util.HashMap;
+
+public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK, FluidProvider.BLOCK {
 
     private final BaseEnergyStorage energy = new BaseEnergyStorage(1024, 1024, 1024);
+    private HashMap<Direction, UniversalFluidTank> tanks = new HashMap<>();
+
 
     public TestBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TestMain.TEST_BLOCK_ENTITY_TYPE.get(), blockPos, blockState);
+        for (Direction direction : Direction.values()) {
+            tanks.put(direction, new BaseFluidTank(1000, 0));
+        }
     }
 
     @Override
@@ -24,6 +34,10 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
         return energy;
     }
 
+    @Override
+    public UniversalFluidTank getFluidTank(@Nullable Direction direction) {
+        return tanks.get(direction);
+    }
 
     @Override
     protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {

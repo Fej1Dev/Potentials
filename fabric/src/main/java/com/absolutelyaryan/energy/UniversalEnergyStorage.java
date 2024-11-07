@@ -7,8 +7,8 @@ public interface UniversalEnergyStorage extends EnergyStorage {
 
     int getEnergy();
     int getMaxEnergy();
-    int takeEnergy(int amount);
-    int giveEnergy(int amount);
+    int insertValue(int amount, boolean simulate);
+    int extractValue(int amount, boolean simulate);
     boolean canTakeEnergy();
     boolean canGiveEnergy();
 
@@ -18,8 +18,8 @@ public interface UniversalEnergyStorage extends EnergyStorage {
     }
 
     @Override
-    default long insert(long maxAmount, TransactionContext transaction){
-        return takeEnergy((int) maxAmount);
+    default long insert(long amount, TransactionContext transaction){
+        return insertValue((int) amount, false);
     }
 
     @Override
@@ -28,8 +28,8 @@ public interface UniversalEnergyStorage extends EnergyStorage {
     }
 
     @Override
-    default long extract(long maxAmount, TransactionContext transaction){
-        return giveEnergy((int) maxAmount);
+    default long extract(long amount, TransactionContext transaction){
+        return extractValue((int) amount, false);
     }
 
     @Override

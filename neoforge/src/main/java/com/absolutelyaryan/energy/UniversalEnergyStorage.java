@@ -6,19 +6,19 @@ public interface UniversalEnergyStorage extends IEnergyStorage {
 
     int getEnergy();
     int getMaxEnergy();
-    int takeEnergy(int amount);
-    int giveEnergy(int amount);
+    int insertValue(int amount, boolean simulate);
+    int extractValue(int amount, boolean simulate);
     boolean canTakeEnergy();
     boolean canGiveEnergy();
 
 
     @Override
     default int receiveEnergy(int toReceive, boolean simulate){
-        return takeEnergy(toReceive);
+        return insertValue(toReceive, simulate);
     }
     @Override
     default int extractEnergy(int toExtract, boolean simulate){
-        return giveEnergy(toExtract);
+        return extractValue(toExtract, simulate);
     }
 
     @Override

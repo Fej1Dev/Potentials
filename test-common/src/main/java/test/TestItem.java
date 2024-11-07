@@ -2,12 +2,15 @@ package test;
 
 import com.absolutelyaryan.energy.ItemEnergyStorage;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
+import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.providers.EnergyProvider;
+import com.absolutelyaryan.providers.FluidProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-public class TestItem extends Item implements EnergyProvider.ITEM {
+public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider.ITEM {
 
+    UniversalFluidTank tank;
     protected int capacity;
     protected int maxReceive;
     protected int maxExtract;
@@ -24,5 +27,8 @@ public class TestItem extends Item implements EnergyProvider.ITEM {
         return new ItemEnergyStorage(stack, capacity, maxReceive, maxExtract);
     }
 
-
+    @Override
+    public UniversalFluidTank getFluidTank(ItemStack stack) {
+        return tank;
+    }
 }
