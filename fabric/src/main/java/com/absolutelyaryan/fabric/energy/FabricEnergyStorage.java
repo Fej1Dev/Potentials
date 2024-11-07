@@ -2,9 +2,10 @@ package com.absolutelyaryan.fabric.energy;
 
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import team.reborn.energy.api.EnergyStorage;
 
-public class FabricEnergyStorage implements EnergyStorage {
+public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements EnergyStorage {
     final UniversalEnergyStorage universalEnergyStorage;
 
     public FabricEnergyStorage(UniversalEnergyStorage universalEnergyStorage) {
@@ -19,7 +20,11 @@ public class FabricEnergyStorage implements EnergyStorage {
 
     @Override
     public long insert(long amount, TransactionContext transaction){
-        return universalEnergyStorage.insertValue((int) amount, false);
+        if (universalEnergyStorage.insertValue((int) amount, true) > 0) {
+            this.updateSnapshots(transaction);
+            return universalEnergyStorage.insertValue((int) amount, false);
+        }
+        return 0;
     }
 
     @Override
@@ -28,8 +33,12 @@ public class FabricEnergyStorage implements EnergyStorage {
     }
 
     @Override
-    public long extract(long amount, TransactionContext transaction){
-        return universalEnergyStorage.extractValue((int) amount, false);
+    public long extract(long amount, TransactionContext transaction) {
+        if (universalEnergyStorage.extractValue((int) amount, true) > 0) {
+            this.updateSnapshots(transaction);
+            return universalEnergyStorage.extractValue((int) amount, false);
+        }
+        return 0;
     }
 
     @Override
@@ -41,4 +50,16 @@ public class FabricEnergyStorage implements EnergyStorage {
     public long getCapacity(){
         return universalEnergyStorage.getMaxEnergy();
     }
+
+    @Override
+    protected Integer createSnapshot() {
+        return this.universalEnergyStorage.getEnergy();
+    }
+
+    @Override
+    protected void readSnapshot(Integer integer) {
+        this.universalEnergyStorage.extractValue(Integer.MAX_VALUE, false);
+        this.universalEnergyStorage.insertValue(integer, false);
+    }
+
 }
