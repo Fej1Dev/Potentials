@@ -1,11 +1,6 @@
 package com.absolutelyaryan.fluid;
 
-
-import dev.architectury.fluid.FluidStack;
-import net.minecraft.core.Direction;
 import net.minecraft.world.level.material.Fluid;
-
-import java.util.HashMap;
 
 public interface UniversalFluidTank {
 

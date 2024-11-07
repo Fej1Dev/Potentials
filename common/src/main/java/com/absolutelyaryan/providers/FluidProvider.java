@@ -1,6 +1,5 @@
 package com.absolutelyaryan.providers;
 
-import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;

@@ -28,7 +28,7 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
     }
 
     @Override
-    public int takeEnergy(int amount, boolean simulate) {
+    public int insertValue(int amount, boolean simulate) {
         int energyExtracted = Math.min(energy, this.maxExtract);
         if (!simulate) {
             energy -= energyExtracted;
@@ -37,7 +37,7 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
     }
 
     @Override
-    public int giveEnergy(int amount, boolean simulate) {
+    public int extractValue(int amount, boolean simulate) {
         int energyReceived = Math.min(capacity - energy, this.maxReceive);
         if (!simulate) {
             energy += energyReceived;
