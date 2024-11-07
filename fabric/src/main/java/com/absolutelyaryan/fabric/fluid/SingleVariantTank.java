@@ -1,6 +1,7 @@
-package com.absolutelyaryan.fluid;
+package com.absolutelyaryan.fabric.fluid;
 
 import com.absolutelyaryan.fabric.utils.ConversionHelper;
+import com.absolutelyaryan.fluid.UniversalFluidTank;
 import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;

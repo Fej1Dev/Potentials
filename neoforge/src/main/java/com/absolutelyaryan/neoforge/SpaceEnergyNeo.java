@@ -2,6 +2,9 @@ package com.absolutelyaryan.neoforge;
 
 import com.absolutelyaryan.SpaceEnergyCommon;
 
+import com.absolutelyaryan.neoforge.energy.NeoForgeEnergyStorage;
+import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidItem;
+import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidTank;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,14 +31,14 @@ public class SpaceEnergyNeo {
             //Energy
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, blockEntityType, (entity, direction) -> {
                 if (entity instanceof EnergyProvider.BLOCK energyBlock)
-                    return energyBlock.getEnergy(direction);
+                    return new NeoForgeEnergyStorage(energyBlock.getEnergy(direction));
                 return null;
             });
 
 
             event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, blockEntityType, (entity, direction) -> {
                 if(entity instanceof FluidProvider.BLOCK fluidBlock)
-                    return fluidBlock.getFluidTank(direction);
+                    return new NeoForgeFluidTank(fluidBlock.getFluidTank(direction));
                 return null;
             });
 
@@ -46,7 +49,13 @@ public class SpaceEnergyNeo {
             //Energy
             event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, object) -> {
                 if (stack.getItem() instanceof EnergyProvider.ITEM energyItem)
-                    return energyItem.getEnergy(stack);
+                    return new NeoForgeEnergyStorage(energyItem.getEnergy(stack));
+                return null;
+            }, item);
+
+            event.registerItem(Capabilities.FluidHandler.ITEM, (stack, object) -> {
+                if (stack.getItem() instanceof FluidProvider.ITEM energyItem)
+                    return new NeoForgeFluidItem(stack, energyItem.getFluidTank(stack));
                 return null;
             }, item);
 

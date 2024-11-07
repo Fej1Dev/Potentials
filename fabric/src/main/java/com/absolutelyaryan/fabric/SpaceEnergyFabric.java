@@ -1,18 +1,16 @@
 package com.absolutelyaryan.fabric;
 
 import com.absolutelyaryan.SpaceEnergyCommon;
-import com.absolutelyaryan.fluid.SingleVariantTank;
+import com.absolutelyaryan.fabric.energy.FabricEnergyStorage;
+import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import team.reborn.energy.api.EnergyStorage;
-
-import java.util.ArrayList;
 
 public final class SpaceEnergyFabric implements ModInitializer {
     @Override
@@ -26,7 +24,7 @@ public final class SpaceEnergyFabric implements ModInitializer {
         for (BlockEntityType<?> type : BuiltInRegistries.BLOCK_ENTITY_TYPE) {
             EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> {
                 if (blockEntity instanceof EnergyProvider.BLOCK energyBlock)
-                    return energyBlock.getEnergy(direction);
+                    return new FabricEnergyStorage(energyBlock.getEnergy(direction));
                 return null;
             }, type);
 
@@ -41,7 +39,7 @@ public final class SpaceEnergyFabric implements ModInitializer {
         for (Item item : BuiltInRegistries.ITEM) {
             EnergyStorage.ITEM.registerForItems((stack, containerItemContext) -> {
                 if (stack.is(item) && item instanceof EnergyProvider.ITEM energyItem)
-                    return energyItem.getEnergy(stack);
+                    return new FabricEnergyStorage(energyItem.getEnergy(stack));
                 return null;
             }, item);
 

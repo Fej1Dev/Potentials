@@ -32,6 +32,7 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
         energy.setEnergyStored(compoundTag.getInt("energy"));
     }
 
+
     @Override
     public UniversalEnergyStorage getEnergy(@Nullable Direction direction) {
         return energy;
