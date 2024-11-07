@@ -16,8 +16,8 @@ public class TestFluidTank extends BlockEntity implements FluidProvider.BLOCK {
     HashMap<Direction, UniversalFluidTank> tanks = new HashMap<>();
 
 
-    public TestFluidTank(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
-        super(blockEntityType, blockPos, blockState);
+    public TestFluidTank(BlockPos blockPos, BlockState blockState) {
+        super(TestMain.TEST_BLOCK_ENTITY_TYPE.get(), blockPos, blockState);
         for (Direction direction : Direction.values()) {
             tanks.put(direction, new BaseFluidTank(1000, 1000));
         }
