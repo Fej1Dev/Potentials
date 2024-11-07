@@ -4,7 +4,7 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.world.level.material.Fluid;
 
 public class BaseFluidTank implements UniversalFluidTank {
-    private final FluidStack stack;
+    private FluidStack stack;
     private long maxAmount;
 
     public BaseFluidTank(long maxAmount) {
@@ -26,6 +26,10 @@ public class BaseFluidTank implements UniversalFluidTank {
     @Override
     public FluidStack getFluidStack() {
         return stack;
+    }
+
+    public void setFluidStack(FluidStack stack) {
+        this.stack = stack;
     }
 
     @Override
@@ -58,7 +62,7 @@ public class BaseFluidTank implements UniversalFluidTank {
             amount = 0;
         }
         if(!simulate){
-           stack.setAmount(0);
+           stack.setAmount(amount);
         }
         return amount;
     }
