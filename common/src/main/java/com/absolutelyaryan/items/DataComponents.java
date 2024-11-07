@@ -3,7 +3,6 @@ package com.absolutelyaryan.items;
 import com.absolutelyaryan.SpaceEnergyCommon;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.DeferredSupplier;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 
