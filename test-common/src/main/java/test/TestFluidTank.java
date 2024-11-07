@@ -23,9 +23,12 @@ public class TestFluidTank extends BlockEntity implements FluidProvider.BLOCK {
         }
     }
 
-
     @Override
     public UniversalFluidTank getFluidTank(@Nullable Direction direction) {
         return tanks.get(direction);
     }
+
+
+    //when using in fabric it will return SingleVariantStorage<FluidVariant> but in neoforge it will return UniversalFluidTank
+
 }

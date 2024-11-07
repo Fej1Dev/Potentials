@@ -1,7 +1,9 @@
 package com.absolutelyaryan.neoforge;
 
 import com.absolutelyaryan.SpaceEnergyCommon;
+
 import com.absolutelyaryan.providers.EnergyProvider;
+import com.absolutelyaryan.providers.FluidProvider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -27,6 +29,13 @@ public class SpaceEnergyNeo {
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, blockEntityType, (entity, direction) -> {
                 if (entity instanceof EnergyProvider.BLOCK energyBlock)
                     return energyBlock.getEnergy(direction);
+                return null;
+            });
+
+
+            event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, blockEntityType, (entity, direction) -> {
+                if(entity instanceof FluidProvider.BLOCK fluidBlock)
+                    return fluidBlock.getFluidTank(direction);
                 return null;
             });
 
