@@ -1,17 +1,32 @@
 package com.absolutelyaryan.fluid;
 
+import com.absolutelyaryan.items.DataComponents;
 import dev.architectury.fluid.FluidStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
-public class BaseFluidTank implements UniversalFluidTank {
+public class ItemFluidTank implements UniversalFluidTank {
     private final FluidStack stack;
     private long maxAmount;
+    private final ItemStack itemStack;
 
-    public BaseFluidTank(long maxAmount) {
+    public ItemFluidTank(ItemStack itemStack, long maxAmount) {
+        this.itemStack = itemStack;
         this.stack = FluidStack.empty();
         this.maxAmount = maxAmount;
-    }
 
+
+        if(itemStack.has(DataComponents.FLUID_VALUE_DATA_COMPONENT.get())) {
+            try {
+                this.stack.setAmount(itemStack.get(DataComponents.FLUID_VALUE_DATA_COMPONENT.get()));
+            } catch (NullPointerException e){
+                this.stack.setAmount(0);
+            }
+
+        }
+
+    }
 
     @Override
     public Fluid getBaseFluid() {
@@ -48,6 +63,7 @@ public class BaseFluidTank implements UniversalFluidTank {
         if(!simulate){
             this.stack.setAmount(amount);
         }
+        itemStack.set(DataComponents.FLUID_VALUE_DATA_COMPONENT.get(), amount);
         return amount;
     }
 
@@ -58,20 +74,20 @@ public class BaseFluidTank implements UniversalFluidTank {
             amount = 0;
         }
         if(!simulate){
-           stack.setAmount(0);
+            stack.setAmount(0);
         }
+        itemStack.set(DataComponents.FLUID_VALUE_DATA_COMPONENT.get(), amount);
         return amount;
     }
 
     @Override
     public void setFluidValue(long amount) {
         stack.setAmount(amount);
+        itemStack.set(DataComponents.FLUID_VALUE_DATA_COMPONENT.get(), amount);
     }
 
     @Override
     public void setMaxAmount(long amount) {
         maxAmount = amount;
     }
-
-
 }

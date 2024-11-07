@@ -16,9 +16,6 @@ public interface UniversalFluidTank {
     boolean isValid(dev.architectury.fluid.FluidStack stack);
     long fillFluid(dev.architectury.fluid.FluidStack stack, boolean simulate);
     long drainFluid(dev.architectury.fluid.FluidStack stack, boolean simulate);
-    default Object getStorage(){
-        return null;
-    }
-
-
+    void setFluidValue(long amount);
+    void setMaxAmount(long amount);
 }

@@ -19,11 +19,6 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
         super(TestMain.TEST_BLOCK_ENTITY_TYPE.get(), blockPos, blockState);
     }
 
-    @Override
-    public UniversalEnergyStorage getEnergy(@Nullable Direction direction) {
-        return energy;
-    }
-
 
     @Override
     protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
@@ -35,5 +30,10 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
         energy.setEnergyStored(compoundTag.getInt("energy"));
+    }
+
+    @Override
+    public UniversalEnergyStorage getEnergy(@Nullable Direction direction) {
+        return energy;
     }
 }

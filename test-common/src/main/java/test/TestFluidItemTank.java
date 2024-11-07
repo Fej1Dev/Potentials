@@ -10,7 +10,7 @@ public class TestFluidItemTank extends Item implements FluidProvider.ITEM {
     UniversalFluidTank tank;
     public TestFluidItemTank(Properties properties) {
         super(properties);
-        tank = new BaseFluidTank(1000, 1000);
+        tank = new BaseFluidTank(1000);
     }
 
     @Override
