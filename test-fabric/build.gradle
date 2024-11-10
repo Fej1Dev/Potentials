@@ -14,6 +14,19 @@ configurations {
     developmentFabric.extendsFrom common
 }
 
+repositories {
+    exclusiveContent {
+        forRepository {
+            maven {
+                url "https://cursemaven.com"
+            }
+        }
+        filter {
+            includeGroup "curse.maven"
+        }
+    }
+}
+
 dependencies {
     include modApi('teamreborn:energy:4.1.0')
 
@@ -24,6 +37,9 @@ dependencies {
 
     // Architectury API. This is optional, and you can comment it out if you don't need it.
     modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+
+    //for testing
+    modImplementation "curse.maven:energized-power-782147:5510660"
 
     implementation project(path: ":fabric", configuration: "namedElements")
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

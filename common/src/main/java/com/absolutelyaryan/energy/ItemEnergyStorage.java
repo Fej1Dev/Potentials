@@ -1,6 +1,6 @@
 package com.absolutelyaryan.energy;
 
-import com.absolutelyaryan.items.DataComponents;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -10,22 +10,28 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
     protected int capacity;
     protected int maxReceive;
     protected int maxExtract;
+    protected final DataComponentType<Integer> component;
 
-    public ItemEnergyStorage(ItemStack stack, int capacity, int maxReceive, int maxExtract) {
+    public ItemEnergyStorage(ItemStack stack, DataComponentType<Integer> component, int capacity, int maxReceive, int maxExtract) {
         this.stack = stack;
         this.capacity = capacity;
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
+        this.component = component;
+    }
+
+    public ItemEnergyStorage(ItemStack stack, DataComponentType<Integer> component, int capacity) {
+        this(stack, component, capacity, capacity, capacity);
     }
 
     /**unchecked, only for use internally*/
     @ApiStatus.Internal
     public void setUncheckedEnergyStored(int amount) {
-        stack.set(DataComponents.ENERGY_DATA_COMPONENT.get(), amount);
+        stack.set(component, amount);
     }
 
     public void setEnergyStored(int amount) {
-        stack.set(DataComponents.ENERGY_DATA_COMPONENT.get(), Math.clamp(amount, 0, getMaxEnergy()));
+        stack.set(component, Math.clamp(amount, 0, getMaxEnergy()));
     }
 
 
@@ -59,7 +65,7 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public int getEnergy() {
-        return stack.getOrDefault(DataComponents.ENERGY_DATA_COMPONENT.get(), 0);
+        return stack.getOrDefault(component, 0);
     }
 
     @Override

@@ -6,7 +6,7 @@ license = "Insert License Here"
 [[mods]]
 modId = "space_energy_test"
 version = "1.0.0"
-displayName = "EnergyAPI"
+displayName = "EnergyApiTest"
 authors = "Me!"
 description = '''
 This is an example description! Tell everyone what your mod is about!

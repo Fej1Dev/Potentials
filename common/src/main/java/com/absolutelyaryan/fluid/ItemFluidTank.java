@@ -1,7 +1,7 @@
 package com.absolutelyaryan.fluid;
 
-import com.absolutelyaryan.items.DataComponents;
 import dev.architectury.fluid.FluidStack;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
@@ -9,16 +9,18 @@ public class ItemFluidTank implements UniversalFluidTank {
     private final FluidStack stack;
     private long maxAmount;
     private final ItemStack itemStack;
+    private final DataComponentType<Long> component;
 
-    public ItemFluidTank(ItemStack itemStack, long maxAmount) {
+    public ItemFluidTank(ItemStack itemStack, DataComponentType<Long> component, long maxAmount) {
         this.itemStack = itemStack;
         this.stack = FluidStack.empty();
         this.maxAmount = maxAmount;
+        this.component = component;
 
 
-        if(itemStack.has(DataComponents.FLUID_VALUE_DATA_COMPONENT.get())) {
+        if(itemStack.has(this.component)) {
             try {
-                this.stack.setAmount(itemStack.get(DataComponents.FLUID_VALUE_DATA_COMPONENT.get()));
+                this.stack.setAmount(itemStack.get(this.component));
             } catch (NullPointerException e){
                 this.stack.setAmount(0);
             }
@@ -62,7 +64,7 @@ public class ItemFluidTank implements UniversalFluidTank {
         if(!simulate){
             this.stack.setAmount(amount);
         }
-        itemStack.set(DataComponents.FLUID_VALUE_DATA_COMPONENT.get(), amount);
+        itemStack.set(this.component, amount);
         return amount;
     }
 
@@ -75,14 +77,14 @@ public class ItemFluidTank implements UniversalFluidTank {
         if(!simulate){
             stack.setAmount(0);
         }
-        itemStack.set(DataComponents.FLUID_VALUE_DATA_COMPONENT.get(), amount);
+        itemStack.set(this.component, amount);
         return amount;
     }
 
     @Override
     public void setFluidValue(long amount) {
         stack.setAmount(amount);
-        itemStack.set(DataComponents.FLUID_VALUE_DATA_COMPONENT.get(), amount);
+        itemStack.set(this.component, amount);
     }
 
     @Override
