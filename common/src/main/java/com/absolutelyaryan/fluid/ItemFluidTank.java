@@ -39,6 +39,10 @@ public class ItemFluidTank implements UniversalFluidTank {
         return stack;
     }
 
+    public void setFluidStack(FluidStack stack) {
+        this.stack = stack;
+    }
+
     @Override
     public long getMaxAmount() {
         return maxAmount;
@@ -51,31 +55,34 @@ public class ItemFluidTank implements UniversalFluidTank {
 
     @Override
     public long fillFluid(FluidStack fluidStack, boolean simulate) {
-        long amount = this.stack.getAmount() + fluidStack.getAmount();
-        if (amount > maxAmount) {
-            amount = maxAmount;
-        }
+        if (this.stack.getFluid() == fluidStack.getFluid() || this.stack.isEmpty()) {
+            long amount = this.stack.getAmount() + fluidStack.getAmount();
+            if (amount > maxAmount) {
+                amount = maxAmount;
+            }
 
-        if (!simulate) {
-            stack.setAmount(amount);
-            itemStack.set(this.component, stack);
+            if (!simulate) {
+                setFluidStack(FluidStack.create(fluidStack, amount));
+            }
+            return amount;
         }
-        return amount;
+        return 0;
     }
 
     @Override
     public long drainFluid(FluidStack fluidStack, boolean simulate) {
-        long amount = this.stack.getAmount() - fluidStack.getAmount();
-        if (amount < 0) {
-            amount = 0;
-        }
+        if (this.stack.getFluid() == fluidStack.getFluid() || this.stack.isEmpty()) {
+            long amount = this.stack.getAmount() - fluidStack.getAmount();
+            if (amount < 0) {
+                amount = 0;
+            }
 
-        if (!simulate) {
-            stack.setAmount(amount);
-            itemStack.set(this.component, stack);
+            if (!simulate) {
+                setFluidStack(FluidStack.create(fluidStack, amount));
+            }
+            return amount;
         }
-
-        return amount;
+        return 0;
     }
 
     @Override
