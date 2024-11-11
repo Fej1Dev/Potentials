@@ -8,6 +8,7 @@ import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider.ITEM {
 
@@ -23,12 +24,12 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
     }
 
     @Override
-    public UniversalEnergyStorage getEnergy(ItemStack stack) {
+    public UniversalEnergyStorage getEnergy(@NotNull ItemStack stack) {
         return new ItemEnergyStorage(stack, TestMain.ENERGY.get(), capacity, maxReceive, maxExtract);
     }
 
     @Override
-    public UniversalFluidTank getFluidTank(ItemStack stack) {
+    public UniversalFluidTank getFluidTank(@NotNull ItemStack stack) {
         return new ItemFluidTank(stack, TestMain.FLUID.get(), 1000);
     }
 }

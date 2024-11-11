@@ -3,7 +3,6 @@ package com.absolutelyaryan.fabric;
 import com.absolutelyaryan.SpaceEnergyCommon;
 import com.absolutelyaryan.fabric.energy.FabricEnergyStorage;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
-import com.absolutelyaryan.fluid.BaseFluidTank;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.fabricmc.api.ModInitializer;
@@ -26,13 +25,13 @@ public final class SpaceEnergyFabric implements ModInitializer {
         for (BlockEntityType<?> type : BuiltInRegistries.BLOCK_ENTITY_TYPE) {
             EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> {
                 if (blockEntity instanceof EnergyProvider.BLOCK energyBlock)
-                    return new FabricEnergyStorage(energyBlock.getEnergy(direction));
+                    return energyBlock.getEnergy(direction) == null ? null : new FabricEnergyStorage(energyBlock.getEnergy(direction));
                 return null;
             }, type);
 
             FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> {
                 if (blockEntity instanceof FluidProvider.BLOCK fluidBlock)
-                    return new SingleVariantTank(fluidBlock.getFluidTank(direction));
+                    return fluidBlock.getFluidTank(direction) == null ? null : new SingleVariantTank(fluidBlock.getFluidTank(direction));
                 return null;
             }, type);
 
@@ -40,18 +39,18 @@ public final class SpaceEnergyFabric implements ModInitializer {
 
         for(Block block : BuiltInRegistries.BLOCK){
             EnergyStorage.SIDED.registerForBlocks(
-                    (level, pos, state, blockEntity, side) -> {
+                    (level, pos, state, blockEntity, direction) -> {
                         if (blockEntity instanceof EnergyProvider.BLOCK energyBlock)
-                            return new FabricEnergyStorage(energyBlock.getEnergy(side));
+                            return energyBlock.getEnergy(direction) == null ? null : new FabricEnergyStorage(energyBlock.getEnergy(direction));
                         return null;
                     },
                     block
             );
 
             FluidStorage.SIDED.registerForBlocks(
-                    (level, pos, state, blockEntity, side) -> {
+                    (level, pos, state, blockEntity, direction) -> {
                         if (blockEntity instanceof FluidProvider.BLOCK fluidBlock)
-                            return new SingleVariantTank(fluidBlock.getFluidTank(side));
+                            return fluidBlock.getFluidTank(direction) == null ? null : new SingleVariantTank(fluidBlock.getFluidTank(direction));
                         return null;
                     },
                     block
@@ -62,13 +61,13 @@ public final class SpaceEnergyFabric implements ModInitializer {
         for (Item item : BuiltInRegistries.ITEM) {
             EnergyStorage.ITEM.registerForItems((stack, containerItemContext) -> {
                 if (stack.is(item) && item instanceof EnergyProvider.ITEM energyItem)
-                    return new FabricEnergyStorage(energyItem.getEnergy(stack));
+                    return energyItem.getEnergy(stack) == null ? null : new FabricEnergyStorage(energyItem.getEnergy(stack));
                 return null;
             }, item);
 
             FluidStorage.ITEM.registerForItems((stack, containerItemContext) -> {
                 if (stack.is(item) && item instanceof FluidProvider.ITEM fluidItem)
-                    return new SingleVariantTank(fluidItem.getFluidTank(stack));
+                    return fluidItem.getFluidTank(stack) == null ? null : new SingleVariantTank(fluidItem.getFluidTank(stack));
                 return null;
             }, item);
         }

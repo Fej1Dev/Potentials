@@ -2,13 +2,15 @@ package com.absolutelyaryan.neoforge.energy;
 
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import net.neoforged.neoforge.energy.IEnergyStorage;
+import org.jetbrains.annotations.NotNull;
 
 public class NeoForgeEnergyStorage implements IEnergyStorage {
     final UniversalEnergyStorage universalEnergyStorage;
 
-    public NeoForgeEnergyStorage(UniversalEnergyStorage universalEnergyStorage) {
+    public NeoForgeEnergyStorage(@NotNull UniversalEnergyStorage universalEnergyStorage) {
        this.universalEnergyStorage = universalEnergyStorage;
     }
+
 
 
     @Override
