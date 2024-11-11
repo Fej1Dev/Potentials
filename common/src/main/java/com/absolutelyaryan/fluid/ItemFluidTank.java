@@ -6,27 +6,22 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
 public class ItemFluidTank implements UniversalFluidTank {
-    private final FluidStack stack;
+    private FluidStack stack;
     private long maxAmount;
     private final ItemStack itemStack;
-    private final DataComponentType<Long> component;
+    private final DataComponentType<FluidStack> component;
 
-    public ItemFluidTank(ItemStack itemStack, DataComponentType<Long> component, long maxAmount) {
+    public ItemFluidTank(ItemStack itemStack, DataComponentType<FluidStack> component, long maxAmount) {
         this.itemStack = itemStack;
-        this.stack = FluidStack.empty();
         this.maxAmount = maxAmount;
         this.component = component;
 
-
-        if(itemStack.has(this.component)) {
-            try {
-                this.stack.setAmount(itemStack.get(this.component));
-            } catch (NullPointerException e){
-                this.stack.setAmount(0);
-            }
-
+        if (itemStack.has(this.component)) {
+            stack = itemStack.get(this.component);
+        } else {
+            stack = FluidStack.empty();
+            itemStack.set(this.component, stack);
         }
-
     }
 
     @Override
@@ -50,41 +45,43 @@ public class ItemFluidTank implements UniversalFluidTank {
     }
 
     @Override
-    public boolean isValid(FluidStack stack) {
-        return this.stack.isFluidEqual(stack);
+    public boolean isValid(FluidStack otherStack) {
+        return this.stack.isFluidEqual(otherStack);
     }
 
     @Override
-    public long fillFluid(FluidStack stack, boolean simulate) {
-        long amount = this.stack.getAmount() + stack.getAmount();
-        if(amount > maxAmount){
+    public long fillFluid(FluidStack fluidStack, boolean simulate) {
+        long amount = this.stack.getAmount() + fluidStack.getAmount();
+        if (amount > maxAmount) {
             amount = maxAmount;
         }
 
-        if(!simulate){
-            this.stack.setAmount(amount);
+        if (!simulate) {
+            stack.setAmount(amount);
+            itemStack.set(this.component, stack);
         }
-        itemStack.set(this.component, amount);
         return amount;
     }
 
     @Override
-    public long drainFluid(FluidStack stack, boolean simulate) {
-        long amount = this.stack.getAmount() - stack.getAmount();
-        if(amount < 0){
+    public long drainFluid(FluidStack fluidStack, boolean simulate) {
+        long amount = this.stack.getAmount() - fluidStack.getAmount();
+        if (amount < 0) {
             amount = 0;
         }
-        if(!simulate){
-            stack.setAmount(0);
+
+        if (!simulate) {
+            stack.setAmount(amount);
+            itemStack.set(this.component, stack);
         }
-        itemStack.set(this.component, amount);
+
         return amount;
     }
 
     @Override
     public void setFluidValue(long amount) {
         stack.setAmount(amount);
-        itemStack.set(this.component, amount);
+        itemStack.set(this.component, stack);
     }
 
     @Override

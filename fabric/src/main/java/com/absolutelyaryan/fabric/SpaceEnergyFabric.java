@@ -3,12 +3,14 @@ package com.absolutelyaryan.fabric;
 import com.absolutelyaryan.SpaceEnergyCommon;
 import com.absolutelyaryan.fabric.energy.FabricEnergyStorage;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
+import com.absolutelyaryan.fluid.BaseFluidTank;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -33,6 +35,27 @@ public final class SpaceEnergyFabric implements ModInitializer {
                     return new SingleVariantTank(fluidBlock.getFluidTank(direction));
                 return null;
             }, type);
+
+        }
+
+        for(Block block : BuiltInRegistries.BLOCK){
+            EnergyStorage.SIDED.registerForBlocks(
+                    (level, pos, state, blockEntity, side) -> {
+                        if (blockEntity instanceof EnergyProvider.BLOCK energyBlock)
+                            return new FabricEnergyStorage(energyBlock.getEnergy(side));
+                        return null;
+                    },
+                    block
+            );
+
+            FluidStorage.SIDED.registerForBlocks(
+                    (level, pos, state, blockEntity, side) -> {
+                        if (blockEntity instanceof FluidProvider.BLOCK fluidBlock)
+                            return new SingleVariantTank(fluidBlock.getFluidTank(side));
+                        return null;
+                    },
+                    block
+            );
 
         }
 

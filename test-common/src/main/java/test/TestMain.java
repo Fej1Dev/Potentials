@@ -1,6 +1,7 @@
 package test;
 
 import com.mojang.serialization.Codec;
+import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.DeferredSupplier;
 import net.minecraft.core.component.DataComponentType;
@@ -23,7 +24,8 @@ public class TestMain {
     public static DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(MOD_ID, Registries.DATA_COMPONENT_TYPE);
 
     public static final DeferredSupplier<DataComponentType<Integer>> ENERGY = register("energy", builder -> builder.persistent(Codec.INT));
-    public static final DeferredSupplier<DataComponentType<Long>> FLUID = register("energy", builder -> builder.persistent(Codec.LONG));
+    public static final DeferredSupplier<DataComponentType<FluidStack>> FLUID = register("fluid", builder -> builder.persistent(FluidStack.CODEC));
+
 
     private static <T>DeferredSupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());

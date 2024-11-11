@@ -7,7 +7,7 @@ public class NeoForgeEnergyStorage implements IEnergyStorage {
     final UniversalEnergyStorage universalEnergyStorage;
 
     public NeoForgeEnergyStorage(UniversalEnergyStorage universalEnergyStorage) {
-        this.universalEnergyStorage = universalEnergyStorage;
+       this.universalEnergyStorage = universalEnergyStorage;
     }
 
 
