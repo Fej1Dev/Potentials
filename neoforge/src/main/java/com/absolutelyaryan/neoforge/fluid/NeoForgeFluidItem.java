@@ -12,7 +12,7 @@ public class NeoForgeFluidItem implements IFluidHandlerItem {
     private final UniversalFluidTank universalFluidTank;
     private final ItemStack itemStack;
 
-    public NeoForgeFluidItem(ItemStack itemStack, UniversalFluidTank universalFluidTank) {
+    public NeoForgeFluidItem(@NotNull ItemStack itemStack, @NotNull UniversalFluidTank universalFluidTank) {
         this.universalFluidTank = universalFluidTank;
         this.itemStack = itemStack;
     }

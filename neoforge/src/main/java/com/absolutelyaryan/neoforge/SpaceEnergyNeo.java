@@ -40,7 +40,7 @@ public class SpaceEnergyNeo {
         for (BlockEntityType<?> blockEntityType : BuiltInRegistries.BLOCK_ENTITY_TYPE) {
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, blockEntityType, (entity, direction) -> {
                 if (entity instanceof EnergyProvider.BLOCK energyBlock) {
-                    return new NeoForgeEnergyStorage(energyBlock.getEnergy(direction));
+                    return energyBlock.getEnergy(direction) == null ? null : new NeoForgeEnergyStorage(energyBlock.getEnergy(direction));
                 }
                 return null;
             });
@@ -48,7 +48,7 @@ public class SpaceEnergyNeo {
 
             event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, blockEntityType, (entity, direction) -> {
                 if(entity instanceof FluidProvider.BLOCK fluidBlock)
-                    return new NeoForgeFluidTank(fluidBlock.getFluidTank(direction));
+                    return fluidBlock.getFluidTank(direction) == null ? null : new NeoForgeFluidTank(fluidBlock.getFluidTank(direction));
                 return null;
             });
 
@@ -58,9 +58,9 @@ public class SpaceEnergyNeo {
         for(Block block : BuiltInRegistries.BLOCK){
             event.registerBlock(
                     Capabilities.EnergyStorage.BLOCK,
-                    (level, pos, state, blockEntity, side) -> {
+                    (level, pos, state, blockEntity, direction) -> {
                         if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
-                            return new NeoForgeEnergyStorage(energyBlock.getEnergy(side));
+                            return energyBlock.getEnergy(direction) == null ? null : new NeoForgeEnergyStorage(energyBlock.getEnergy(direction));
                         }
                         return null;
                     },
@@ -68,9 +68,9 @@ public class SpaceEnergyNeo {
             );
             event.registerBlock(
                     Capabilities.FluidHandler.BLOCK,
-                    (level, pos, state, blockEntity, side) -> {
+                    (level, pos, state, blockEntity, direction) -> {
                         if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
-                            return new NeoForgeFluidTank(fluidBlock.getFluidTank(side));
+                            return fluidBlock.getFluidTank(direction) == null ? null : new NeoForgeFluidTank(fluidBlock.getFluidTank(direction));
                         }
                         return null;
                     },
@@ -82,13 +82,13 @@ public class SpaceEnergyNeo {
         for (Item item : BuiltInRegistries.ITEM) {
             event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, object) -> {
                 if (stack.getItem() instanceof EnergyProvider.ITEM energyItem)
-                    return new NeoForgeEnergyStorage(energyItem.getEnergy(stack));
+                    return energyItem.getEnergy(stack) == null ? null : new NeoForgeEnergyStorage(energyItem.getEnergy(stack));
                 return null;
             }, item);
 
             event.registerItem(Capabilities.FluidHandler.ITEM, (stack, object) -> {
-                if (stack.getItem() instanceof FluidProvider.ITEM energyItem)
-                    return new NeoForgeFluidItem(stack, energyItem.getFluidTank(stack));
+                if (stack.getItem() instanceof FluidProvider.ITEM fluidItem)
+                    return fluidItem.getFluidTank(stack) == null ? null : new NeoForgeFluidItem(stack,fluidItem.getFluidTank(stack));
                 return null;
             }, item);
 

@@ -3,12 +3,13 @@ package com.absolutelyaryan.fabric.energy;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
+import org.jetbrains.annotations.NotNull;
 import team.reborn.energy.api.EnergyStorage;
 
 public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements EnergyStorage {
     final UniversalEnergyStorage universalEnergyStorage;
 
-    public FabricEnergyStorage(UniversalEnergyStorage universalEnergyStorage) {
+    public FabricEnergyStorage(@NotNull UniversalEnergyStorage universalEnergyStorage) {
         this.universalEnergyStorage = universalEnergyStorage;
     }
 

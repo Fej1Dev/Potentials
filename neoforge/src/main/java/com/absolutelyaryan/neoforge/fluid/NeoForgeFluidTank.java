@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 public class NeoForgeFluidTank implements IFluidHandler {
     final UniversalFluidTank universalFluidTank;
 
-    public NeoForgeFluidTank(UniversalFluidTank universalFluidTank) {
+    public NeoForgeFluidTank(@NotNull UniversalFluidTank universalFluidTank) {
         this.universalFluidTank = universalFluidTank;
     }
 
