@@ -49,5 +49,7 @@ public class TestMain {
         //registering capabilities manually only needed for fabric
         SpaceEnergyCommon.getCapabilityManager().registerItemEnergy(TEST_ITEM.get());
         SpaceEnergyCommon.getCapabilityManager().registerBlockEnergy(TEST_BLOCK.get());
+        SpaceEnergyCommon.getCapabilityManager().registerItemFluid(TEST_ITEM.get());
+        SpaceEnergyCommon.getCapabilityManager().registerBlockFluid(TEST_BLOCK.get());
     }
 }
