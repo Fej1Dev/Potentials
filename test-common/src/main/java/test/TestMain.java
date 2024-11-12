@@ -1,5 +1,6 @@
 package test;
 
+import com.absolutelyaryan.SpaceEnergyCommon;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -44,5 +45,9 @@ public class TestMain {
         ITEMS.register();
         DATA_COMPONENTS.register();
         BLOCK_ENTITY_TYPES.register();
+
+        //registering capabilities manually only needed for fabric
+        SpaceEnergyCommon.getCapabilityManager().registerItemEnergy(TEST_ITEM.get());
+        SpaceEnergyCommon.getCapabilityManager().registerBlockEnergy(TEST_BLOCK.get());
     }
 }

@@ -1,6 +1,7 @@
 package com.absolutelyaryan.neoforge;
 
 import com.absolutelyaryan.SpaceEnergyCommon;
+import com.absolutelyaryan.neoforge.capabilities.NeoForgeCapabilityManager;
 import com.absolutelyaryan.neoforge.energy.NeoForgeEnergyStorage;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidItem;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidTank;
@@ -21,16 +22,22 @@ import org.slf4j.Logger;
 @Mod(SpaceEnergyCommon.MOD_ID)
 public class SpaceEnergyNeo {
     public static final Logger LOGGER = LogUtils.getLogger();
+    private static final NeoForgeCapabilityManager capabilityManager = new NeoForgeCapabilityManager();
+
+
     public SpaceEnergyNeo(IEventBus bus){
         bus.addListener(SpaceEnergyNeo::registerCapabilities);
+
+
+        //neoforge dosent need this because Capabilities are registered when all items are loaded
+        SpaceEnergyCommon.setCapabilityManager(capabilityManager);
     }
 
-    // Register capabilities here
+
+    //Using Neoforge's Event to register capabilities
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        // Register block entity capability
         for (BlockEntityType<?> blockEntityType : BuiltInRegistries.BLOCK_ENTITY_TYPE) {
-            //Energy
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, blockEntityType, (entity, direction) -> {
                 if (entity instanceof EnergyProvider.BLOCK energyBlock) {
                     return new NeoForgeEnergyStorage(energyBlock.getEnergy(direction));
