@@ -5,13 +5,21 @@ import com.absolutelyaryan.fabric.energy.FabricEnergyStorage;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
+import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.intellij.lang.annotations.Identifier;
 import team.reborn.energy.api.EnergyStorage;
 
+import java.util.HashMap;
+
 public class FabricCapabilityManager implements CapabilityManager {
+    private final HashMap<BlockApiLookup<?, ?>, Class<?>> blockApiLookupHashMap = new HashMap<>();
+
+
     @Override
     public void registerBlockEnergy(Block block) {
         EnergyStorage.SIDED.registerForBlocks(
@@ -23,6 +31,9 @@ public class FabricCapabilityManager implements CapabilityManager {
                 },
                 block
         );
+
+
+        
     }
 
     @Override
@@ -74,6 +85,12 @@ public class FabricCapabilityManager implements CapabilityManager {
             }
             return null;
         }), entity);
+    }
+
+    @Override
+    public <T> void registerCapability(Class<T> capabilityClass, String modId, String identifier) {
+        BlockApiLookup<T, Object> blockApiLookup = BlockApiLookup.get(ResourceLocation.fromNamespaceAndPath(modId, identifier), capabilityClass, Object.class);
+        blockApiLookupHashMap.put(blockApiLookup, capabilityClass);
     }
 
 

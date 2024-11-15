@@ -31,12 +31,17 @@ public class SpaceEnergyNeo {
 
         //neoforge dosent need this because Capabilities are registered when all items are loaded
         SpaceEnergyCommon.setCapabilityManager(capabilityManager);
+
+        
     }
 
 
     //Using Neoforge's Event to register capabilities
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+
+
+
         for (BlockEntityType<?> blockEntityType : BuiltInRegistries.BLOCK_ENTITY_TYPE) {
             event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, blockEntityType, (entity, direction) -> {
                 if (entity instanceof EnergyProvider.BLOCK energyBlock) {

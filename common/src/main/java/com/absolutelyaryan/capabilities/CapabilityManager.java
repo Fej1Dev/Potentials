@@ -11,4 +11,6 @@ public interface CapabilityManager {
     void registerBlockFluid(Block block);
     void registerItemFluid(Item item);
     void registerBlockEntityFluid(BlockEntityType<?> entity);
+    <T> void registerCapability(Class<T> capabilityClass, String modId, String identifier);
+
 }
