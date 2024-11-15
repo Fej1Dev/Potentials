@@ -47,9 +47,8 @@ public class NeoForgeCapabilityManager implements CapabilityManager {
     }
 
     @Override
-    public <T> void registerCapability(Class<T> capabilityClass, String modId, String identifier) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(modId, identifier);
-        BlockCapability<T, Direction> blockCapability = BlockCapability.create(id, capabilityClass, Direction.class);
+    public <T, C> void registerCapability(Class<T> capabilityClass, Class<C> contextClass, ResourceLocation resourceLocation) {
+        BlockCapability<T, C> blockCapability = BlockCapability.create(resourceLocation, capabilityClass, contextClass);
         blockApiLookupHashMap.put(blockCapability, capabilityClass);
     }
 

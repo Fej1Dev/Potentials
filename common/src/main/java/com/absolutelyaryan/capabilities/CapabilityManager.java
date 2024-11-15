@@ -1,5 +1,6 @@
 package com.absolutelyaryan.capabilities;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -11,6 +12,6 @@ public interface CapabilityManager {
     void registerBlockFluid(Block block);
     void registerItemFluid(Item item);
     void registerBlockEntityFluid(BlockEntityType<?> entity);
-    <T> void registerCapability(Class<T> capabilityClass, String modId, String identifier);
+    <T, C> void registerCapability(Class<T> capabilityClass, Class<C> contextClass, ResourceLocation resourceLocation);
 
 }

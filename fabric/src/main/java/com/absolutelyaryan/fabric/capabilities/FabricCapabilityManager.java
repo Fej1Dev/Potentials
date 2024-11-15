@@ -88,8 +88,8 @@ public class FabricCapabilityManager implements CapabilityManager {
     }
 
     @Override
-    public <T> void registerCapability(Class<T> capabilityClass, String modId, String identifier) {
-        BlockApiLookup<T, Object> blockApiLookup = BlockApiLookup.get(ResourceLocation.fromNamespaceAndPath(modId, identifier), capabilityClass, Object.class);
+    public <T, C> void registerCapability(Class<T> capabilityClass, Class<C> contextClass, ResourceLocation resourceLocation) {
+        BlockApiLookup<T, C> blockApiLookup = BlockApiLookup.get(resourceLocation, capabilityClass, contextClass);
         blockApiLookupHashMap.put(blockApiLookup, capabilityClass);
     }
 
