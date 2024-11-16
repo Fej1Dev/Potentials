@@ -4,8 +4,11 @@ import com.absolutelyaryan.energy.BaseEnergyStorage;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.BaseFluidTank;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
+import test.gas.GasTank;
+import test.gas.IGasStorage;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
+import test.gas.GasProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.minecraft.core.BlockPos;
@@ -19,9 +22,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 
-public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK, FluidProvider.BLOCK {
+public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK, FluidProvider.BLOCK, GasProvider.BLOCK {
     HashMap<Direction, BaseFluidTank> tanks = new HashMap<>();
     private final BaseEnergyStorage energy = new BaseEnergyStorage(1024, 1024, 1024);
+    private final GasTank gasTank = new GasTank();
 
     public TestBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TestMain.TEST_BLOCK_ENTITY_TYPE.get(), blockPos, blockState);
@@ -63,5 +67,10 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     @Override
     public UniversalFluidTank getFluidTank(@Nullable Direction direction) {
         return tanks.get(direction);
+    }
+
+    @Override
+    public IGasStorage getGas(Direction direction) {
+        return gasTank;
     }
 }

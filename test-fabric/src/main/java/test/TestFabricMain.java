@@ -7,5 +7,7 @@ public class TestFabricMain implements ModInitializer {
     @Override
     public void onInitialize() {
         TestMain.init();
+
+
     }
 }
