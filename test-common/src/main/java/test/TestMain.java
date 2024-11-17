@@ -1,10 +1,7 @@
 package test;
 
 import com.absolutelyaryan.SpaceEnergyCommon;
-import com.absolutelyaryan.capabilities.CapabilityData;
-import com.absolutelyaryan.capabilities.CapabilityProvider;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import test.gas.GasProvider;
+import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
 import test.gas.IGasStorage;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
@@ -20,6 +17,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import test.gas.TestGasProvider;
 
 import java.util.function.UnaryOperator;
 
@@ -47,7 +45,7 @@ public class TestMain {
     public static DeferredSupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
 
     public static ResourceLocation GAS_IDENTIFIER;
-
+    public static BlockCapabilityHolder<IGasStorage, Direction> GAS_PROVIDER;
 
     public static void init() {
         BLOCKS.register();
@@ -66,23 +64,15 @@ public class TestMain {
         GAS_IDENTIFIER = ResourceLocation.fromNamespaceAndPath(MOD_ID, "testgas");
 
 
-        //provider for capability
-        CapabilityProvider gasProvider = new TestGasProvider();
 
-        //capability data for further verification
-        CapabilityData<IGasStorage, Direction> gasData = new CapabilityData<>(IGasStorage.class, Direction.class, gasProvider);
-        //registering the capability here
-        SpaceEnergyCommon.getCapabilityManager().registerSidedCapability(gasData, GAS_IDENTIFIER);
+        //registering the capability
+        GAS_PROVIDER = SpaceEnergyCommon.getCapabilityManager().registerSidedCapability(IGasStorage.class, Direction.class, GAS_IDENTIFIER);
 
-        //registering blocks using the previous capability we registered, now we can register all blocks we need to
-        SpaceEnergyCommon.getCapabilityManager().registerForBlocks(GAS_IDENTIFIER, TEST_BLOCK.get());
+        //registering the capability for blocks
+        GAS_PROVIDER.registerForBlocks(new TestGasProvider(), TEST_BLOCK.get());
 
-
-        BlockEntity blockEntity = null;
-        Direction direction = null;
-
-        //getting the capability from the block entity
-        IGasStorage gasStorage = (IGasStorage) SpaceEnergyCommon.getCapabilityManager().getCapability(GAS_IDENTIFIER, blockEntity, direction);
+        //example of how to get the capability from a block entity
+        IGasStorage gasStorage = GAS_PROVIDER.getCapability(null, null, null);
 
 
     }

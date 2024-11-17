@@ -1,0 +1,58 @@
+package com.absolutelyaryan.neoforge.capabilities.types;
+
+import com.absolutelyaryan.capabilities.CapabilityProvider;
+import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.neoforged.neoforge.capabilities.BlockCapability;
+
+import java.util.HashMap;
+
+public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
+    private final BlockCapability<X,Y> blockCapability;
+    private final HashMap<Block, CapabilityProvider> registeredBlocks = new HashMap<>();
+    private final HashMap<BlockEntityType<?>, CapabilityProvider> registeredBlockEntities = new HashMap<>();
+
+    public NeoBlockHolder(BlockCapability<X, Y> blockCapability) {
+        this.blockCapability = blockCapability;
+    }
+
+    @Override
+    public X getCapability(Level level, BlockPos pos, Y context) {
+       return blockCapability.getCapability(level, pos, null, null, context);
+    }
+
+    @Override
+    public void registerForBlocks(CapabilityProvider provider, Block... blocks) {
+        for(Block block: blocks){
+            registeredBlocks.put(block, provider);
+        }
+    }
+
+    @Override
+    public void registerForBlockEntity(CapabilityProvider provider,BlockEntityType<?>... entities) {
+        for(BlockEntityType<?> entity: entities){
+            registeredBlockEntities.put(entity, null);
+        }
+    }
+
+    public HashMap<Block, CapabilityProvider> getRegisteredBlocks() {
+        return registeredBlocks;
+    }
+
+    public HashMap<BlockEntityType<?>, CapabilityProvider> getRegisteredBlockEntities() {
+        return registeredBlockEntities;
+    }
+
+    @Override
+    public ResourceLocation getIdentifier() {
+        return blockCapability.name();
+    }
+
+    public BlockCapability<X, Y> getBlockCapability() {
+        return blockCapability;
+    }
+}

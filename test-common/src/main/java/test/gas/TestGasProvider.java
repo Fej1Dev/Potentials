@@ -1,24 +1,28 @@
-package test;
+package test.gas;
 
 import com.absolutelyaryan.capabilities.CapabilityProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
-import test.gas.GasProvider;
-import test.gas.IGasStorage;
 
 public class TestGasProvider implements CapabilityProvider {
 
     @Override
+    @SuppressWarnings("unchecked")
     public IGasStorage getCapability(Object capability, Object context) {
 
         if (capability instanceof GasProvider.BLOCK provider) {
-            return provider.getGas((Direction) context);
+            if(provider.getGas((Direction) context) instanceof IGasStorage storage){
+                return storage;
+            }
+            return null;
         }
 
         if (capability instanceof GasProvider.ITEM provider) {
-            return provider.getGas((ItemStack) context);
+            if(provider.getGas((ItemStack) context) instanceof IGasStorage storage){
+                return storage;
+            }
+            return null;
         }
-
         return null;
     }
 }
