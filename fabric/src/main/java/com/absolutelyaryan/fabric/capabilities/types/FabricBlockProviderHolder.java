@@ -7,7 +7,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 public class FabricBlockProviderHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
 
@@ -17,30 +20,29 @@ public class FabricBlockProviderHolder<X,Y> implements BlockCapabilityHolder<X,Y
     }
 
     @Override
-    public X getCapability(Level level, BlockPos pos, Y context) {
+    public @Nullable X getCapability(Level level, BlockPos pos, Y context) {
        return blockApiLookup.find(level, pos, context);
+    }
+
+    @Override
+    public @Nullable X getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Y context) {
+        return blockApiLookup.find(level, pos, state, blockEntity, context);
     }
 
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void registerForBlocks(CapabilityProvider provider, Block... blocks) {
+    public void registerForBlocks(BlockCapabilityProvider provider, Block... blocks) {
         for(Block block: blocks){
-            blockApiLookup.registerForBlocks((level, pos, state, blockEntity, side) -> {
-                if(blockApiLookup.apiClass().isInstance(blockEntity)){
-                    return (X) provider.getCapability(blockEntity, side);
-                }
-                return null;
-            }, block);
+            blockApiLookup.registerForBlocks(provider::getCapability, block);
         }
     }
 
 
     @Override
     @SuppressWarnings("unchecked")
-    public void registerForBlockEntity(CapabilityProvider provider, BlockEntityType<?>... entities) {
+    public void registerForBlockEntity(CapabilityProvider<BlockEntity> provider, BlockEntityType<?>... entities) {
         for(BlockEntityType<?> entity: entities){
-            blockApiLookup.registerForBlockEntity((blockEntity, direction) -> (X) provider.getCapability(blockEntity, direction), entity);
+            blockApiLookup.registerForBlockEntity((blockEntity, context) ->  (X) provider.getCapability(blockEntity, context), entity);
         }
     }
 

@@ -17,7 +17,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import test.gas.TestGasProvider;
 
 import java.util.function.UnaryOperator;
 
@@ -69,7 +68,7 @@ public class TestMain {
         GAS_PROVIDER = SpaceEnergyCommon.getCapabilityManager().registerSidedCapability(IGasStorage.class, Direction.class, GAS_IDENTIFIER);
 
         //registering the capability for blocks
-        GAS_PROVIDER.registerForBlocks(new TestGasProvider(), TEST_BLOCK.get());
+        //GAS_PROVIDER.registerForBlocks(new TestGasProvider(), TEST_BLOCK.get());
 
         //example of how to get the capability from a block entity
         IGasStorage gasStorage = GAS_PROVIDER.getCapability(null, null, null);

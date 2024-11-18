@@ -5,13 +5,21 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 public interface BlockCapabilityHolder<X,Y> {
 
-    X getCapability(Level level, BlockPos pos, Y context);
-    void registerForBlocks(CapabilityProvider provider, Block... blocks);
-    void registerForBlockEntity(CapabilityProvider provider, BlockEntityType<?>... entities);
+    @Nullable X getCapability(Level level, BlockPos pos, Y context);
+    @Nullable X getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Y context);
+    void registerForBlocks(BlockCapabilityProvider provider, Block... blocks);
+    void registerForBlockEntity(CapabilityProvider<BlockEntity> provider, BlockEntityType<?>... entities);
     ResourceLocation getIdentifier();
 
+    @FunctionalInterface
+    interface BlockCapabilityProvider {
+        @Nullable <T> T getCapability(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Object context);
+    }
 }

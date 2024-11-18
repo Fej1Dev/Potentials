@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class FabricItemProviderHolder<X,Y> implements ItemCapabilityHolder<X,Y> {
 
@@ -16,13 +17,13 @@ public class FabricItemProviderHolder<X,Y> implements ItemCapabilityHolder<X,Y> 
     }
 
     @Override
-    public X getCapability(ItemStack stack, Y context) {
+    public @Nullable X getCapability(ItemStack stack, Y context) {
         return itemApiLookup.find(stack, context);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void registerForItems(CapabilityProvider provider, Item... items) {
+    public void registerForItems(CapabilityProvider<ItemStack> provider, Item... items) {
         for(Item item: items){
             itemApiLookup.registerForItems((stack, context) -> (X) provider.getCapability(stack, context), item);
         }
