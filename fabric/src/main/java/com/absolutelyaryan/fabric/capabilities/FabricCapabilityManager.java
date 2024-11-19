@@ -24,7 +24,6 @@ import team.reborn.energy.api.EnergyStorage;
 
 public class FabricCapabilityManager implements CapabilityManager{
 
-
     @Override
     public void registerBlockEnergy(Block block) {
         EnergyStorage.SIDED.registerForBlocks(
