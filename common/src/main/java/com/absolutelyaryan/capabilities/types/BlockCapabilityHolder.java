@@ -14,12 +14,12 @@ public interface BlockCapabilityHolder<X,Y> {
 
     @Nullable X getCapability(Level level, BlockPos pos, Y context);
     @Nullable X getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Y context);
-    void registerForBlocks(BlockCapabilityProvider provider, Block... blocks);
-    void registerForBlockEntity(CapabilityProvider<BlockEntity> provider, BlockEntityType<?>... entities);
+    void registerForBlocks(BlockCapabilityProvider<X,Y> provider, Block... blocks);
+    void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, BlockEntityType<?>... entities);
     ResourceLocation getIdentifier();
 
     @FunctionalInterface
-    interface BlockCapabilityProvider {
-        @Nullable <T> T getCapability(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Object context);
+    interface BlockCapabilityProvider<X,Y> {
+        @Nullable X getCapability(Level level, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, Y context);
     }
 }

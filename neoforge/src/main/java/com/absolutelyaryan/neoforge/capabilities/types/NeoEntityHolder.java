@@ -12,7 +12,7 @@ import net.neoforged.neoforge.capabilities.EntityCapability;
 import java.util.HashMap;
 
 public class NeoEntityHolder<X,Y> implements EntityCapabilityHolder<X,Y> {
-    private final HashMap<EntityType<?>, CapabilityProvider<Entity>> registeredEntities = new HashMap<>();
+    private final HashMap<EntityType<?>, CapabilityProvider<Entity, X, Y>> registeredEntities = new HashMap<>();
     private final EntityCapability<X,Y> entityCapability;
 
     public NeoEntityHolder(EntityCapability<X, Y> entityCapability) {
@@ -25,14 +25,14 @@ public class NeoEntityHolder<X,Y> implements EntityCapabilityHolder<X,Y> {
     }
 
     @Override
-    public void registerForEntities(CapabilityProvider<Entity> provider, EntityType<?>... entities) {
+    public void registerForEntities(CapabilityProvider<Entity, X, Y> provider, EntityType<?>... entities) {
         for(EntityType<?> entity: entities){
             ReflectionUtil.registerEntity(entity, getEntityCapability(), provider::getCapability);
             registeredEntities.put(entity, provider);
         }
     }
 
-    public HashMap<EntityType<?>, CapabilityProvider<Entity>> getRegisteredEntities() {
+    public HashMap<EntityType<?>, CapabilityProvider<Entity, X, Y>> getRegisteredEntities() {
         return registeredEntities;
     }
 

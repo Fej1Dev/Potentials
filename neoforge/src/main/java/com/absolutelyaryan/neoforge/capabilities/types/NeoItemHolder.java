@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y> {
     private final ItemCapability<X,Y> itemCapability;
-    private final HashMap<Item, CapabilityProvider<ItemStack>> registeredItems = new HashMap<>();
+    private final HashMap<Item, CapabilityProvider<ItemStack, X, Y>> registeredItems = new HashMap<>();
 
     public NeoItemHolder(ItemCapability<X, Y> itemCapability) {
         this.itemCapability = itemCapability;
@@ -25,14 +25,14 @@ public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y> {
     }
 
     @Override
-    public void registerForItems(CapabilityProvider<ItemStack> provider, Item... items) {
+    public void registerForItems(CapabilityProvider<ItemStack, X, Y> provider, Item... items) {
         for(Item item: items){
             ReflectionUtil.registerItem(item, getItemCapability(), provider::getCapability);
             registeredItems.put(item, provider);
         }
     }
 
-    public HashMap<Item, CapabilityProvider<ItemStack>> getRegisteredItems() {
+    public HashMap<Item, CapabilityProvider<ItemStack, X, Y>> getRegisteredItems() {
         return registeredItems;
     }
 

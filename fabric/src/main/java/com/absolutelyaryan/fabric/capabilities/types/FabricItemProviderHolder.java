@@ -22,10 +22,9 @@ public class FabricItemProviderHolder<X,Y> implements ItemCapabilityHolder<X,Y> 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void registerForItems(CapabilityProvider<ItemStack> provider, Item... items) {
+    public void registerForItems(CapabilityProvider<ItemStack, X, Y> provider, Item... items) {
         for(Item item: items){
-            itemApiLookup.registerForItems((stack, context) -> (X) provider.getCapability(stack, context), item);
+            itemApiLookup.registerForItems(provider::getCapability, item);
         }
     }
 
