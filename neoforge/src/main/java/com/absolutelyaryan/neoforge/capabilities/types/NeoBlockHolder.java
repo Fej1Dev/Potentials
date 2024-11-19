@@ -16,8 +16,8 @@ import java.util.HashMap;
 
 public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
     private final BlockCapability<X,Y> blockCapability;
-    private final HashMap<Block, BlockCapabilityProvider<X, Y>> registeredBlocks = new HashMap<>();
-    private final HashMap<BlockEntityType<?>, CapabilityProvider<BlockEntity, X, Y>> registeredBlockEntities = new HashMap<>();
+    private final HashMap<Block, BlockCapabilityProvider> registeredBlocks = new HashMap<>();
+    private final HashMap<BlockEntityType<?>, CapabilityProvider<BlockEntity>> registeredBlockEntities = new HashMap<>();
 
     public NeoBlockHolder(BlockCapability<X, Y> blockCapability) {
         this.blockCapability = blockCapability;
@@ -34,7 +34,7 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
     }
 
     @Override
-    public void registerForBlocks(BlockCapabilityProvider<X, Y> provider, Block... blocks) {
+    public void registerForBlocks(BlockCapabilityProvider provider, Block... blocks) {
         for(Block block: blocks){
             ReflectionUtil.registerBlock(block, getBlockCapability(), provider::getCapability);
             registeredBlocks.put(block, provider);
@@ -42,18 +42,18 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
     }
 
     @Override
-    public void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, BlockEntityType<?>... entities) {
+    public void registerForBlockEntity(CapabilityProvider<BlockEntity> provider, BlockEntityType<?>... entities) {
         for(BlockEntityType<?> entity: entities){
             ReflectionUtil.registerBlockEntity(entity, getBlockCapability(), provider);
             registeredBlockEntities.put(entity, provider);
         }
     }
 
-    public HashMap<Block, BlockCapabilityProvider<X, Y>> getRegisteredBlocks() {
+    public HashMap<Block, BlockCapabilityProvider> getRegisteredBlocks() {
         return registeredBlocks;
     }
 
-    public HashMap<BlockEntityType<?>, CapabilityProvider<BlockEntity, X, Y>> getRegisteredBlockEntities() {
+    public HashMap<BlockEntityType<?>, CapabilityProvider<BlockEntity>> getRegisteredBlockEntities() {
         return registeredBlockEntities;
     }
 

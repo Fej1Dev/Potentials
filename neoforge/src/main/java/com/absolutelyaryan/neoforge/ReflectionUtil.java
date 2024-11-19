@@ -1,5 +1,6 @@
 package com.absolutelyaryan.neoforge;
 
+import com.absolutelyaryan.capabilities.CapabilityProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -60,7 +61,7 @@ public class ReflectionUtil {
     }
 
 
-    public static  <T, C, BE extends BlockEntity> void registerBlockEntity(BlockCapability<T, C> capability, BlockEntityType<BE> blockEntityType, ICapabilityProvider<? super BE, C, T> provider) {
+    public static  <T, C, BE extends BlockEntity> void registerBlockEntity(BlockEntityType<? extends BE> blockEntityType, BlockCapability<T, C> capability, ICapabilityProvider<? super BE, C, T> provider) {
         Objects.requireNonNull(provider);
 
         @SuppressWarnings("unchecked")
@@ -90,4 +91,6 @@ public class ReflectionUtil {
     }
 
 
+    public static <Y, X> void registerBlockEntity(BlockEntityType<?> entity, BlockCapability<X,Y> blockCapability, CapabilityProvider<BlockEntity> provider) {
+    }
 }

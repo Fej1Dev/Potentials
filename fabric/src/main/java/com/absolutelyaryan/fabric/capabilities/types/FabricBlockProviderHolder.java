@@ -31,7 +31,7 @@ public class FabricBlockProviderHolder<X,Y> implements BlockCapabilityHolder<X,Y
 
 
     @Override
-    public void registerForBlocks(BlockCapabilityProvider<X, Y> provider, Block... blocks) {
+    public void registerForBlocks(BlockCapabilityProvider provider, Block... blocks) {
         for(Block block: blocks){
             blockApiLookup.registerForBlocks(provider::getCapability, block);
         }
@@ -39,9 +39,10 @@ public class FabricBlockProviderHolder<X,Y> implements BlockCapabilityHolder<X,Y
 
 
     @Override
-    public void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, BlockEntityType<?>... entities) {
+    @SuppressWarnings("unchecked")
+    public void registerForBlockEntity(CapabilityProvider<BlockEntity> provider, BlockEntityType<?>... entities) {
         for(BlockEntityType<?> entity: entities){
-            blockApiLookup.registerForBlockEntity(provider::getCapability, entity);
+            blockApiLookup.registerForBlockEntity((blockEntity, context) ->  (X) provider.getCapability(blockEntity, context), entity);
         }
     }
 

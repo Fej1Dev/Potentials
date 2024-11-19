@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 public interface EntityCapabilityHolder<X,Y> {
 
     @Nullable X getCapability(Entity entity, Y context);
-    void registerForEntities(CapabilityProvider<Entity, X, Y> provider, EntityType<?>... entities);
+    void registerForEntities(CapabilityProvider<Entity> provider, EntityType<?>... entities);
     ResourceLocation getIdentifier();
 
 
