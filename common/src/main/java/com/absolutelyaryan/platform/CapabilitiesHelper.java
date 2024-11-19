@@ -12,23 +12,25 @@ import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
 public class CapabilitiesHelper {
-    @ExpectPlatform
+
+    public static BlockCapabilityHolder<UniversalEnergyStorage, @Nullable Direction> ENERGY_LOOKUP;
+    public static BlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> FLUID_LOOKUP;
+    public static ItemCapabilityHolder<UniversalEnergyStorage, Void> ENERGY_ITEM_LOOKUP;
+    public static ItemCapabilityHolder<UniversalFluidTank, Void> FLUID_ITEM_LOOKUP;
+
     public static BlockCapabilityHolder<UniversalEnergyStorage, @Nullable Direction> getEnergyBlockCapability() {
-        throw new NotImplementedException();
+        return ENERGY_LOOKUP;
     }
 
-    @ExpectPlatform
     public static ItemCapabilityHolder<UniversalEnergyStorage, Void> getEnergyItemCapability() {
-        throw new NotImplementedException();
+        return ENERGY_ITEM_LOOKUP;
     }
 
-    @ExpectPlatform
     public static BlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> getFluidBlockCapability() {
-        throw new NotImplementedException();
+        return FLUID_LOOKUP;
     }
 
-    @ExpectPlatform
     public static ItemCapabilityHolder<UniversalFluidTank, Void> getFluidItemCapability() {
-        throw new NotImplementedException();
+        return FLUID_ITEM_LOOKUP;
     }
 }

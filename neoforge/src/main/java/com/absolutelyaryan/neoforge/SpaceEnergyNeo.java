@@ -1,6 +1,8 @@
 package com.absolutelyaryan.neoforge;
 
 import com.absolutelyaryan.SpaceEnergyCommon;
+import com.absolutelyaryan.energy.UniversalEnergyStorage;
+import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.neoforge.capabilities.NeoForgeCapabilityManager;
 import com.absolutelyaryan.neoforge.capabilities.types.NeoBlockHolder;
 import com.absolutelyaryan.neoforge.capabilities.types.NeoEntityHolder;
@@ -9,9 +11,11 @@ import com.absolutelyaryan.neoforge.capabilities.types.Registerable;
 import com.absolutelyaryan.neoforge.energy.NeoForgeEnergyStorage;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidItem;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidTank;
+import com.absolutelyaryan.platform.CapabilitiesHelper;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
 import com.mojang.logging.LogUtils;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -35,7 +39,11 @@ public class SpaceEnergyNeo {
 
         SpaceEnergyCommon.setCapabilityManager(capabilityManager);
 
-        
+        CapabilitiesHelper.ENERGY_LOOKUP = capabilityManager.registerSidedCapability(UniversalEnergyStorage.class, Direction.class, ResourceLocation.fromNamespaceAndPath("spaceenergy", "energy_storage"));
+        CapabilitiesHelper.ENERGY_ITEM_LOOKUP = capabilityManager.registerItemCapability(UniversalEnergyStorage.class, Void.class, ResourceLocation.fromNamespaceAndPath("spaceenergy", "energy_storage_item"));
+        CapabilitiesHelper.FLUID_LOOKUP = capabilityManager.registerSidedCapability(UniversalFluidTank.class, Direction.class, ResourceLocation.fromNamespaceAndPath("spaceenergy", "fluid_storage"));
+        CapabilitiesHelper.FLUID_ITEM_LOOKUP = capabilityManager.registerItemCapability(UniversalFluidTank.class, Void.class, ResourceLocation.fromNamespaceAndPath("spaceenergy", "fluid_storage_item"));
+
     }
 
 
