@@ -42,4 +42,8 @@ public class NeoForgeEnergyStorage implements IEnergyStorage {
     public boolean canReceive() {
         return universalEnergyStorage.canTakeEnergy();
     }
+
+    public UniversalEnergyStorage getUniversalEnergyStorage() {
+        return universalEnergyStorage;
+    }
 }
