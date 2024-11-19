@@ -1,5 +1,6 @@
 package com.absolutelyaryan.neoforge.capabilities.holders;
 
+import com.absolutelyaryan.SpaceEnergyCommon;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.CapabilityProvider;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
@@ -40,16 +41,20 @@ public class EnergyBlockHolder<X extends UniversalEnergyStorage, Y extends Direc
 
     @Override
     public void registerForBlocks(BlockCapabilityProvider<X, Y> provider, Block... blocks) {
-
+        for(Block block : blocks){
+            SpaceEnergyCommon.getCapabilityManager().registerBlockEnergy(block);
+        }
     }
 
     @Override
     public void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, BlockEntityType<?>... entities) {
-
+        for(BlockEntityType<?> entity : entities){
+            SpaceEnergyCommon.getCapabilityManager().registerBlockEntityEnergy(entity);
+        }
     }
 
     @Override
     public ResourceLocation getIdentifier() {
-        return null;
+        return Capabilities.EnergyStorage.BLOCK.name();
     }
 }
