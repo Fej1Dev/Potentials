@@ -5,6 +5,7 @@ import com.absolutelyaryan.neoforge.capabilities.NeoForgeCapabilityManager;
 import com.absolutelyaryan.neoforge.capabilities.types.NeoBlockHolder;
 import com.absolutelyaryan.neoforge.capabilities.types.NeoEntityHolder;
 import com.absolutelyaryan.neoforge.capabilities.types.NeoItemHolder;
+import com.absolutelyaryan.neoforge.capabilities.types.Registerable;
 import com.absolutelyaryan.neoforge.energy.NeoForgeEnergyStorage;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidItem;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidTank;
@@ -41,6 +42,7 @@ public class SpaceEnergyNeo {
     //Using Neoforge's Event to register capabilities
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+        Registerable.registerAll(event);
 
         for(Block block : BuiltInRegistries.BLOCK) {
             event.registerBlock(
@@ -95,35 +97,6 @@ public class SpaceEnergyNeo {
                 return null;
             }, item);
 
-        }
-
-
-        //Registering capabilities for blocks
-        for(ResourceLocation identifier : capabilityManager.getBlockCapabilityHolders().keySet()){
-            NeoBlockHolder<?, ?> holder = capabilityManager.getBlockCapabilityHolders().get(identifier);
-            holder.getRegisteredBlocks().forEach(((block, blockCapabilityProvider) ->
-                    event.registerBlock(holder.getBlockCapability(), blockCapabilityProvider::getCapability, block)));
-        }
-
-        //Registering capabilities for blocks entities
-        for(ResourceLocation identifier : capabilityManager.getBlockCapabilityHolders().keySet()){
-            NeoBlockHolder<?, ?> holder = capabilityManager.getBlockCapabilityHolders().get(identifier);
-            holder.getRegisteredBlockEntities().forEach((blockEntityType, capabilityProvider) ->
-                    event.registerBlockEntity(holder.getBlockCapability(), blockEntityType, capabilityProvider::getCapability));
-        }
-
-        //Registering capabilities for items
-        for (ResourceLocation identifier : capabilityManager.getItemCapabilityHolders().keySet()) {
-            NeoItemHolder<?, ?> holder = capabilityManager.getItemCapabilityHolders().get(identifier);
-            holder.getRegisteredItems().forEach((item, capabilityProvider) ->
-                    event.registerItem(holder.getItemCapability(), capabilityProvider::getCapability, item));
-        }
-
-        //Registering capabilities for entities
-        for (ResourceLocation identifier : capabilityManager.getEntityCapabilityHolders().keySet()) {
-            NeoEntityHolder<?, ?> holder = capabilityManager.getEntityCapabilityHolders().get(identifier);
-            holder.getRegisteredEntities().forEach((entityType, capabilityProvider) ->
-                    event.registerEntity(holder.getEntityCapability(), entityType, capabilityProvider::getCapability));
         }
 
     }

@@ -1,6 +1,5 @@
 package com.absolutelyaryan.capabilities.types;
 
-import com.absolutelyaryan.capabilities.CapabilityProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

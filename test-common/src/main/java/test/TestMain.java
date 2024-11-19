@@ -48,9 +48,6 @@ public class TestMain {
 
     public static DeferredSupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
 
-    public static ResourceLocation GAS_IDENTIFIER;
-    public static BlockCapabilityHolder<IGasStorage, Direction> GAS_PROVIDER;
-
     public static void init() {
         BLOCKS.register();
         ITEMS.register();
@@ -64,7 +61,16 @@ public class TestMain {
         capabilityManager.registerItemFluid(TEST_ITEM.get());
         capabilityManager.registerBlockFluid(TEST_BLOCK.get());
 
-
+        GAS_BLOCK.registerForBlocks((level, pos, state, blockEntity, context) -> {
+            if (state.getBlock() instanceof GasProvider.BLOCK block)
+                return block.getGas();
+            if (level.getBlockState(pos).getBlock() instanceof GasProvider.BLOCK block)
+                return block.getGas();
+            if (blockEntity != null)
+                if (blockEntity instanceof GasProvider.BLOCK block)
+                    return block.getGas();
+            return null;
+        }, TEST_BLOCK.get());
 
     }
 }

@@ -1,6 +1,6 @@
 package com.absolutelyaryan.fabric.capabilities.types;
 
-import com.absolutelyaryan.capabilities.CapabilityProvider;
+import com.absolutelyaryan.capabilities.types.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.EntityCapabilityHolder;
 import net.fabricmc.fabric.api.lookup.v1.entity.EntityApiLookup;
 import net.minecraft.resources.ResourceLocation;

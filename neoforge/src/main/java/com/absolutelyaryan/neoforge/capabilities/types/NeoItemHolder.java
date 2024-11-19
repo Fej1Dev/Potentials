@@ -1,15 +1,16 @@
 package com.absolutelyaryan.neoforge.capabilities.types;
 
-import com.absolutelyaryan.capabilities.CapabilityProvider;
+import com.absolutelyaryan.capabilities.types.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.ItemCapability;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 import java.util.HashMap;
 
-public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y> {
+public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y>, Registerable {
     private final ItemCapability<X,Y> itemCapability;
     private final HashMap<Item, CapabilityProvider<ItemStack, X, Y>> registeredItems = new HashMap<>();
 
@@ -41,5 +42,11 @@ public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y> {
 
     public ItemCapability<X, Y> getItemCapability() {
         return itemCapability;
+    }
+
+    @Override
+    public void register(RegisterCapabilitiesEvent event) {
+        //register item capabilities
+        registeredItems.forEach((item, provider) -> event.registerItem(getItemCapability(), provider::getCapability, item));
     }
 }

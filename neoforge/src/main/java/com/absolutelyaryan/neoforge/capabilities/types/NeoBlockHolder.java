@@ -1,6 +1,6 @@
 package com.absolutelyaryan.neoforge.capabilities.types;
 
-import com.absolutelyaryan.capabilities.CapabilityProvider;
+import com.absolutelyaryan.capabilities.types.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -10,16 +10,18 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.BlockCapability;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 import java.util.HashMap;
 
-public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
+public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y>, Registerable {
     private final BlockCapability<X,Y> blockCapability;
     private final HashMap<Block, BlockCapabilityProvider<X, Y>> registeredBlocks = new HashMap<>();
     private final HashMap<BlockEntityType<?>, CapabilityProvider<BlockEntity, X, Y>> registeredBlockEntities = new HashMap<>();
 
     public NeoBlockHolder(BlockCapability<X, Y> blockCapability) {
         this.blockCapability = blockCapability;
+        registerSelf();
     }
 
     @Override
@@ -61,5 +63,14 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
 
     public BlockCapability<X, Y> getBlockCapability() {
         return blockCapability;
+    }
+
+    @Override
+    public void register(RegisterCapabilitiesEvent event) {
+        //register block capabilities
+        registeredBlocks.forEach((block, provider) -> event.registerBlock(getBlockCapability(), provider::getCapability, block));
+
+        //register block entity capabilities
+        registeredBlockEntities.forEach((type, provider) -> event.registerBlockEntity(getBlockCapability(), type, provider::getCapability));
     }
 }

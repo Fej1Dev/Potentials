@@ -1,7 +1,7 @@
 package com.absolutelyaryan.fabric.capabilities.types;
 
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
-import com.absolutelyaryan.capabilities.CapabilityProvider;
+import com.absolutelyaryan.capabilities.types.CapabilityProvider;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
