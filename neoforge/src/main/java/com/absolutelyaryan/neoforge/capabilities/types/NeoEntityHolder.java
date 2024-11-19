@@ -2,6 +2,7 @@ package com.absolutelyaryan.neoforge.capabilities.types;
 
 import com.absolutelyaryan.capabilities.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.EntityCapabilityHolder;
+import com.absolutelyaryan.neoforge.ReflectionUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -26,6 +27,7 @@ public class NeoEntityHolder<X,Y> implements EntityCapabilityHolder<X,Y> {
     @Override
     public void registerForEntities(CapabilityProvider<Entity> provider, EntityType<?>... entities) {
         for(EntityType<?> entity: entities){
+            ReflectionUtil.registerEntity(entity, getEntityCapability(), provider::getCapability);
             registeredEntities.put(entity, provider);
         }
     }

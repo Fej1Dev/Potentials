@@ -2,6 +2,7 @@ package com.absolutelyaryan.neoforge.capabilities.types;
 
 import com.absolutelyaryan.capabilities.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
+import com.absolutelyaryan.neoforge.ReflectionUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -35,6 +36,7 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
     @Override
     public void registerForBlocks(BlockCapabilityProvider provider, Block... blocks) {
         for(Block block: blocks){
+            ReflectionUtil.registerBlock(block, getBlockCapability(), provider::getCapability);
             registeredBlocks.put(block, provider);
         }
     }
@@ -42,6 +44,7 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
     @Override
     public void registerForBlockEntity(CapabilityProvider<BlockEntity> provider, BlockEntityType<?>... entities) {
         for(BlockEntityType<?> entity: entities){
+            ReflectionUtil.registerBlockEntity(entity, getBlockCapability(), provider);
             registeredBlockEntities.put(entity, provider);
         }
     }

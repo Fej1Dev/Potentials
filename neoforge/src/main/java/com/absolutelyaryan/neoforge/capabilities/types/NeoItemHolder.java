@@ -2,6 +2,7 @@ package com.absolutelyaryan.neoforge.capabilities.types;
 
 import com.absolutelyaryan.capabilities.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
+import com.absolutelyaryan.neoforge.ReflectionUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -26,6 +27,7 @@ public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y> {
     @Override
     public void registerForItems(CapabilityProvider<ItemStack> provider, Item... items) {
         for(Item item: items){
+            ReflectionUtil.registerItem(item, getItemCapability(), provider::getCapability);
             registeredItems.put(item, provider);
         }
     }
