@@ -10,30 +10,15 @@ import org.jetbrains.annotations.Nullable;
 
 public class Capabilities {
     public static final class Energy {
-
-        public static BlockCapabilityHolder<UniversalEnergyStorage, @Nullable Direction> getBlock() {
-            return CapabilitiesHelper.getEnergyBlockCapability();
-        }
-
-        public static ItemCapabilityHolder<UniversalEnergyStorage, Void> getItem() {
-            return CapabilitiesHelper.getEnergyItemCapability();
-        }
+        public static final BlockCapabilityHolder<UniversalEnergyStorage, @Nullable Direction> BLOCK = CapabilitiesHelper.getEnergyBlockCapability();
+        public static final ItemCapabilityHolder<UniversalEnergyStorage, Void> ITEM = CapabilitiesHelper.getEnergyItemCapability();
 
         private Energy() {}
     }
 
     public static final class Fluid {
-
-        public static BlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> getBlock() {
-            return CapabilitiesHelper.getFluidBlockCapability();
-        }
-
-        public static ItemCapabilityHolder<UniversalFluidTank, Void> getItem() {
-            return CapabilitiesHelper.getFluidItemCapability();
-        }
-
-
-
+        public static final BlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> BLOCK = CapabilitiesHelper.getFluidBlockCapability();
+        public static final ItemCapabilityHolder<UniversalFluidTank, Void> ITEM = CapabilitiesHelper.getFluidItemCapability();
 
         private Fluid() {}
     }
