@@ -22,15 +22,14 @@ public class FabricEntityProviderHolder<X,Y> implements EntityCapabilityHolder<X
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void registerForEntities(CapabilityProvider<Entity> provider, EntityType<?>... entities) {
+    public void registerForEntities(CapabilityProvider<Entity, X, Y> provider, EntityType<?>... entities) {
         for(EntityType<?> entityType: entities){
-            entityApiLookup.registerForType((entity, context) -> (X) provider.getCapability(entity, context), entityType);
+            entityApiLookup.registerForType(provider::getCapability, entityType);
         }
     }
 
     @Override
     public ResourceLocation getIdentifier() {
-        return null;
+        return entityApiLookup.getId();
     }
 }

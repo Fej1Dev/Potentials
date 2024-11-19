@@ -1,5 +1,6 @@
-   package com.absolutelyaryan.capabilities;
+package com.absolutelyaryan.capabilities;
 
-   public interface CapabilityProvider<O> {
-      <T> T getCapability(O object, Object context);
-   }
+@FunctionalInterface
+public interface CapabilityProvider<O, X, Y> {
+   X getCapability(O object, Y context);
+}
