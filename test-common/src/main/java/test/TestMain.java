@@ -32,7 +32,7 @@ public class TestMain {
     public static final DeferredSupplier<DataComponentType<FluidStack>> FLUID = register("fluid", builder -> builder.persistent(FluidStack.CODEC));
 
     public static final BlockCapabilityHolder<IGasStorage, Void> GAS_BLOCK =
-            SpaceEnergyCommon.getCapabilityManager().registerBlockCapability(IGasStorage.class, Void.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_block"));
+            BlockCapabilityHolder.createVoid(IGasStorage.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_block"));
 
 
     private static <T>DeferredSupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
