@@ -44,7 +44,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     }
 
     @Override
-    public void registerForBlocks(Supplier<Block> block) {
+    public void registerForBlock(Supplier<Block> block) {
         registeredBlocks.add(block);
     }
 

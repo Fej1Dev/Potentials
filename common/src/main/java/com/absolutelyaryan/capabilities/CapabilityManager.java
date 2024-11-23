@@ -19,7 +19,7 @@ public interface CapabilityManager {
     void registerBlockEntityFluid(BlockEntityType<?> entity);
 
 
-    <X, Y> BlockCapabilityHolder<X,Y> registerSidedCapability(Class<X> apiClass, Class<Y> contextClass, ResourceLocation identifier);
+    <X, Y> BlockCapabilityHolder<X,Y> registerBlockCapability(Class<X> apiClass, Class<Y> contextClass, ResourceLocation identifier);
     <X, Y> ItemCapabilityHolder<X,Y> registerItemCapability(Class<X> apiClass, Class<Y> contextClass, ResourceLocation identifier);
     <X, Y> EntityCapabilityHolder<X,Y> registerEntityCapability(Class<X> apiClass, Class<Y> contextClass, ResourceLocation identifier);
 

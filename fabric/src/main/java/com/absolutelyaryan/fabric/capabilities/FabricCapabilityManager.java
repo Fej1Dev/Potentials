@@ -111,7 +111,7 @@ public class FabricCapabilityManager implements CapabilityManager{
 
 
     @Override
-    public <X, Y> BlockCapabilityHolder<X,Y> registerSidedCapability(Class<X> apiClass, Class<Y> contextClass, ResourceLocation identifier) {
+    public <X, Y> BlockCapabilityHolder<X,Y> registerBlockCapability(Class<X> apiClass, Class<Y> contextClass, ResourceLocation identifier) {
         return new FabricBlockProviderHolder<>(BlockApiLookup.get(identifier, apiClass, contextClass));
     }
 

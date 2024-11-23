@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 public interface NoProviderItemCapabilityHolder<X,Y> {
 
    @Nullable X getCapability(ItemStack stack);
-   void registerForItems(Supplier<Item> item);
+   void registerForItem(Supplier<Item> item);
    ResourceLocation getIdentifier();
 
 }

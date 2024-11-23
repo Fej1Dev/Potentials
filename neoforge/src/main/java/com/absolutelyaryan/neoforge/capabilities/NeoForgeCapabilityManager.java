@@ -55,7 +55,7 @@ public class NeoForgeCapabilityManager implements CapabilityManager {
     }
 
     @Override
-    public <X, Y> BlockCapabilityHolder<X, Y> registerSidedCapability(Class<X> apiClass, Class<Y> contextClass, ResourceLocation identifier) {
+    public <X, Y> BlockCapabilityHolder<X, Y> registerBlockCapability(Class<X> apiClass, Class<Y> contextClass, ResourceLocation identifier) {
         NeoBlockHolder<X, Y> blockCapabilityHolder = new NeoBlockHolder<>(BlockCapability.create(identifier, apiClass, contextClass));
         blockCapabilityHolders.put(identifier, blockCapabilityHolder);
         return blockCapabilityHolder;

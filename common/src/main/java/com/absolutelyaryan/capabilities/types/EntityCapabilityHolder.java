@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 public interface EntityCapabilityHolder<X,Y> {
 
     @Nullable X getCapability(Entity entity, Y context);
-    void registerForEntities(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType);
+    void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType);
     ResourceLocation getIdentifier();
 
 

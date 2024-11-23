@@ -24,7 +24,7 @@ public class FabricEntityProviderHolder<X,Y> implements EntityCapabilityHolder<X
     }
 
     @Override
-    public void registerForEntities(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType) {
+    public void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType) {
         entityApiLookup.registerForType(provider::getCapability, entityType.get());
 
     }

@@ -33,7 +33,7 @@ public class FabricBlockProviderHolder<X,Y> implements BlockCapabilityHolder<X,Y
     }
 
     @Override
-    public void registerForBlocks(BlockCapabilityProvider<X, Y> provider, Supplier<Block> block) {
+    public void registerForBlock(BlockCapabilityProvider<X, Y> provider, Supplier<Block> block) {
         blockApiLookup.registerForBlocks(provider::getCapability, block.get());
     }
 

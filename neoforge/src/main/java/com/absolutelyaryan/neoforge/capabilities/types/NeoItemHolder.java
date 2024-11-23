@@ -26,7 +26,7 @@ public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y>, Registerab
     }
 
     @Override
-    public void registerForItems(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item) {
+    public void registerForItem(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item) {
         registeredItems.put(item, provider);
     }
 

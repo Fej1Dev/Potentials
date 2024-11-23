@@ -24,7 +24,7 @@ public class FabricItemProviderHolder<X,Y> implements ItemCapabilityHolder<X,Y> 
     }
 
     @Override
-    public void registerForItems(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item) {
+    public void registerForItem(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item) {
         itemApiLookup.registerForItems(provider::getCapability, item.get());
     }
 

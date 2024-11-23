@@ -17,7 +17,7 @@ public interface NoProviderBlockCapabilityHolder<X, Y> {
 
     @Nullable X getCapability(Level level, BlockPos pos, Y context);
     @Nullable X getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Y context);
-    void registerForBlocks(Supplier<Block> block);
+    void registerForBlock(Supplier<Block> block);
     void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType);
     ResourceLocation getIdentifier();
 

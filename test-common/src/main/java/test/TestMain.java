@@ -32,7 +32,7 @@ public class TestMain {
     public static final DeferredSupplier<DataComponentType<FluidStack>> FLUID = register("fluid", builder -> builder.persistent(FluidStack.CODEC));
 
     public static final BlockCapabilityHolder<IGasStorage, Void> GAS_BLOCK =
-            SpaceEnergyCommon.getCapabilityManager().registerSidedCapability(IGasStorage.class, Void.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_block"));
+            SpaceEnergyCommon.getCapabilityManager().registerBlockCapability(IGasStorage.class, Void.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_block"));
 
 
     private static <T>DeferredSupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
@@ -64,7 +64,7 @@ public class TestMain {
         GAS_BLOCK.registerForBlockEntity(
                 ((blockEntity, context) -> blockEntity instanceof GasProvider.BLOCK block ? block.getGas() : null), TEST_BLOCK_ENTITY_TYPE);
 
-        GAS_BLOCK.registerForBlocks((level, pos, state, blockEntity, context) -> {
+        GAS_BLOCK.registerForBlock((level, pos, state, blockEntity, context) -> {
             if (state.getBlock() instanceof GasProvider.BLOCK block)
                 return block.getGas();
             if (level.getBlockState(pos).getBlock() instanceof GasProvider.BLOCK block)

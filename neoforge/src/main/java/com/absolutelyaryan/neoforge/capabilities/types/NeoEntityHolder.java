@@ -26,7 +26,7 @@ public class NeoEntityHolder<X,Y> implements EntityCapabilityHolder<X,Y>, Regist
     }
 
     @Override
-    public void registerForEntities(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType) {
+    public void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType) {
         registeredEntities.put(entityType, provider);
     }
 

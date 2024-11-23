@@ -37,7 +37,7 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y>, Register
     }
 
     @Override
-    public void registerForBlocks(BlockCapabilityProvider<X, Y> provider, Supplier<Block> block) {
+    public void registerForBlock(BlockCapabilityProvider<X, Y> provider, Supplier<Block> block) {
         registeredBlocks.put(block, provider);
 
     }

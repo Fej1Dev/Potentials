@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 public interface ItemCapabilityHolder<X,Y> {
 
    @Nullable X getCapability(ItemStack stack, Y context);
-   void registerForItems(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item);
+   void registerForItem(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item);
    ResourceLocation getIdentifier();
 
 }
