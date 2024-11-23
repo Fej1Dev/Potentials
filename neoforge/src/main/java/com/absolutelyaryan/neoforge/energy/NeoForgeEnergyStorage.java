@@ -12,7 +12,6 @@ public class NeoForgeEnergyStorage implements IEnergyStorage {
     }
 
 
-
     @Override
     public int receiveEnergy(int toReceive, boolean simulate) {
         return universalEnergyStorage.insert(toReceive, simulate);

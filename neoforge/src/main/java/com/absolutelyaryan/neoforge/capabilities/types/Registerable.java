@@ -4,7 +4,7 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-/* If anyone from Terrarium Earth LLC has a problem with this contact me (Fej1Fun/Fej1Dev) on Discord.
+/*
 MIT License
 
 Copyright (c) 2024 Terrarium Earth LLC

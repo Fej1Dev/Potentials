@@ -1,5 +1,8 @@
 package com.absolutelyaryan.energy;
 
+
+import net.minecraft.util.Mth;
+
 public class BaseEnergyStorage implements UniversalEnergyStorage {
     protected int energy;
     protected int capacity;
@@ -28,21 +31,26 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
     }
 
     @Override
-    public int insert(int amount, boolean simulate) {
-        int energyExtracted = Math.min(energy, this.maxExtract);
-        if (!simulate) {
-            energy -= energyExtracted;
+    public int insert(int toReceive, boolean simulate) {
+        if (!canInsertEnergy() || toReceive <= 0) {
+            return 0;
         }
-        return energyExtracted;
+
+        int inserted = Mth.clamp(this.capacity - this.energy, 0, Math.min(this.maxReceive, toReceive));
+        if (!simulate)
+            this.energy += inserted;
+        return inserted;
     }
 
     @Override
-    public int extract(int amount, boolean simulate) {
-        int energyReceived = Math.min(capacity - energy, this.maxReceive);
-        if (!simulate) {
-            energy += energyReceived;
-        }
-        return energyReceived;
+    public int extract(int toExtract, boolean simulate) {
+        if (!canExtractEnergy() || toExtract <= 0)
+            return 0;
+
+        int extracted = Math.min(this.energy, Math.min(this.maxExtract, toExtract));
+        if (!simulate)
+            this.energy -= extracted;
+        return extracted;
     }
 
     @Override

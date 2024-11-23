@@ -1,7 +1,10 @@
 package test;
 
-import com.absolutelyaryan.SpaceEnergyCommon;
+import com.absolutelyaryan.capabilities.Capabilities;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
+import dev.architectury.registry.registries.RegistrySupplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import test.gas.GasProvider;
 import test.gas.IGasStorage;
 import com.mojang.serialization.Codec;
@@ -22,6 +25,7 @@ import java.util.function.UnaryOperator;
 
 public class TestMain {
     public static final String MOD_ID = "space_energy_test";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
@@ -39,12 +43,12 @@ public class TestMain {
         return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }
 
-    public static final DeferredSupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
+    public static final RegistrySupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
 
-    public static final DeferredSupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1), 1024, 1024, 1024));
-    public static final DeferredSupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
+    public static final RegistrySupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1), 1024, 1024, 1024));
+    public static final RegistrySupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
 
-    public static final DeferredSupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
+    public static final RegistrySupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
 
     public static void init() {
         BLOCKS.register();
@@ -60,6 +64,9 @@ public class TestMain {
         //capabilityManager.registerBlockEnergy(TEST_BLOCK.get());
         //capabilityManager.registerItemFluid(TEST_ITEM.get());
         //capabilityManager.registerBlockFluid(TEST_BLOCK.get());
+
+        Capabilities.Energy.BLOCK.registerForBlock(TEST_BLOCK);
+        Capabilities.Energy.BLOCK.registerForBlockEntity(TEST_BLOCK_ENTITY_TYPE);
 
         GAS_BLOCK.registerForBlockEntity(
                 ((blockEntity, context) -> blockEntity instanceof GasProvider.BLOCK block ? block.getGas() : null), TEST_BLOCK_ENTITY_TYPE);
