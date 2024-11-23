@@ -10,13 +10,15 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Supplier;
+
 @ApiStatus.Internal
 public interface NoProviderBlockCapabilityHolder<X, Y> {
 
     @Nullable X getCapability(Level level, BlockPos pos, Y context);
     @Nullable X getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Y context);
-    void registerForBlocks(Block... blocks);
-    void registerForBlockEntity(BlockEntityType<?>... entities);
+    void registerForBlocks(Supplier<Block> block);
+    void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType);
     ResourceLocation getIdentifier();
 
 }

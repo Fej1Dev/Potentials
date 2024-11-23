@@ -22,13 +22,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<UniversalEnergyStorage, Direction>, Registerable {
     public static final EnergyBlockHolder INSTANCE = new EnergyBlockHolder();
     private EnergyBlockHolder() {registerSelf();}
 
-    private final List<Block> registeredBlocks = new ArrayList<>();
-    private final List<BlockEntityType<?>> registeredBlockEntities = new ArrayList<>();
+    private final List<Supplier<Block>> registeredBlocks = new ArrayList<>();
+    private final List<Supplier<BlockEntityType<?>>> registeredBlockEntities = new ArrayList<>();
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, Direction context) {
@@ -43,13 +44,13 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     }
 
     @Override
-    public void registerForBlocks(Block... blocks) {
-        registeredBlocks.addAll(Arrays.asList(blocks));
+    public void registerForBlocks(Supplier<Block> block) {
+        registeredBlocks.add(block);
     }
 
     @Override
-    public void registerForBlockEntity(BlockEntityType<?>... entities) {
-        registeredBlockEntities.addAll(Arrays.asList(entities));
+    public void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
+        registeredBlockEntities.add(blockEntityType);
     }
 
     @Override
@@ -71,9 +72,9 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
                         return energy == null ? null : new NeoForgeEnergyStorage(energy);
                     }
                     return null;
-                }, block));
+                }, block.get()));
         registeredBlockEntities.forEach(type ->
-                event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type, ((blockEntity, direction) -> {
+                event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type.get(), ((blockEntity, direction) -> {
                     if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
                         var energy = energyBlock.getEnergy(direction);
                         return energy == null ? null : new NeoForgeEnergyStorage(energy);

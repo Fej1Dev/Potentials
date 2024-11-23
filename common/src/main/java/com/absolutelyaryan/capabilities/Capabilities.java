@@ -22,4 +22,6 @@ public class Capabilities {
 
         private Fluid() {}
     }
+
+    private Capabilities() {}
 }

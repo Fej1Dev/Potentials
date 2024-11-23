@@ -6,7 +6,6 @@ import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.neoforge.capabilities.holders.EnergyBlockHolder;
 import net.minecraft.core.Direction;
-import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,15 +17,15 @@ public class CapabilitiesHelperImpl {
     }
 
     public static NoProviderItemCapabilityHolder<UniversalEnergyStorage, Void> getEnergyItemCapability() {
-        throw new NotImplementedException();
+        return null;
     }
 
     public static NoProviderBlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> getFluidBlockCapability() {
-        throw new NotImplementedException();
+        return null;
     }
 
     public static NoProviderItemCapabilityHolder<UniversalFluidTank, Void> getFluidItemCapability() {
-        throw new NotImplementedException();
+        return null;
     }
 
 }

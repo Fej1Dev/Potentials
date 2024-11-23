@@ -1,4 +1,4 @@
-package com.absolutelyaryan.capabilities.types;
+package com.absolutelyaryan.capabilities.types.providers;
 
 @FunctionalInterface
 public interface CapabilityProvider<O, X, Y> {

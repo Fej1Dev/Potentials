@@ -44,7 +44,7 @@ public class SpaceEnergyNeo {
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         Registerable.registerAll(event);
 
-        for(Block block : BuiltInRegistries.BLOCK) {
+//        for(Block block : BuiltInRegistries.BLOCK) {
             //NOT NEEDED
 //            event.registerBlock(
 //                    Capabilities.EnergyStorage.BLOCK,
@@ -62,43 +62,43 @@ public class SpaceEnergyNeo {
 //                    },
 //                    block
 //            );
-            event.registerBlock(
-                    Capabilities.FluidHandler.BLOCK,
-                    (level, pos, state, blockEntity, direction) -> {
-                        if (blockEntity!=null)
-                            if (blockEntity instanceof FluidProvider.BLOCK energyBlock){
-                                var fluid = energyBlock.getFluidTank(direction);
-                                return fluid == null ? null : new NeoForgeFluidTank(fluid);
-                            }
-                        if (state.getBlock() instanceof FluidProvider.BLOCK energyBlock) {
-                            var fluid = energyBlock.getFluidTank(direction);
-                            return fluid == null ? null : new NeoForgeFluidTank(fluid);
-                        }
-                        return null;
-                    },
-                    block
-            );
-
-        }
-
-        for (Item item : BuiltInRegistries.ITEM) {
-            event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, object) -> {
-                if (stack.getItem() instanceof EnergyProvider.ITEM energyItem) {
-                    var energy = energyItem.getEnergy(stack);
-                    return energy == null ? null : new NeoForgeEnergyStorage(energy);
-                }
-                return null;
-            }, item);
-
-            event.registerItem(Capabilities.FluidHandler.ITEM, (stack, object) -> {
-                if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
-                    var fluid = fluidItem.getFluidTank(stack);
-                    return fluid == null ? null : new NeoForgeFluidItem(stack, fluid);
-                }
-                return null;
-            }, item);
-
-        }
+//            event.registerBlock(
+//                    Capabilities.FluidHandler.BLOCK,
+//                    (level, pos, state, blockEntity, direction) -> {
+//                        if (blockEntity!=null)
+//                            if (blockEntity instanceof FluidProvider.BLOCK energyBlock){
+//                                var fluid = energyBlock.getFluidTank(direction);
+//                                return fluid == null ? null : new NeoForgeFluidTank(fluid);
+//                            }
+//                        if (state.getBlock() instanceof FluidProvider.BLOCK energyBlock) {
+//                            var fluid = energyBlock.getFluidTank(direction);
+//                            return fluid == null ? null : new NeoForgeFluidTank(fluid);
+//                        }
+//                        return null;
+//                    },
+//                    block
+//            );
+//
+//        }
+//
+//        for (Item item : BuiltInRegistries.ITEM) {
+//            event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, object) -> {
+//                if (stack.getItem() instanceof EnergyProvider.ITEM energyItem) {
+//                    var energy = energyItem.getEnergy(stack);
+//                    return energy == null ? null : new NeoForgeEnergyStorage(energy);
+//                }
+//                return null;
+//            }, item);
+//
+//            event.registerItem(Capabilities.FluidHandler.ITEM, (stack, object) -> {
+//                if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
+//                    var fluid = fluidItem.getFluidTank(stack);
+//                    return fluid == null ? null : new NeoForgeFluidItem(stack, fluid);
+//                }
+//                return null;
+//            }, item);
+//
+//        }
 
     }
 }

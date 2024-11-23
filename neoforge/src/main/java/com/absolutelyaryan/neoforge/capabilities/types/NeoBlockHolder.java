@@ -1,7 +1,7 @@
 package com.absolutelyaryan.neoforge.capabilities.types;
 
-import com.absolutelyaryan.capabilities.types.BlockCapabilityProvider;
-import com.absolutelyaryan.capabilities.types.CapabilityProvider;
+import com.absolutelyaryan.capabilities.types.providers.BlockCapabilityProvider;
+import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -14,11 +14,12 @@ import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 
 import java.util.HashMap;
+import java.util.function.Supplier;
 
 public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y>, Registerable {
     private final BlockCapability<X,Y> blockCapability;
-    private final HashMap<Block, BlockCapabilityProvider<X, Y>> registeredBlocks = new HashMap<>();
-    private final HashMap<BlockEntityType<?>, CapabilityProvider<BlockEntity, X, Y>> registeredBlockEntities = new HashMap<>();
+    private final HashMap<Supplier<Block>, BlockCapabilityProvider<X, Y>> registeredBlocks = new HashMap<>();
+    private final HashMap<Supplier<BlockEntityType<?>>, CapabilityProvider<BlockEntity, X, Y>> registeredBlockEntities = new HashMap<>();
 
     public NeoBlockHolder(BlockCapability<X, Y> blockCapability) {
         this.blockCapability = blockCapability;
@@ -36,26 +37,24 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y>, Register
     }
 
     @Override
-    public void registerForBlocks(BlockCapabilityProvider<X, Y> provider, Block... blocks) {
-        for(Block block: blocks){
-            registeredBlocks.put(block, provider);
-        }
+    public void registerForBlocks(BlockCapabilityProvider<X, Y> provider, Supplier<Block> block) {
+        registeredBlocks.put(block, provider);
+
     }
 
     @Override
-    public void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, BlockEntityType<?>... entities) {
-        for(BlockEntityType<?> entity: entities){
-            registeredBlockEntities.put(entity, provider);
-        }
+    public void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, Supplier<BlockEntityType<?>> blockEntityType) {
+        registeredBlockEntities.put(blockEntityType, provider);
+
     }
 
-    public HashMap<Block, BlockCapabilityProvider<X, Y>> getRegisteredBlocks() {
-        return registeredBlocks;
-    }
-
-    public HashMap<BlockEntityType<?>, CapabilityProvider<BlockEntity, X, Y>> getRegisteredBlockEntities() {
-        return registeredBlockEntities;
-    }
+//    public HashMap<Block, BlockCapabilityProvider<X, Y>> getRegisteredBlocks() {
+//        return registeredBlocks;
+//    }
+//
+//    public HashMap<BlockEntityType<?>, CapabilityProvider<BlockEntity, X, Y>> getRegisteredBlockEntities() {
+//        return registeredBlockEntities;
+//    }
 
     @Override
     public ResourceLocation getIdentifier() {
@@ -69,9 +68,9 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y>, Register
     @Override
     public void register(RegisterCapabilitiesEvent event) {
         //register block capabilities
-        registeredBlocks.forEach((block, provider) -> event.registerBlock(getBlockCapability(), provider::getCapability, block));
+        registeredBlocks.forEach((block, provider) -> event.registerBlock(getBlockCapability(), provider::getCapability, block.get()));
 
         //register block entity capabilities
-        registeredBlockEntities.forEach((type, provider) -> event.registerBlockEntity(getBlockCapability(), type, provider::getCapability));
+        registeredBlockEntities.forEach((type, provider) -> event.registerBlockEntity(getBlockCapability(), type.get(), provider::getCapability));
     }
 }

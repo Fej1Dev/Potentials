@@ -1,7 +1,6 @@
 package test;
 
 import com.absolutelyaryan.SpaceEnergyCommon;
-import com.absolutelyaryan.capabilities.CapabilityManager;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
 import test.gas.GasProvider;
 import test.gas.IGasStorage;
@@ -9,7 +8,6 @@ import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.DeferredSupplier;
-import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -41,25 +39,30 @@ public class TestMain {
         return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }
 
-    public static DeferredSupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
+    public static final DeferredSupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
 
-    public static DeferredSupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1), 1024, 1024, 1024));
-    public static DeferredSupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
+    public static final DeferredSupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1), 1024, 1024, 1024));
+    public static final DeferredSupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
 
-    public static DeferredSupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
+    public static final DeferredSupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
 
     public static void init() {
         BLOCKS.register();
-        ITEMS.register();
         DATA_COMPONENTS.register();
+        ITEMS.register();
         BLOCK_ENTITY_TYPES.register();
 
         //registering capabilities manually only needed for fabric
-        CapabilityManager capabilityManager = SpaceEnergyCommon.getCapabilityManager();
-        capabilityManager.registerItemEnergy(TEST_ITEM.get());
-        capabilityManager.registerBlockEnergy(TEST_BLOCK.get());
-        capabilityManager.registerItemFluid(TEST_ITEM.get());
-        capabilityManager.registerBlockFluid(TEST_BLOCK.get());
+        //CapabilityManager capabilityManager = SpaceEnergyCommon.getCapabilityManager();
+        //Capabilities.Energy.BLOCK.registerForBlockEntity(TEST_BLOCK_ENTITY_TYPE.get());
+
+        //capabilityManager.registerItemEnergy(TEST_ITEM.get());  NOT GOING TO BE NEEDED
+        //capabilityManager.registerBlockEnergy(TEST_BLOCK.get());
+        //capabilityManager.registerItemFluid(TEST_ITEM.get());
+        //capabilityManager.registerBlockFluid(TEST_BLOCK.get());
+
+        GAS_BLOCK.registerForBlockEntity(
+                ((blockEntity, context) -> blockEntity instanceof GasProvider.BLOCK block ? block.getGas() : null), TEST_BLOCK_ENTITY_TYPE);
 
         GAS_BLOCK.registerForBlocks((level, pos, state, blockEntity, context) -> {
             if (state.getBlock() instanceof GasProvider.BLOCK block)
@@ -70,7 +73,7 @@ public class TestMain {
                 if (blockEntity instanceof GasProvider.BLOCK block)
                     return block.getGas();
             return null;
-        }, TEST_BLOCK.get());
+        }, TEST_BLOCK);
 
     }
 }

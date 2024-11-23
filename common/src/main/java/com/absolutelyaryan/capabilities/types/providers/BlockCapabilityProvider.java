@@ -1,4 +1,4 @@
-package com.absolutelyaryan.capabilities.types;
+package com.absolutelyaryan.capabilities.types.providers;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
