@@ -1,5 +1,6 @@
 package com.absolutelyaryan.neoforge.capabilities.types;
 
+import com.absolutelyaryan.capabilities.types.BlockCapabilityProvider;
 import com.absolutelyaryan.capabilities.types.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
 import net.minecraft.core.BlockPos;

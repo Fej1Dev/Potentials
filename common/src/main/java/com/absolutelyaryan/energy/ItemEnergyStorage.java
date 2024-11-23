@@ -36,17 +36,17 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
 
 
     @Override
-    public boolean canTakeEnergy() {
+    public boolean canInsertEnergy() {
         return maxExtract > 0;
     }
 
     @Override
-    public boolean canGiveEnergy() {
+    public boolean canExtractEnergy() {
         return maxReceive > 0;
     }
 
     @Override
-    public int insertValue(int maxExtract, boolean simulate) {
+    public int insert(int maxExtract, boolean simulate) {
         int energyExtracted = Math.min(getEnergy(), Math.min(this.maxExtract, maxExtract));
         if (!simulate) {
             setEnergyStored(getEnergy() - energyExtracted);
@@ -55,7 +55,7 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
     }
 
     @Override
-    public int extractValue(int maxReceive, boolean simulate) {
+    public int extract(int maxReceive, boolean simulate) {
         int energyReceived = Math.min(capacity - getEnergy(), Math.min(this.maxReceive, maxReceive));
         if (!simulate) {
             setEnergyStored(getEnergy() + energyReceived);

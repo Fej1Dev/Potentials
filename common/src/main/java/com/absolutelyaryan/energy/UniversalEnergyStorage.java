@@ -4,9 +4,9 @@ public interface UniversalEnergyStorage {
 
     int getEnergy();
     int getMaxEnergy();
-    int insertValue(int amount, boolean simulate);
-    int extractValue(int amount, boolean simulate);
-    boolean canTakeEnergy();
-    boolean canGiveEnergy();
+    int insert(int amount, boolean simulate);
+    int extract(int amount, boolean simulate);
+    boolean canInsertEnergy();
+    boolean canExtractEnergy();
 
 }

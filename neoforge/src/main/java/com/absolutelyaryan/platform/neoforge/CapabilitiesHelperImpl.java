@@ -1,34 +1,32 @@
-package com.absolutelyaryan.platform;
+package com.absolutelyaryan.platform.neoforge;
 
 import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
-import dev.architectury.injectables.annotations.ExpectPlatform;
+import com.absolutelyaryan.neoforge.capabilities.holders.EnergyBlockHolder;
 import net.minecraft.core.Direction;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 @ApiStatus.Internal
-public class CapabilitiesHelper {
-    @ExpectPlatform
+public class CapabilitiesHelperImpl {
+
     public static NoProviderBlockCapabilityHolder<UniversalEnergyStorage, @Nullable Direction> getEnergyBlockCapability() {
-        throw new NotImplementedException();
+        return EnergyBlockHolder.INSTANCE;
     }
 
-    @ExpectPlatform
     public static NoProviderItemCapabilityHolder<UniversalEnergyStorage, Void> getEnergyItemCapability() {
         throw new NotImplementedException();
     }
 
-    @ExpectPlatform
     public static NoProviderBlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> getFluidBlockCapability() {
         throw new NotImplementedException();
     }
 
-    @ExpectPlatform
     public static NoProviderItemCapabilityHolder<UniversalFluidTank, Void> getFluidItemCapability() {
         throw new NotImplementedException();
     }
+
 }
