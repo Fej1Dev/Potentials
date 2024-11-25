@@ -1,13 +1,13 @@
-package com.absolutelyaryan.platform.neoforge;
+package com.absolutelyaryan.platform.fabric;
 
 import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
+import com.absolutelyaryan.fabric.capabilities.holders.EnergyBlockHolder;
+import com.absolutelyaryan.fabric.capabilities.holders.EnergyItemHolder;
+import com.absolutelyaryan.fabric.capabilities.holders.FluidBlockHolder;
+import com.absolutelyaryan.fabric.capabilities.holders.FluidItemHolder;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
-import com.absolutelyaryan.neoforge.capabilities.holders.EnergyBlockHolder;
-import com.absolutelyaryan.neoforge.capabilities.holders.EnergyItemHolder;
-import com.absolutelyaryan.neoforge.capabilities.holders.FluidBlockHolder;
-import com.absolutelyaryan.neoforge.capabilities.holders.FluidItemHolder;
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
