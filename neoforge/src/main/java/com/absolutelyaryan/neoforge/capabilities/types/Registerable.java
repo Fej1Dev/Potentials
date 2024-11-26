@@ -1,6 +1,7 @@
 package com.absolutelyaryan.neoforge.capabilities.types;
 
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+
 import java.util.ArrayList;
 import java.util.List;
 

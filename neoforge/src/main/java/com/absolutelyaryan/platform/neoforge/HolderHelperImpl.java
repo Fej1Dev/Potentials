@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.EntityCapability;
 import net.neoforged.neoforge.capabilities.ItemCapability;
-import org.apache.commons.lang3.NotImplementedException;
 
 public class HolderHelperImpl {
 

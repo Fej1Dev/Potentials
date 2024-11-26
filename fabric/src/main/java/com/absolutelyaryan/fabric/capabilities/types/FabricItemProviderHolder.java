@@ -1,7 +1,7 @@
 package com.absolutelyaryan.fabric.capabilities.types;
 
-import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
+import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

@@ -4,14 +4,14 @@ import com.absolutelyaryan.energy.ItemEnergyStorage;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.ItemFluidTank;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
-import test.gas.GasTank;
-import test.gas.IGasStorage;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
-import test.gas.GasProvider;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
+import test.gas.GasProvider;
+import test.gas.GasTank;
+import test.gas.IGasStorage;
 
 public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider.ITEM, GasProvider.ITEM {
 

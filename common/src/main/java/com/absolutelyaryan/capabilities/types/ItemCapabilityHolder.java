@@ -2,7 +2,6 @@ package com.absolutelyaryan.capabilities.types;
 
 import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import com.absolutelyaryan.platform.HolderHelper;
-import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

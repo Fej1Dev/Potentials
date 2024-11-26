@@ -3,7 +3,6 @@ package com.absolutelyaryan.energy;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.ApiStatus;
 
 public class ItemEnergyStorage implements UniversalEnergyStorage {
 

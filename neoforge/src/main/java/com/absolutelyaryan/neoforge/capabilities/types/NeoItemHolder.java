@@ -1,7 +1,7 @@
 package com.absolutelyaryan.neoforge.capabilities.types;
 
-import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
+import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

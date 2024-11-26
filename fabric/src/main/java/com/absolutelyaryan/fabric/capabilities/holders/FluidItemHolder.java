@@ -1,15 +1,15 @@
 package com.absolutelyaryan.fabric.capabilities.holders;
 
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
-import com.absolutelyaryan.fluid.UniversalFluidTank;
-import com.absolutelyaryan.fabric.fluid.UniversalFluidWrapper;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
+import com.absolutelyaryan.fabric.fluid.UniversalFluidWrapper;
+import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;

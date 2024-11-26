@@ -2,15 +2,11 @@ package test;
 
 import com.absolutelyaryan.capabilities.Capabilities;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
-import dev.architectury.registry.registries.RegistrySupplier;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import test.gas.GasProvider;
-import test.gas.IGasStorage;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.DeferredSupplier;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -20,6 +16,10 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import test.gas.GasProvider;
+import test.gas.IGasStorage;
 
 import java.util.function.UnaryOperator;
 

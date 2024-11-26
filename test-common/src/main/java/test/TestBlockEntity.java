@@ -5,11 +5,8 @@ import com.absolutelyaryan.energy.BaseEnergyStorage;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.BaseFluidTank;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
-import test.gas.GasTank;
-import test.gas.IGasStorage;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
-import test.gas.GasProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.minecraft.core.BlockPos;
@@ -20,6 +17,9 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import test.gas.GasProvider;
+import test.gas.GasTank;
+import test.gas.IGasStorage;
 
 import java.util.HashMap;
 

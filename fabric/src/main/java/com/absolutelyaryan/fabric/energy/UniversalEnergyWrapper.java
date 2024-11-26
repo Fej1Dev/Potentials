@@ -2,7 +2,6 @@ package com.absolutelyaryan.fabric.energy;
 
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
-import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import team.reborn.energy.api.EnergyStorage;
 
 public class UniversalEnergyWrapper implements UniversalEnergyStorage {
