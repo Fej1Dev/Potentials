@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class EnergyItemHolder implements NoProviderItemCapabilityHolder<UniversalEnergyStorage, Void> , Registerable {
+public class EnergyItemHolder implements NoProviderItemCapabilityHolder<UniversalEnergyStorage, Void>, Registerable {
     public static final EnergyItemHolder INSTANCE = new EnergyItemHolder();
     private EnergyItemHolder() {registerSelf();}
     private final List<Supplier<Item>> registeredItems = new ArrayList<>();
@@ -43,13 +43,13 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
 
     @Override
     public void register(RegisterCapabilitiesEvent event) {
-        registeredItems.forEach((item -> event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> {
+        registeredItems.forEach(item -> event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> {
             if (stack.getItem() instanceof EnergyProvider.ITEM energyItem) {
                 var energy = energyItem.getEnergy(stack);
                 return energy == null ? null : new NeoForgeEnergyStorage(energy);
             }
             return null;
-        }, item.get())));
+        }, item.get()));
 
     }
 }

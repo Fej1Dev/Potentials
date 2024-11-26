@@ -27,11 +27,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, Direction context) {
         EnergyStorage energyStorage =  blockApiLookup.find(level, pos, context);
-
-
         return energyStorage == null ? null : new UniversalEnergyWrapper(energyStorage);
-
-
     }
 
     @Override

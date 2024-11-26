@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.ApiStatus;
 
+@Deprecated(forRemoval = true)
 @ApiStatus.NonExtendable
 public interface CapabilityManager {
     void registerBlockEnergy(Block block);

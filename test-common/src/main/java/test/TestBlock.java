@@ -28,11 +28,7 @@ public class TestBlock extends BaseEntityBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> blockEntityType) {
-        return (level1, blockPos, blockState1, blockEntity) -> {
-            if (blockEntityType != blockEntity.getType()) return;
-            if (level1.isClientSide() || level.isClientSide()) return;
-            if (blockEntity instanceof TestBlockEntity testBlockEntity)
-                testBlockEntity.tick();
-        };
+        return level.isClientSide() ? null : createTickerHelper(blockEntityType, TestMain.TEST_BLOCK_ENTITY_TYPE.get(),
+                (level1, blockPos, blockState1, blockEntity) -> ((TestBlockEntity) blockEntity).tick());
     }
 }

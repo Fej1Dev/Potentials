@@ -11,11 +11,11 @@ public final class SpaceEnergyCommon {
     }
 
     @ApiStatus.Internal
-    public static void setCapabilityManager(CapabilityManager capabilityManager) {
+    private static void setCapabilityManager(CapabilityManager capabilityManager) {
         SpaceEnergyCommon.capabilityManager = capabilityManager;
     }
 
-    public static CapabilityManager getCapabilityManager() {
+    private static CapabilityManager getCapabilityManager() {
         return capabilityManager;
     }
 }
