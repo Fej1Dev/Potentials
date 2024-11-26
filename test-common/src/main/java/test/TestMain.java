@@ -66,10 +66,15 @@ public class TestMain {
         //capabilityManager.registerBlockFluid(TEST_BLOCK.get());
 
         Capabilities.Energy.BLOCK.registerForBlock(TEST_BLOCK);
-        Capabilities.Energy.BLOCK.registerForBlockEntity(TEST_BLOCK_ENTITY_TYPE);
 
-        GAS_BLOCK.registerForBlockEntity(
-                ((blockEntity, context) -> blockEntity instanceof GasProvider.BLOCK block ? block.getGas() : null), TEST_BLOCK_ENTITY_TYPE);
+
+
+        //you dont need to register for block entity separately, registering for block is automatically handles for block entities
+        // Capabilities.Energy.BLOCK.registerForBlockEntity(TEST_BLOCK_ENTITY_TYPE);
+
+        // same here, doing this will give "Must register at least one Block instance with a BlockApiProvider." error
+//        GAS_BLOCK.registerForBlockEntity(
+//                ((blockEntity, context) -> blockEntity instanceof GasProvider.BLOCK block ? block.getGas() : null), TEST_BLOCK_ENTITY_TYPE);
 
         GAS_BLOCK.registerForBlock((level, pos, state, blockEntity, context) -> {
             if (state.getBlock() instanceof GasProvider.BLOCK block)
