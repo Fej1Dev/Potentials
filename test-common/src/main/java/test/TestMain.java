@@ -2,6 +2,7 @@ package test;
 
 import com.absolutelyaryan.capabilities.Capabilities;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
+import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -37,6 +38,8 @@ public class TestMain {
 
     public static final BlockCapabilityHolder<IGasStorage, Void> GAS_BLOCK =
             BlockCapabilityHolder.createVoid(IGasStorage.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_block"));
+    public static final ItemCapabilityHolder<IGasStorage, Void> GAS_ITEM =
+            ItemCapabilityHolder.createVoid(IGasStorage.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_item"));
 
 
     private static <T>DeferredSupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
@@ -56,18 +59,11 @@ public class TestMain {
         ITEMS.register();
         BLOCK_ENTITY_TYPES.register();
 
-        //registering capabilities manually only needed for fabric
-        //CapabilityManager capabilityManager = SpaceEnergyCommon.getCapabilityManager();
-        //Capabilities.Energy.BLOCK.registerForBlockEntity(TEST_BLOCK_ENTITY_TYPE.get());
-
-        //capabilityManager.registerItemEnergy(TEST_ITEM.get());  NOT GOING TO BE NEEDED
-        //capabilityManager.registerBlockEnergy(TEST_BLOCK.get());
-        //capabilityManager.registerItemFluid(TEST_ITEM.get());
-        //capabilityManager.registerBlockFluid(TEST_BLOCK.get());
-
         Capabilities.Energy.BLOCK.registerForBlock(TEST_BLOCK);
+        Capabilities.Fluid.BLOCK.registerForBlock(TEST_BLOCK);
 
-
+        Capabilities.Energy.ITEM.registerForItem(TEST_ITEM);
+        Capabilities.Fluid.ITEM.registerForItem(TEST_ITEM);
 
         //you dont need to register for block entity separately, registering for block is automatically handles for block entities
         // Capabilities.Energy.BLOCK.registerForBlockEntity(TEST_BLOCK_ENTITY_TYPE);
@@ -86,6 +82,8 @@ public class TestMain {
                     return block.getGas();
             return null;
         }, TEST_BLOCK);
+
+        GAS_ITEM.registerForItem((stack, context) -> stack.getItem() instanceof GasProvider.ITEM gasItem ? gasItem.getGas(stack) : null, TEST_ITEM);
 
     }
 }

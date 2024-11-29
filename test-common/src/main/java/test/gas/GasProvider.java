@@ -1,15 +1,15 @@
 package test.gas;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class GasProvider {
     public interface BLOCK {
-        IGasStorage getGas(Direction direction);
+        @Nullable IGasStorage getGas();
     }
 
     public interface ITEM {
-        IGasStorage getGas(ItemStack itemStack);
+        @Nullable IGasStorage getGas(ItemStack stack);
     }
 
 }

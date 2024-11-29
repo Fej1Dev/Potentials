@@ -37,7 +37,7 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
     }
 
     @Override
-    public IGasStorage getGas(ItemStack itemStack) {
+    public IGasStorage getGas(ItemStack stack) {
         return new GasTank();
     }
 }

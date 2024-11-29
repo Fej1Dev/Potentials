@@ -18,14 +18,11 @@ public class SpaceEnergyNeo {
     public SpaceEnergyNeo(IEventBus bus){
         bus.addListener(SpaceEnergyNeo::registerCapabilities);
 
-
         SpaceEnergyCommon.setCapabilityManager(capabilityManager);
 
         
     }
 
-
-    //Using Neoforge's Event to register capabilities
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         Registerable.registerAll(event);
     }
