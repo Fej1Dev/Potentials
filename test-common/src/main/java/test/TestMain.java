@@ -1,13 +1,13 @@
 package test;
 
-import com.absolutelyaryan.SpaceEnergyCommon;
+import com.absolutelyaryan.capabilities.Capabilities;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
-import test.gas.IGasStorage;
+import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.DeferredSupplier;
-import net.minecraft.core.Direction;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -17,11 +17,16 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import test.gas.GasProvider;
+import test.gas.IGasStorage;
 
 import java.util.function.UnaryOperator;
 
 public class TestMain {
     public static final String MOD_ID = "space_energy_test";
+    public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
@@ -31,48 +36,54 @@ public class TestMain {
     public static final DeferredSupplier<DataComponentType<Integer>> ENERGY = register("energy", builder -> builder.persistent(Codec.INT));
     public static final DeferredSupplier<DataComponentType<FluidStack>> FLUID = register("fluid", builder -> builder.persistent(FluidStack.CODEC));
 
+    public static final BlockCapabilityHolder<IGasStorage, Void> GAS_BLOCK =
+            BlockCapabilityHolder.createVoid(IGasStorage.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_block"));
+    public static final ItemCapabilityHolder<IGasStorage, Void> GAS_ITEM =
+            ItemCapabilityHolder.createVoid(IGasStorage.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_item"));
+
 
     private static <T>DeferredSupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }
 
-    public static DeferredSupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
+    public static final RegistrySupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
 
-    public static DeferredSupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1), 1024, 1024, 1024));
-    public static DeferredSupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
+    public static final RegistrySupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1), 1024, 1024, 1024));
+    public static final RegistrySupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
 
-    public static DeferredSupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
-
-    public static ResourceLocation GAS_IDENTIFIER;
-    public static BlockCapabilityHolder<IGasStorage, Direction> GAS_PROVIDER;
+    public static final RegistrySupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
 
     public static void init() {
         BLOCKS.register();
-        ITEMS.register();
         DATA_COMPONENTS.register();
+        ITEMS.register();
         BLOCK_ENTITY_TYPES.register();
 
-        //registering capabilities manually only needed for fabric
-        SpaceEnergyCommon.getCapabilityManager().registerItemEnergy(TEST_ITEM.get());
-        SpaceEnergyCommon.getCapabilityManager().registerBlockEnergy(TEST_BLOCK.get());
-        SpaceEnergyCommon.getCapabilityManager().registerItemFluid(TEST_ITEM.get());
-        SpaceEnergyCommon.getCapabilityManager().registerBlockFluid(TEST_BLOCK.get());
+        Capabilities.Energy.BLOCK.registerForBlock(TEST_BLOCK);
+        Capabilities.Fluid.BLOCK.registerForBlock(TEST_BLOCK);
 
+        Capabilities.Energy.ITEM.registerForItem(TEST_ITEM);
+        Capabilities.Fluid.ITEM.registerForItem(TEST_ITEM);
 
-        //identifier of capability
-        GAS_IDENTIFIER = ResourceLocation.fromNamespaceAndPath(MOD_ID, "testgas");
+        //you dont need to register for block entity separately, registering for block is automatically handles for block entities
+        // Capabilities.Energy.BLOCK.registerForBlockEntity(TEST_BLOCK_ENTITY_TYPE);
 
+        // same here, doing this will give "Must register at least one Block instance with a BlockApiProvider." error
+//        GAS_BLOCK.registerForBlockEntity(
+//                ((blockEntity, context) -> blockEntity instanceof GasProvider.BLOCK block ? block.getGas() : null), TEST_BLOCK_ENTITY_TYPE);
 
+        GAS_BLOCK.registerForBlock((level, pos, state, blockEntity, context) -> {
+            if (state.getBlock() instanceof GasProvider.BLOCK block)
+                return block.getGas();
+            if (level.getBlockState(pos).getBlock() instanceof GasProvider.BLOCK block)
+                return block.getGas();
+            if (blockEntity != null)
+                if (blockEntity instanceof GasProvider.BLOCK block)
+                    return block.getGas();
+            return null;
+        }, TEST_BLOCK);
 
-        //registering the capability
-        GAS_PROVIDER = SpaceEnergyCommon.getCapabilityManager().registerSidedCapability(IGasStorage.class, Direction.class, GAS_IDENTIFIER);
-
-        //registering the capability for blocks
-        //GAS_PROVIDER.registerForBlocks(new TestGasProvider(), TEST_BLOCK.get());
-
-        //example of how to get the capability from a block entity
-        IGasStorage gasStorage = GAS_PROVIDER.getCapability(null, null, null);
-
+        GAS_ITEM.registerForItem((stack, context) -> stack.getItem() instanceof GasProvider.ITEM gasItem ? gasItem.getGas(stack) : null, TEST_ITEM);
 
     }
 }

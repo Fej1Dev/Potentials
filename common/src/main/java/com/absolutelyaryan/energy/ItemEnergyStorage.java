@@ -1,8 +1,8 @@
 package com.absolutelyaryan.energy;
 
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.ApiStatus;
 
 public class ItemEnergyStorage implements UniversalEnergyStorage {
 
@@ -24,43 +24,41 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
         this(stack, component, capacity, capacity, capacity);
     }
 
-    /**unchecked, only for use internally*/
-    @ApiStatus.Internal
-    public void setUncheckedEnergyStored(int amount) {
-        stack.set(component, amount);
-    }
-
     public void setEnergyStored(int amount) {
         stack.set(component, Math.clamp(amount, 0, getMaxEnergy()));
     }
 
-
     @Override
-    public boolean canTakeEnergy() {
+    public boolean canInsertEnergy() {
         return maxExtract > 0;
     }
 
     @Override
-    public boolean canGiveEnergy() {
+    public boolean canExtractEnergy() {
         return maxReceive > 0;
     }
 
     @Override
-    public int insertValue(int maxExtract, boolean simulate) {
-        int energyExtracted = Math.min(getEnergy(), Math.min(this.maxExtract, maxExtract));
-        if (!simulate) {
-            setEnergyStored(getEnergy() - energyExtracted);
+    public int insert(int toReceive, boolean simulate) {
+        if (!canInsertEnergy() || toReceive <= 0) {
+            return 0;
         }
-        return energyExtracted;
+
+        int inserted = Mth.clamp(this.capacity - getEnergy(), 0, Math.min(this.maxReceive, toReceive));
+        if (!simulate)
+            setEnergyStored(getEnergy() + inserted);
+        return inserted;
     }
 
     @Override
-    public int extractValue(int maxReceive, boolean simulate) {
-        int energyReceived = Math.min(capacity - getEnergy(), Math.min(this.maxReceive, maxReceive));
-        if (!simulate) {
-            setEnergyStored(getEnergy() + energyReceived);
-        }
-        return energyReceived;
+    public int extract(int toExtract, boolean simulate) {
+        if (!canExtractEnergy() || toExtract <= 0)
+            return 0;
+
+        int extracted = Math.min(getEnergy(), Math.min(this.maxExtract, toExtract));
+        if (!simulate)
+            setEnergyStored(getEnergy() - extracted);
+        return extracted;
     }
 
     @Override

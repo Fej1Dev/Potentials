@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class FluidProvider {
+
     public interface BLOCK {
         @Nullable UniversalFluidTank getFluidTank(@Nullable Direction direction);
     }

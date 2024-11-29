@@ -1,14 +1,12 @@
 package test;
 
+import com.absolutelyaryan.capabilities.Capabilities;
 import com.absolutelyaryan.energy.BaseEnergyStorage;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.BaseFluidTank;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
-import test.gas.GasTank;
-import test.gas.IGasStorage;
 import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
-import test.gas.GasProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.minecraft.core.BlockPos;
@@ -19,6 +17,9 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import test.gas.GasProvider;
+import test.gas.GasTank;
+import test.gas.IGasStorage;
 
 import java.util.HashMap;
 
@@ -31,6 +32,25 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
         super(TestMain.TEST_BLOCK_ENTITY_TYPE.get(), blockPos, blockState);
         for (Direction direction : Direction.values()) {
             tanks.put(direction, new BaseFluidTank(1000));
+        }
+    }
+
+    public void tick() {
+        for (Direction direction : Direction.values()) {
+            BlockPos dPos = getBlockPos().relative(direction);
+            UniversalEnergyStorage relativeEnergy = Capabilities.Energy.BLOCK.getCapability(getLevel(), dPos, direction.getOpposite());
+            if (relativeEnergy!=null) {
+                int a = relativeEnergy.getEnergy();
+                TestMain.LOGGER.error(Integer.toString(a));
+                int amountOut = relativeEnergy.extract(10, true);
+                int amountIn = energy.insert(10, true);
+                int amount = Math.min(amountIn, amountOut);
+                if (amount>0) {
+                    relativeEnergy.extract(amount, false);
+                    energy.insert(amount, false);
+                    setChanged();
+                }
+            }
         }
     }
 

@@ -16,28 +16,28 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
 
     @Override
     public boolean supportsInsertion() {
-        return universalEnergyStorage.canTakeEnergy();
+        return universalEnergyStorage.canInsertEnergy();
     }
 
     @Override
     public long insert(long amount, TransactionContext transaction){
-        if (universalEnergyStorage.insertValue((int) amount, true) > 0) {
+        if (universalEnergyStorage.insert((int) amount, true) > 0) {
             this.updateSnapshots(transaction);
-            return universalEnergyStorage.insertValue((int) amount, false);
+            return universalEnergyStorage.insert((int) amount, false);
         }
         return 0;
     }
 
     @Override
     public  boolean supportsExtraction() {
-        return universalEnergyStorage.canGiveEnergy();
+        return universalEnergyStorage.canExtractEnergy();
     }
 
     @Override
     public long extract(long amount, TransactionContext transaction) {
-        if (universalEnergyStorage.extractValue((int) amount, true) > 0) {
+        if (universalEnergyStorage.extract((int) amount, true) > 0) {
             this.updateSnapshots(transaction);
-            return universalEnergyStorage.extractValue((int) amount, false);
+            return universalEnergyStorage.extract((int) amount, false);
         }
         return 0;
     }
@@ -59,8 +59,8 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
 
     @Override
     protected void readSnapshot(Integer integer) {
-        this.universalEnergyStorage.extractValue(Integer.MAX_VALUE, false);
-        this.universalEnergyStorage.insertValue(integer, false);
+        this.universalEnergyStorage.extract(Integer.MAX_VALUE, false);
+        this.universalEnergyStorage.insert(integer, false);
     }
 
 }

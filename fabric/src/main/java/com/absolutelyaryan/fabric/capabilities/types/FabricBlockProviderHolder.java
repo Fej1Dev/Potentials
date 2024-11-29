@@ -1,7 +1,8 @@
 package com.absolutelyaryan.fabric.capabilities.types;
 
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
-import com.absolutelyaryan.capabilities.CapabilityProvider;
+import com.absolutelyaryan.capabilities.types.providers.BlockCapabilityProvider;
+import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -11,6 +12,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public class FabricBlockProviderHolder<X,Y> implements BlockCapabilityHolder<X,Y> {
 
@@ -29,21 +32,14 @@ public class FabricBlockProviderHolder<X,Y> implements BlockCapabilityHolder<X,Y
         return blockApiLookup.find(level, pos, state, blockEntity, context);
     }
 
-
     @Override
-    public void registerForBlocks(BlockCapabilityProvider provider, Block... blocks) {
-        for(Block block: blocks){
-            blockApiLookup.registerForBlocks(provider::getCapability, block);
-        }
+    public void registerForBlock(BlockCapabilityProvider<X, Y> provider, Supplier<Block> block) {
+        blockApiLookup.registerForBlocks(provider::getCapability, block.get());
     }
 
-
     @Override
-    @SuppressWarnings("unchecked")
-    public void registerForBlockEntity(CapabilityProvider<BlockEntity> provider, BlockEntityType<?>... entities) {
-        for(BlockEntityType<?> entity: entities){
-            blockApiLookup.registerForBlockEntity((blockEntity, context) ->  (X) provider.getCapability(blockEntity, context), entity);
-        }
+    public void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, Supplier<BlockEntityType<?>> blockEntityType) {
+        blockApiLookup.registerForBlockEntity(provider::getCapability, blockEntityType.get());
     }
 
     @Override

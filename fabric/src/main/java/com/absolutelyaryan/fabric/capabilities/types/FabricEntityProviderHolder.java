@@ -1,12 +1,14 @@
 package com.absolutelyaryan.fabric.capabilities.types;
 
-import com.absolutelyaryan.capabilities.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.EntityCapabilityHolder;
+import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import net.fabricmc.fabric.api.lookup.v1.entity.EntityApiLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public class FabricEntityProviderHolder<X,Y> implements EntityCapabilityHolder<X,Y> {
     private final EntityApiLookup<X,Y> entityApiLookup;
@@ -22,15 +24,13 @@ public class FabricEntityProviderHolder<X,Y> implements EntityCapabilityHolder<X
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void registerForEntities(CapabilityProvider<Entity> provider, EntityType<?>... entities) {
-        for(EntityType<?> entityType: entities){
-            entityApiLookup.registerForType((entity, context) -> (X) provider.getCapability(entity, context), entityType);
-        }
+    public void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType) {
+        entityApiLookup.registerForType(provider::getCapability, entityType.get());
+
     }
 
     @Override
     public ResourceLocation getIdentifier() {
-        return null;
+        return entityApiLookup.getId();
     }
 }

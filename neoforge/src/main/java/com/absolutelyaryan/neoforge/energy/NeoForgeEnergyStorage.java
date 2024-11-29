@@ -12,15 +12,14 @@ public class NeoForgeEnergyStorage implements IEnergyStorage {
     }
 
 
-
     @Override
     public int receiveEnergy(int toReceive, boolean simulate) {
-        return universalEnergyStorage.insertValue(toReceive, simulate);
+        return universalEnergyStorage.insert(toReceive, simulate);
     }
 
     @Override
     public int extractEnergy(int toExtract, boolean simulate) {
-        return universalEnergyStorage.extractValue(toExtract, simulate);
+        return universalEnergyStorage.extract(toExtract, simulate);
     }
 
     @Override
@@ -35,11 +34,15 @@ public class NeoForgeEnergyStorage implements IEnergyStorage {
 
     @Override
     public boolean canExtract() {
-        return universalEnergyStorage.canGiveEnergy();
+        return universalEnergyStorage.canExtractEnergy();
     }
 
     @Override
     public boolean canReceive() {
-        return universalEnergyStorage.canTakeEnergy();
+        return universalEnergyStorage.canInsertEnergy();
+    }
+
+    public UniversalEnergyStorage getUniversalEnergyStorage() {
+        return universalEnergyStorage;
     }
 }

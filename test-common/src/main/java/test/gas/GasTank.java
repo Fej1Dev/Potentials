@@ -1,6 +1,6 @@
 package test.gas;
 
-public class GasTank implements IGasStorage{
+public class GasTank implements IGasStorage {
     private int gas = 0;
     private int maxGas = 0;
 

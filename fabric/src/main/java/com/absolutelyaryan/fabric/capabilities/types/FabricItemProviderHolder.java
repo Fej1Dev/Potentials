@@ -1,12 +1,14 @@
 package com.absolutelyaryan.fabric.capabilities.types;
 
-import com.absolutelyaryan.capabilities.CapabilityProvider;
 import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
+import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public class FabricItemProviderHolder<X,Y> implements ItemCapabilityHolder<X,Y> {
 
@@ -22,11 +24,8 @@ public class FabricItemProviderHolder<X,Y> implements ItemCapabilityHolder<X,Y> 
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public void registerForItems(CapabilityProvider<ItemStack> provider, Item... items) {
-        for(Item item: items){
-            itemApiLookup.registerForItems((stack, context) -> (X) provider.getCapability(stack, context), item);
-        }
+    public void registerForItem(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item) {
+        itemApiLookup.registerForItems(provider::getCapability, item.get());
     }
 
     @Override
