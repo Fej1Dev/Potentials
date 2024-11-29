@@ -30,7 +30,8 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
     public void registerForItem(Supplier<Item> item) {
         itemApiLookup.registerForItems((stack, ctx) -> {
             if (stack.getItem() instanceof EnergyProvider.ITEM provider) {
-                return new FabricEnergyStorage(Objects.requireNonNull(provider.getEnergy(stack)));
+                var energy = provider.getEnergy(stack);
+                return energy == null ? null : new FabricEnergyStorage(energy);
             }
             return null;
         }, item.get());

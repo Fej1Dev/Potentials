@@ -6,7 +6,9 @@ import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.commons.lang3.NotImplementedException;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.Internal
 public class HolderHelper {
 
     @ExpectPlatform

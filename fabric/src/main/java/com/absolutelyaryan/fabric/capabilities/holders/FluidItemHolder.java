@@ -1,6 +1,7 @@
 package com.absolutelyaryan.fabric.capabilities.holders;
 
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
+import com.absolutelyaryan.fabric.energy.FabricEnergyStorage;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
 import com.absolutelyaryan.fabric.fluid.UniversalFluidWrapper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
@@ -29,10 +30,13 @@ public class FluidItemHolder implements NoProviderItemCapabilityHolder<Universal
 
     @Override
     public void registerForItem(Supplier<Item> item) {
-        itemApiLookup.registerForItems((stack, context) ->
-                stack.getItem() instanceof FluidProvider.ITEM provider
-                        ? new SingleVariantTank(provider.getFluidTank(stack))
-                        : null, item.get());
+        itemApiLookup.registerForItems((stack, context) -> {
+            if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
+                var fluid = fluidItem.getFluidTank(stack);
+                return fluid == null ? null : new SingleVariantTank(fluid);
+            }
+            return null;
+        }, item.get());
     }
 
     @Override

@@ -42,13 +42,12 @@ public class FluidItemHolder implements NoProviderItemCapabilityHolder<Universal
 
     @Override
     public void register(RegisterCapabilitiesEvent event) {
-        registeredItems.forEach(item ->
-                event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> {
-                    if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
-                        var fluid = fluidItem.getFluidTank(stack);
-                        return fluid == null ? null : new NeoForgeFluidItem(stack, fluid);
-                    }
-                    return null;
-                }, item.get()));
+        registeredItems.forEach(item -> event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> {
+            if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
+                var fluid = fluidItem.getFluidTank(stack);
+                return fluid == null ? null : new NeoForgeFluidItem(stack, fluid);
+            }
+            return null;
+        }, item.get()));
     }
 }

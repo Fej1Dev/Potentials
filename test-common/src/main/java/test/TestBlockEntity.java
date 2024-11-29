@@ -35,24 +35,24 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
         }
     }
 
-    public void tick() {
-        for (Direction direction : Direction.values()) {
-            BlockPos dPos = getBlockPos().relative(direction);
-            UniversalEnergyStorage relativeEnergy = Capabilities.Energy.BLOCK.getCapability(getLevel(), dPos, direction.getOpposite());
-            if (relativeEnergy!=null) {
-                int a = relativeEnergy.getEnergy();
-                TestMain.LOGGER.error(Integer.toString(a));
-                int amountOut = relativeEnergy.extract(10, true);
-                int amountIn = energy.insert(10, true);
-                int amount = Math.min(amountIn, amountOut);
-                if (amount>0) {
-                    relativeEnergy.extract(amount, false);
-                    energy.insert(amount, false);
-                    setChanged();
-                }
-            }
-        }
-    }
+//    public void tick() {
+//        for (Direction direction : Direction.values()) {
+//            BlockPos dPos = getBlockPos().relative(direction);
+//            UniversalEnergyStorage relativeEnergy = Capabilities.Energy.BLOCK.getCapability(getLevel(), dPos, direction.getOpposite());
+//            if (relativeEnergy!=null) {
+//                int a = relativeEnergy.getEnergy();
+//                TestMain.LOGGER.error(Integer.toString(a));
+//                int amountOut = relativeEnergy.extract(10, true);
+//                int amountIn = energy.insert(10, true);
+//                int amount = Math.min(amountIn, amountOut);
+//                if (amount>0) {
+//                    relativeEnergy.extract(amount, false);
+//                    energy.insert(amount, false);
+//                    setChanged();
+//                }
+//            }
+//        }
+//    }
 
 
     @Override

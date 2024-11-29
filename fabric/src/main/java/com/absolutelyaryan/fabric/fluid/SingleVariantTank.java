@@ -26,8 +26,6 @@ public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
         return baseFluidTank.getMaxAmount();
     }
 
-
-
     @Override
     public long insert(FluidVariant insertedVariant, long maxAmount, TransactionContext transaction) {
         if (insertedVariant.isBlank()) {

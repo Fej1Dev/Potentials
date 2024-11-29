@@ -3,8 +3,10 @@ package com.absolutelyaryan.neoforge.capabilities.holders;
 import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.neoforge.capabilities.Registerable;
+import com.absolutelyaryan.neoforge.energy.NeoForgeEnergyStorage;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidTank;
 import com.absolutelyaryan.neoforge.fluid.UniversalFluidStorage;
+import com.absolutelyaryan.providers.EnergyProvider;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -62,6 +64,10 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
         registeredBlocks.forEach(block ->
                 event.registerBlock(Capabilities.FluidHandler.BLOCK, (level, pos, state, blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
+                        var fluid = fluidBlock.getFluidTank(direction);
+                        return fluid == null ? null : new NeoForgeFluidTank(fluid);
+                    }
+                    if (state.getBlock() instanceof FluidProvider.BLOCK fluidBlock) {
                         var fluid = fluidBlock.getFluidTank(direction);
                         return fluid == null ? null : new NeoForgeFluidTank(fluid);
                     }

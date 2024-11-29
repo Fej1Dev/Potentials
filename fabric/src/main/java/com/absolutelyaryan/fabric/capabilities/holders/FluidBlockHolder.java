@@ -39,18 +39,28 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
 
     @Override
     public void registerForBlock(Supplier<Block> block) {
-        blockApiLookup.registerForBlocks((level, pos, state, blockEntity, direction) ->
-                blockEntity instanceof FluidProvider.BLOCK provider
-                        ? new SingleVariantTank(Objects.requireNonNull(provider.getFluidTank(direction)))
-                        : null, block.get());
+        blockApiLookup.registerForBlocks((level, pos, state, blockEntity, direction) -> {
+            if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
+                var fluid = fluidBlock.getFluidTank(direction);
+                return fluid == null ? null : new SingleVariantTank(fluid);
+            }
+            if (state.getBlock() instanceof FluidProvider.BLOCK fluidBlock) {
+                var fluid = fluidBlock.getFluidTank(direction);
+                return fluid == null ? null : new SingleVariantTank(fluid);
+            }
+            return null;
+        }, block.get());
     }
 
     @Override
     public void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
-        blockApiLookup.registerForBlockEntity((blockEntity, direction) ->
-                blockEntity instanceof FluidProvider.BLOCK provider
-                        ? new SingleVariantTank(Objects.requireNonNull(provider.getFluidTank(direction)))
-                        : null, blockEntityType.get());
+        blockApiLookup.registerForBlockEntity((blockEntity, direction) -> {
+            if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
+                var fluid = fluidBlock.getFluidTank(direction);
+                return fluid == null ? null : new SingleVariantTank(fluid);
+            }
+            return null;
+        }, blockEntityType.get());
     }
 
     @Override

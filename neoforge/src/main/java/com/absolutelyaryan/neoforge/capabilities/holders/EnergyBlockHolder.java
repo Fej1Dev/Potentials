@@ -61,11 +61,10 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     public void register(RegisterCapabilitiesEvent event) {
         registeredBlocks.forEach(block ->
                 event.registerBlock(Capabilities.EnergyStorage.BLOCK, (level, pos, state, blockEntity, direction) -> {
-                    if (blockEntity!=null)
-                        if (blockEntity instanceof EnergyProvider.BLOCK energyBlock){
+                    if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
                             var energy = energyBlock.getEnergy(direction);
                             return energy == null ? null : new NeoForgeEnergyStorage(energy);
-                        }
+                    }
                     if (state.getBlock() instanceof EnergyProvider.BLOCK energyBlock) {
                         var energy = energyBlock.getEnergy(direction);
                         return energy == null ? null : new NeoForgeEnergyStorage(energy);
