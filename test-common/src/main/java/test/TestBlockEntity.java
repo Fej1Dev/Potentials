@@ -90,7 +90,7 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     }
 
     @Override
-    public IGasStorage getGas(Direction direction) {
+    public @Nullable IGasStorage getGas() {
         return gasTank;
     }
 }
