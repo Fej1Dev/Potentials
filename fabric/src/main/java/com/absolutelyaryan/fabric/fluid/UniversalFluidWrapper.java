@@ -43,19 +43,26 @@ public class UniversalFluidWrapper implements UniversalFluidTank {
 
     @Override
     public long fillFluid(FluidStack stack, boolean simulate) {
-        if(simulate){
-            return stack.getAmount() + getFluidValue() > getMaxAmount() ? 0 : stack.getAmount();
+        try (Transaction transaction = Transaction.openOuter()) {
+            long inserted = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), transaction);
+            if (!simulate) {
+                transaction.commit();
+            }
+            return inserted;
         }
-        return storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), Transaction.openOuter());
     }
 
     @Override
     public long drainFluid(FluidStack stack, boolean simulate) {
-        if(simulate){
-            return stack.getAmount() - getFluidValue() < 0 ? 0 : stack.getAmount();
+        try (Transaction transaction = Transaction.openOuter()) {
+            long extracted = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), transaction);
+            if (!simulate) {
+                transaction.commit();
+            }
+            return extracted;
         }
-        return storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), Transaction.openOuter());
     }
+
 
     @Override
     public void setFluidValue(long amount) {
