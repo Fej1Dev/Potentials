@@ -23,7 +23,7 @@ public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
 
     @Override
     protected long getCapacity(FluidVariant variant) {
-        return baseFluidTank.getMaxAmount();
+        return ConversionHelper.milliBucketsToDroplets(baseFluidTank.getMaxAmount());
     }
 
     @Override
@@ -64,12 +64,12 @@ public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
 
     @Override
     public long getAmount() {
-        return baseFluidTank.getFluidValue();
+        return ConversionHelper.milliBucketsToDroplets(baseFluidTank.getFluidValue());
     }
 
     @Override
     public long getCapacity() {
-        return baseFluidTank.getMaxAmount();
+        return ConversionHelper.milliBucketsToDroplets(baseFluidTank.getMaxAmount());
     }
 
     public SingleVariantStorage<FluidVariant> getFluidTank(Direction direction) {

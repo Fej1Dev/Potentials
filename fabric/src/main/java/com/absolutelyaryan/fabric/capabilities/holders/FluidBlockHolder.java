@@ -1,6 +1,7 @@
 package com.absolutelyaryan.fabric.capabilities.holders;
 
 import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
+import com.absolutelyaryan.fabric.fluid.FluidStorageWrapper;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
 import com.absolutelyaryan.fabric.fluid.UniversalFluidWrapper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
@@ -28,7 +29,7 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
     @Override
     public @Nullable UniversalFluidTank getCapability(Level level, BlockPos pos, Direction context) {
         Storage<FluidVariant> fluidStorage = blockApiLookup.find(level, pos, context);
-        return fluidStorage instanceof SingleVariantTank tank ? new UniversalFluidWrapper(tank) : null;
+        return fluidStorage instanceof SingleVariantTank tank ? new UniversalFluidWrapper(tank) : new FluidStorageWrapper(fluidStorage);
     }
 
     @Override
