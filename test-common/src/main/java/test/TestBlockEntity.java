@@ -1,6 +1,5 @@
 package test;
 
-import com.absolutelyaryan.capabilities.Capabilities;
 import com.absolutelyaryan.energy.BaseEnergyStorage;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.BaseFluidTank;

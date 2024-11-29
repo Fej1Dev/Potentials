@@ -1,7 +1,6 @@
 package com.absolutelyaryan.fabric.capabilities.holders;
 
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
-import com.absolutelyaryan.fabric.energy.FabricEnergyStorage;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
 import com.absolutelyaryan.fabric.fluid.UniversalFluidWrapper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;

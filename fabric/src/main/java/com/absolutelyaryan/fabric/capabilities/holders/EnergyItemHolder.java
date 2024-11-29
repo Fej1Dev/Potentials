@@ -13,7 +13,6 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public class EnergyItemHolder implements NoProviderItemCapabilityHolder<UniversalEnergyStorage, Void> {

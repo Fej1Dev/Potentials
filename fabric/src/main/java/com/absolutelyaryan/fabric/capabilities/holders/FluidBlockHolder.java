@@ -19,7 +19,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
 import java.util.function.Supplier;
 
 public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<UniversalFluidTank, Direction> {
