@@ -2,7 +2,7 @@ package com.absolutelyaryan.neoforge.capabilities.holders;
 
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
-import com.absolutelyaryan.neoforge.capabilities.types.Registerable;
+import com.absolutelyaryan.neoforge.capabilities.Registerable;
 import com.absolutelyaryan.neoforge.energy.NeoForgeEnergyStorage;
 import com.absolutelyaryan.neoforge.energy.UniversalIEnergyStorage;
 import com.absolutelyaryan.providers.EnergyProvider;

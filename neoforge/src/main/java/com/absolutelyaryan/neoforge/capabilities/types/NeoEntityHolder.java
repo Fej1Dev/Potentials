@@ -2,6 +2,7 @@ package com.absolutelyaryan.neoforge.capabilities.types;
 
 import com.absolutelyaryan.capabilities.types.EntityCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
+import com.absolutelyaryan.neoforge.capabilities.Registerable;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

@@ -2,7 +2,7 @@ package com.absolutelyaryan.neoforge.capabilities.holders;
 
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
-import com.absolutelyaryan.neoforge.capabilities.types.Registerable;
+import com.absolutelyaryan.neoforge.capabilities.Registerable;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidItem;
 import com.absolutelyaryan.neoforge.fluid.UniversalFluidStorage;
 import com.absolutelyaryan.providers.FluidProvider;

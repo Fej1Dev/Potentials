@@ -3,6 +3,7 @@ package com.absolutelyaryan.neoforge.capabilities.types;
 import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.providers.BlockCapabilityProvider;
 import com.absolutelyaryan.capabilities.types.providers.CapabilityProvider;
+import com.absolutelyaryan.neoforge.capabilities.Registerable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;

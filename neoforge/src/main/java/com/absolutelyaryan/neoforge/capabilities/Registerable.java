@@ -1,4 +1,4 @@
-package com.absolutelyaryan.neoforge.capabilities.types;
+package com.absolutelyaryan.neoforge.capabilities;
 
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 

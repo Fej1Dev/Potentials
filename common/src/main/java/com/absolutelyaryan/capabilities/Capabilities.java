@@ -8,7 +8,7 @@ import com.absolutelyaryan.platform.CapabilitiesHelper;
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.Nullable;
 
-public class Capabilities {
+public final class Capabilities {
     public static final class Energy {
         public static final NoProviderBlockCapabilityHolder<UniversalEnergyStorage, @Nullable Direction> BLOCK = CapabilitiesHelper.getEnergyBlockCapability();
         public static final NoProviderItemCapabilityHolder<UniversalEnergyStorage, Void> ITEM = CapabilitiesHelper.getEnergyItemCapability();
