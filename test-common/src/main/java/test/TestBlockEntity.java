@@ -60,7 +60,7 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
         compoundTag.putInt("energy", energy.getEnergy());
         Tag tag;
         for(Direction direction : Direction.values()) {
-            if (this.tanks.get(direction).getBaseFluid() != FluidStack.empty().getFluid()) {
+            if (!this.tanks.get(direction).getFluidStack().isEmpty()) {
                 tag = new CompoundTag();
                 tag = FluidStackHooks.write(provider, this.tanks.get(direction).getFluidStack(), tag);
                 compoundTag.put("fluid", tag);

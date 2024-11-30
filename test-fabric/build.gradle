@@ -40,6 +40,8 @@ dependencies {
 
     //for testing
     modImplementation "curse.maven:energized-power-782147:5510660"
+    modImplementation "curse.maven:reborncore-237903:5939580"
+    modImplementation "curse.maven:techreborn-233564:5939581"
 
     implementation project(path: ":fabric", configuration: "namedElements")
     common(project(path: ":common", configuration: "namedElements")) { transitive false }

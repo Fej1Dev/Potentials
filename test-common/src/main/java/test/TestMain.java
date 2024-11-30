@@ -47,9 +47,11 @@ public class TestMain {
     }
 
     public static final RegistrySupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
+    public static final RegistrySupplier<Block> TEST_TANK_BLOCK = BLOCKS.register("test_tank_block", () -> new TestTankBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
 
     public static final RegistrySupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1), 1024, 1024, 1024));
     public static final RegistrySupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
+    public static final RegistrySupplier<Item> TEST_TANT_ITEM = ITEMS.register("test_tank", () -> new BlockItem(TEST_TANK_BLOCK.get(),new Item.Properties()));
 
     public static final RegistrySupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
 
@@ -61,6 +63,7 @@ public class TestMain {
 
         Capabilities.Energy.BLOCK.registerForBlock(TEST_BLOCK);
         Capabilities.Fluid.BLOCK.registerForBlock(TEST_BLOCK);
+        Capabilities.Fluid.BLOCK.registerForBlock(TEST_TANK_BLOCK);
 
         Capabilities.Energy.ITEM.registerForItem(TEST_ITEM);
         Capabilities.Fluid.ITEM.registerForItem(TEST_ITEM);
