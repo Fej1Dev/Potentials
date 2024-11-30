@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import org.jetbrains.annotations.NotNull;
 
 public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
+
     private final UniversalFluidTank baseFluidTank;
 
     public SingleVariantTank(@NotNull UniversalFluidTank baseFluidTank) {
@@ -26,31 +27,52 @@ public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
         return ConversionHelper.milliBucketsToDroplets(baseFluidTank.getMaxAmount());
     }
 
-    @Override
+   @Override
     public long insert(FluidVariant insertedVariant, long maxAmount, TransactionContext transaction) {
-        if (insertedVariant.isBlank()) {
+        if (insertedVariant.isBlank() || !supportsInsertion()) {
             return 0;
         }
+        long availableCapacity = getCapacity() - getAmount();
 
-        if (baseFluidTank.isValid(ConversionHelper.fromFabric(insertedVariant, maxAmount))) {
-            return baseFluidTank.fillFluid(FluidStackHooksFabric.fromFabric(insertedVariant, maxAmount), false);
-        }
+       long insertedAmount;
+       if (maxAmount > availableCapacity) {
+           insertedAmount = baseFluidTank.fillFluid(
+                   FluidStackHooksFabric.fromFabric(insertedVariant, ConversionHelper.dropletsToMilliBuckets(availableCapacity)),
+                   false
+           );
+       } else {
+           insertedAmount = baseFluidTank.fillFluid(
+                   FluidStackHooksFabric.fromFabric(insertedVariant, ConversionHelper.dropletsToMilliBuckets(maxAmount)),
+                   false
+           );
+       }
+       return maxAmount - ConversionHelper.milliBucketsToDroplets(insertedAmount);
+   }
 
-        return 0;
-    }
+
 
     @Override
     public long extract(FluidVariant extractedVariant, long maxAmount, TransactionContext transaction) {
         if (extractedVariant.isBlank()) {
             return 0;
         }
+        long availableAmount = getAmount();
 
-        if (baseFluidTank.isValid(ConversionHelper.fromFabric(extractedVariant, maxAmount))) {
-            return baseFluidTank.drainFluid(ConversionHelper.fromFabric(extractedVariant, maxAmount), false);
+        long extractedAmount;
+        if (maxAmount > availableAmount) {
+            extractedAmount = baseFluidTank.drainFluid(
+                    ConversionHelper.fromFabric(extractedVariant, ConversionHelper.dropletsToMilliBuckets(availableAmount)),
+                    false
+            );
+        } else {
+            extractedAmount = baseFluidTank.drainFluid(
+                    ConversionHelper.fromFabric(extractedVariant, ConversionHelper.dropletsToMilliBuckets(maxAmount)),
+                    false
+            );
         }
-
-        return 0;
+        return ConversionHelper.milliBucketsToDroplets(extractedAmount);
     }
+
 
     @Override
     public boolean isResourceBlank() {
@@ -74,6 +96,16 @@ public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
 
     public SingleVariantStorage<FluidVariant> getFluidTank(Direction direction) {
         return this;
+    }
+
+    @Override
+    public boolean supportsInsertion() {
+        return baseFluidTank.getFluidValue() < baseFluidTank.getMaxAmount();
+    }
+
+    @Override
+    public boolean supportsExtraction() {
+        return baseFluidTank.getFluidValue() > 0;
     }
 
     @Override
