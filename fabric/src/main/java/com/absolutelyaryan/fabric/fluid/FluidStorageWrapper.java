@@ -1,43 +1,47 @@
 package com.absolutelyaryan.fabric.fluid;
 
+import com.absolutelyaryan.fabric.utils.ConversionHelper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.world.level.material.Fluid;
 
 public class FluidStorageWrapper implements UniversalFluidTank {
     private final Storage<FluidVariant> storage;
+    private final StorageView<FluidVariant> view;
 
     public FluidStorageWrapper(Storage<FluidVariant> storage) {
         this.storage = storage;
+        this.view = storage.iterator().next();
     }
 
     @Override
     public Fluid getBaseFluid() {
-        return storage.iterator().next().getResource().getFluid();
+        return view.getResource().getFluid();
     }
 
     @Override
     public long getFluidValue() {
-        return storage.iterator().next().getAmount();
+        return ConversionHelper.dropletsToMilliBuckets(view.getAmount());
     }
 
     @Override
     public FluidStack getFluidStack() {
-        return FluidStackHooksFabric.fromFabric(storage.iterator().next());
+        return FluidStackHooksFabric.fromFabric(view);
     }
 
     @Override
     public long getMaxAmount() {
-        return storage.iterator().next().getCapacity();
+        return ConversionHelper.dropletsToMilliBuckets(view.getCapacity());
     }
 
     @Override
     public boolean isValid(FluidStack stack) {
-        return storage.iterator().next().getResource().equals(FluidStackHooksFabric.toFabric(stack));
+        return stack.isFluidEqual(getFluidStack());
     }
 
     @Override
@@ -45,7 +49,7 @@ public class FluidStorageWrapper implements UniversalFluidTank {
         try (Transaction transaction = Transaction.openOuter()) {
             long inserted = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), transaction);
             if (!simulate) transaction.commit();
-            return inserted;
+            return ConversionHelper.dropletsToMilliBuckets(inserted);
         }
     }
 
@@ -54,13 +58,13 @@ public class FluidStorageWrapper implements UniversalFluidTank {
         try (Transaction transaction = Transaction.openOuter()) {
             long extracted = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), transaction);
             if (!simulate) transaction.commit();
-            return extracted;
+            return ConversionHelper.dropletsToMilliBuckets(extracted);
         }
     }
 
     @Override
     public void setFluidValue(long amount) {
-        // Not supported
+
     }
 
     @Override
