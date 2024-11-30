@@ -39,12 +39,12 @@ public class BaseFluidTank implements UniversalFluidTank {
 
     @Override
     public boolean isValid(FluidStack stack) {
-        return this.stack.isFluidEqual(stack);
+        return this.stack.isFluidEqual(stack) || this.stack.isEmpty();
     }
 
     @Override
     public long fillFluid(FluidStack stack, boolean simulate) {
-        if (this.stack.getFluid() == stack.getFluid() || this.stack.isEmpty()) {
+        if (isValid(stack)) {
             long amount = this.stack.getAmount() + stack.getAmount();
             if (amount > maxAmount) {
                 amount = maxAmount;
@@ -60,7 +60,7 @@ public class BaseFluidTank implements UniversalFluidTank {
 
     @Override
     public long drainFluid(FluidStack stack, boolean simulate) {
-        if (this.stack.getFluid() == stack.getFluid() || this.stack.isEmpty()) {
+        if (isValid(stack)) {
             long amount = this.stack.getAmount() - stack.getAmount();
             if (amount < 0) {
                 amount = 0;
