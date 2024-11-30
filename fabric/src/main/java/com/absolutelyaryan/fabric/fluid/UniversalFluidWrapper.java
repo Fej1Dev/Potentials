@@ -1,6 +1,5 @@
 package com.absolutelyaryan.fabric.fluid;
 
-import com.absolutelyaryan.fabric.utils.ConversionHelper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
@@ -24,7 +23,7 @@ public class UniversalFluidWrapper implements UniversalFluidTank {
 
     @Override
     public long getFluidValue() {
-        return ConversionHelper.dropletsToMilliBuckets(storage.amount);
+        return storage.amount;
     }
 
     @Override
@@ -34,7 +33,7 @@ public class UniversalFluidWrapper implements UniversalFluidTank {
 
     @Override
     public long getMaxAmount() {
-        return ConversionHelper.dropletsToMilliBuckets(storage.getCapacity());
+        return storage.getCapacity();
     }
 
     @Override
@@ -67,7 +66,7 @@ public class UniversalFluidWrapper implements UniversalFluidTank {
 
     @Override
     public void setFluidValue(long amount) {
-        storage.amount = ConversionHelper.milliBucketsToDroplets(amount);
+        storage.amount = amount;
     }
 
     @Override
