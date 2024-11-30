@@ -4,26 +4,27 @@ import com.absolutelyaryan.fabric.utils.ConversionHelper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.NotNull;
 
-public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
+import java.util.Iterator;
+import java.util.List;
+
+public class SingleVariantTank implements Storage<FluidVariant> {
     private final UniversalFluidTank baseFluidTank;
 
     public SingleVariantTank(@NotNull UniversalFluidTank baseFluidTank) {
         this.baseFluidTank = baseFluidTank;
     }
 
-    @Override
-    protected FluidVariant getBlankVariant() {
-        return FluidVariant.blank();
-    }
 
     @Override
-    protected long getCapacity(FluidVariant variant) {
-        return ConversionHelper.milliBucketsToDroplets(baseFluidTank.getMaxAmount());
+    public boolean supportsInsertion() {
+        return baseFluidTank.getFluidValue() < baseFluidTank.getMaxAmount();
     }
 
     @Override
@@ -40,6 +41,11 @@ public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
     }
 
     @Override
+    public boolean supportsExtraction() {
+        return baseFluidTank.getFluidValue() > 0;
+    }
+
+    @Override
     public long extract(FluidVariant extractedVariant, long maxAmount, TransactionContext transaction) {
         if (extractedVariant.isBlank()) {
             return 0;
@@ -53,31 +59,8 @@ public class SingleVariantTank extends SingleVariantStorage<FluidVariant> {
     }
 
     @Override
-    public boolean isResourceBlank() {
-        return baseFluidTank.getFluidStack().isEmpty();
+    public @NotNull Iterator<StorageView<FluidVariant>> iterator() {
+        return List.of(new FluidStorageViewWrapper().getUnderlyingView()).iterator();
     }
 
-    @Override
-    public FluidVariant getResource() {
-        return FluidVariant.of(baseFluidTank.getFluidStack().getFluid());
-    }
-
-    @Override
-    public long getAmount() {
-        return ConversionHelper.milliBucketsToDroplets(baseFluidTank.getFluidValue());
-    }
-
-    @Override
-    public long getCapacity() {
-        return ConversionHelper.milliBucketsToDroplets(baseFluidTank.getMaxAmount());
-    }
-
-    public SingleVariantStorage<FluidVariant> getFluidTank(Direction direction) {
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "FluidTankToSingleVariantStorage[Fluid: " + getResource() + ", Amount: " + getAmount() + "]";
-    }
 }
