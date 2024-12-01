@@ -48,13 +48,4 @@ public class UniversalFluidStorage implements UniversalFluidTank {
         return fluidHandler.drain(0, simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE).getAmount();
     }
 
-    @Override
-    public void setFluidValue(long amount) {
-        fluidHandler.getFluidInTank(0).setAmount((int) amount);
-    }
-
-    @Override
-    public void setMaxAmount(long amount) {
-        // Not supported
-    }
 }

@@ -1,6 +1,7 @@
 package com.absolutelyaryan.neoforge.capabilities.holders;
 
 import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
+import com.absolutelyaryan.capabilities.types.NoProviderFluidBlockCapabilityHolder;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.neoforge.capabilities.Registerable;
 import com.absolutelyaryan.neoforge.fluid.NeoForgeFluidTank;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<UniversalFluidTank, Direction>, Registerable {
+public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<UniversalFluidTank, Direction>, Registerable {
     public static final FluidBlockHolder INSTANCE = new FluidBlockHolder();
     private FluidBlockHolder() {registerSelf();}
 
@@ -31,15 +32,14 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
     private final List<Supplier<BlockEntityType<?>>> registeredBlockEntities = new ArrayList<>();
 
     @Override
-    public @Nullable UniversalFluidTank getCapability(Level level, BlockPos pos, Direction context) {
-        IFluidHandler fluidTank = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, context);
-        return fluidTank == null ? null : new UniversalFluidStorage(fluidTank);
+    public @Nullable List<UniversalFluidTank> getCapability(Level level, BlockPos pos, Direction direction) {
+        return getCapability(level, pos, null, null, direction);
     }
 
     @Override
-    public @Nullable UniversalFluidTank getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction context) {
-        IFluidHandler fluidTank = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, state, blockEntity, context);
-        return fluidTank == null ? null : new UniversalFluidStorage(fluidTank);
+    public @Nullable List<UniversalFluidTank> getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction direction) {
+        IFluidHandler fluidTank = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, state, blockEntity, direction);
+        return fluidTank == null ? null : List.of(new UniversalFluidStorage(fluidTank));
     }
 
     @Override

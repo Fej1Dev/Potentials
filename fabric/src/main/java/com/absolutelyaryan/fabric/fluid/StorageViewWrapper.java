@@ -10,13 +10,14 @@ import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.world.level.material.Fluid;
 
-public class FluidStorageWrapper implements UniversalFluidTank {
-    private final Storage<FluidVariant> storage;
-    private final StorageView<FluidVariant> view;
+public class StorageViewWrapper implements UniversalFluidTank {
 
-    public FluidStorageWrapper(Storage<FluidVariant> storage) {
+    private final StorageView<FluidVariant> view;
+    private final Storage<FluidVariant> storage;
+
+    public StorageViewWrapper(Storage<FluidVariant> storage, StorageView<FluidVariant> view) {
+        this.view = view;
         this.storage = storage;
-        this.view = storage.iterator().next();
     }
 
     @Override
@@ -46,20 +47,25 @@ public class FluidStorageWrapper implements UniversalFluidTank {
 
     @Override
     public long fillFluid(FluidStack stack, boolean simulate) {
-        try (Transaction transaction = Transaction.openOuter()) {
-            long inserted = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), transaction);
-            if (!simulate) transaction.commit();
-            return ConversionHelper.dropletsToMilliBuckets(inserted);
+        if(FluidStackHooksFabric.fromFabric(view).getFluid()==stack.getFluid() || FluidStackHooksFabric.fromFabric(view).isEmpty()) {
+            try (Transaction transaction = Transaction.openOuter()) {
+                long inserted = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), transaction);
+                if (!simulate) transaction.commit();
+                return ConversionHelper.dropletsToMilliBuckets(inserted);
+            }
         }
+        return 0;
     }
 
     @Override
     public long drainFluid(FluidStack stack, boolean simulate) {
-        try (Transaction transaction = Transaction.openOuter()) {
-            long extracted = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), transaction);
-            if (!simulate) transaction.commit();
-            return ConversionHelper.dropletsToMilliBuckets(extracted);
+        if(FluidStackHooksFabric.fromFabric(view).getFluid()==stack.getFluid()) {
+            try (Transaction transaction = Transaction.openOuter()) {
+                long extracted = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount(), transaction);
+                if (!simulate) transaction.commit();
+                return ConversionHelper.dropletsToMilliBuckets(extracted);
+            }
         }
+        return 0;
     }
-
 }

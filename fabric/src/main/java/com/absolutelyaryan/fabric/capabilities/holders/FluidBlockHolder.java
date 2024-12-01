@@ -1,9 +1,8 @@
 package com.absolutelyaryan.fabric.capabilities.holders;
 
-import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
-import com.absolutelyaryan.fabric.fluid.FluidStorageWrapper;
+import com.absolutelyaryan.capabilities.types.NoProviderFluidBlockCapabilityHolder;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
-import com.absolutelyaryan.fabric.fluid.UniversalFluidWrapper;
+import com.absolutelyaryan.fabric.fluid.StorageViewWrapper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
@@ -20,21 +19,31 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
-public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<UniversalFluidTank, Direction> {
+public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<UniversalFluidTank, Direction> {
     public static final FluidBlockHolder INSTANCE = new FluidBlockHolder();
     private final BlockApiLookup<Storage<FluidVariant>, @Nullable Direction> blockApiLookup = FluidStorage.SIDED;
 
     @Override
-    public @Nullable UniversalFluidTank getCapability(Level level, BlockPos pos, Direction context) {
-        Storage<FluidVariant> fluidStorage = blockApiLookup.find(level, pos, context);
-        return fluidStorage instanceof SingleVariantTank tank ? new UniversalFluidWrapper(tank) : new FluidStorageWrapper(fluidStorage);
+    public @Nullable List<UniversalFluidTank> getCapability(Level level, BlockPos pos, Direction direction) {
+        return getCapability(level, pos, null, null, direction);
     }
 
     @Override
-    public @Nullable UniversalFluidTank getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction context) {
-        return getCapability(level, pos, context);
+    public @Nullable List<UniversalFluidTank> getCapability(Level level, BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, Direction direction) {
+        Storage<FluidVariant> fluidStorage = blockApiLookup.find(level, pos, state, blockEntity, direction);
+        List<UniversalFluidTank> tanks = new ArrayList<>();
+        if (fluidStorage == null) return null;
+        fluidStorage.iterator().forEachRemaining(storageView -> {
+            UniversalFluidTank tank = new StorageViewWrapper(fluidStorage, storageView);
+            tanks.add(tank);
+        });
+        return Collections.unmodifiableList(tanks);
     }
 
     @Override

@@ -73,15 +73,4 @@ public class BaseFluidTank implements UniversalFluidTank {
         return 0;
     }
 
-    @Override
-    public void setFluidValue(long amount) {
-        stack.setAmount(amount);
-    }
-
-    @Override
-    public void setMaxAmount(long amount) {
-        maxAmount = amount;
-    }
-
-
 }

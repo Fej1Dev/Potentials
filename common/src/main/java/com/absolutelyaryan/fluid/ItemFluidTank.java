@@ -85,14 +85,4 @@ public class ItemFluidTank implements UniversalFluidTank {
         return 0;
     }
 
-    @Override
-    public void setFluidValue(long amount) {
-        stack.setAmount(amount);
-        itemStack.set(this.component, stack);
-    }
-
-    @Override
-    public void setMaxAmount(long amount) {
-        maxAmount = amount;
-    }
 }

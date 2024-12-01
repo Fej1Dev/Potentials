@@ -31,14 +31,13 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     private final List<Supplier<BlockEntityType<?>>> registeredBlockEntities = new ArrayList<>();
 
     @Override
-    public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, Direction context) {
-        IEnergyStorage energyStorage =  level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, context);
-        return energyStorage == null ? null : new UniversalIEnergyStorage(energyStorage);
+    public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, Direction direction) {
+        return getCapability(level, pos, null, null, direction);
     }
 
     @Override
-    public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction context) {
-        IEnergyStorage energyStorage = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, state, blockEntity, context);
+    public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction direction) {
+        IEnergyStorage energyStorage = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, state, blockEntity, direction);
         return energyStorage == null ? null : new UniversalIEnergyStorage(energyStorage);
     }
 

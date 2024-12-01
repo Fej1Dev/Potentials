@@ -1,6 +1,7 @@
 package com.absolutelyaryan.platform;
 
 import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
+import com.absolutelyaryan.capabilities.types.NoProviderFluidBlockCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
@@ -23,7 +24,7 @@ public class CapabilitiesHelper {
     }
 
     @ExpectPlatform
-    public static NoProviderBlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> getFluidBlockCapability() {
+    public static NoProviderFluidBlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> getFluidBlockCapability() {
         throw new NotImplementedException();
     }
 
