@@ -20,6 +20,8 @@ import test.gas.GasProvider;
 import test.gas.GasTank;
 import test.gas.IGasStorage;
 
+import java.util.List;
+
 public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider.ITEM, GasProvider.ITEM {
 
     protected int capacity;
@@ -54,8 +56,9 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
         if (!level.isClientSide()) {
             BlockPos pos = useOnContext.getClickedPos();
             Direction direction = useOnContext.getClickedFace();
-            UniversalFluidTank fluid = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
-            if (fluid != null && useOnContext.getPlayer() != null) {
+            List<UniversalFluidTank> fluids = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
+            if (useOnContext.getPlayer() != null && fluids!=null)
+                for (UniversalFluidTank fluid : fluids) {
                 useOnContext.getPlayer().sendSystemMessage(Component.literal(fluid.getBaseFluid().defaultFluidState().toString()));
                 useOnContext.getPlayer().sendSystemMessage(Component.literal(fluid.getFluidValue() + "/" + fluid.getMaxAmount()));
             }
