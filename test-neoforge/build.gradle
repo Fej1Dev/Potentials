@@ -50,6 +50,7 @@ dependencies {
 
     //for testing
     modImplementation "curse.maven:energized-power-782147:5510706"
+    modImplementation "curse.maven:mekanism-268560:5574951"
 
     implementation(project(path: ":neoforge", configuration: "namedElements")) { transitive false }
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
