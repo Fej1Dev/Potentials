@@ -1,5 +1,6 @@
 package com.absolutelyaryan.energy;
 
+
 public interface UniversalEnergyStorage {
 
     int getEnergy();

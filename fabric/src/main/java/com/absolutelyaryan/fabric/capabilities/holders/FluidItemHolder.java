@@ -1,8 +1,10 @@
 package com.absolutelyaryan.fabric.capabilities.holders;
 
+import com.absolutelyaryan.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
 import com.absolutelyaryan.fabric.fluid.FluidStorageWrapper;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
+import com.absolutelyaryan.fabric.fluid.StorageViewWrapper;
 import com.absolutelyaryan.fabric.fluid.UniversalFluidWrapper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.providers.FluidProvider;
@@ -16,16 +18,25 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.function.Supplier;
 
-public class FluidItemHolder implements NoProviderItemCapabilityHolder<UniversalFluidTank, Void> {
+public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<UniversalFluidTank, Void> {
     public static final FluidItemHolder INSTANCE = new FluidItemHolder();
     private final ItemApiLookup<Storage<FluidVariant>, ContainerItemContext> itemApiLookup = FluidStorage.ITEM;
 
     @Override
-    public @Nullable UniversalFluidTank getCapability(ItemStack stack) {
+    public @Nullable List<UniversalFluidTank> getCapability(ItemStack stack) {
         Storage<FluidVariant> fluidStorage = itemApiLookup.find(stack, null);
-        return fluidStorage instanceof SingleVariantTank tank ? new UniversalFluidWrapper(tank) : new FluidStorageWrapper(fluidStorage);
+        List<UniversalFluidTank> tanks = new ArrayList<>();
+        if (fluidStorage == null) return null;
+        fluidStorage.iterator().forEachRemaining(storageView -> {
+            UniversalFluidTank tank = new StorageViewWrapper(fluidStorage, storageView);
+            tanks.add(tank);
+        });
+        return Collections.unmodifiableList(tanks);
     }
 
     @Override
