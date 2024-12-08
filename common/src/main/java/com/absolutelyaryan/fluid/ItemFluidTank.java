@@ -4,6 +4,7 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 public class ItemFluidTank implements UniversalFluidTank {
     private long maxAmount;
@@ -14,24 +15,21 @@ public class ItemFluidTank implements UniversalFluidTank {
         this.itemStack = itemStack;
         this.maxAmount = maxAmount;
         this.component = component;
-
-        if (!itemStack.has(this.component))
-            itemStack.set(this.component, FluidStack.empty());
     }
 
     @Override
     public Fluid getBaseFluid() {
-        return itemStack.get(component).getFluid();
+        return itemStack.getOrDefault(component, FluidStack.empty()).getFluid();
     }
 
     @Override
     public long getFluidValue() {
-        return itemStack.get(component).getAmount();
+        return itemStack.getOrDefault(component, FluidStack.empty()).getAmount();
     }
 
     @Override
     public FluidStack getFluidStack() {
-        return itemStack.get(component);
+        return itemStack.getOrDefault(component, FluidStack.empty());
     }
 
     public void setFluidStack(FluidStack stack) {
