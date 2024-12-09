@@ -2,6 +2,7 @@ package com.absolutelyaryan.platform.fabric;
 
 import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.NoProviderFluidBlockCapabilityHolder;
+import com.absolutelyaryan.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
 import com.absolutelyaryan.energy.UniversalEnergyStorage;
 import com.absolutelyaryan.fabric.capabilities.holders.EnergyBlockHolder;
@@ -28,7 +29,7 @@ public class CapabilitiesHelperImpl {
         return FluidBlockHolder.INSTANCE;
     }
 
-    public static NoProviderItemCapabilityHolder<UniversalFluidTank, Void> getFluidItemCapability() {
+    public static NoProviderFluidItemCapabilityHolder<UniversalFluidTank, Void> getFluidItemCapability() {
         return FluidItemHolder.INSTANCE;
     }
 

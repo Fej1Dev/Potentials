@@ -63,7 +63,4 @@ public class UniversalFluidWrapper implements UniversalFluidTank {
             return extracted;
         }
     }
-
-
-
 }

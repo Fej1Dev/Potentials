@@ -1,5 +1,6 @@
 package com.absolutelyaryan.neoforge.capabilities.holders;
 
+import com.absolutelyaryan.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.neoforge.capabilities.Registerable;
@@ -18,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FluidItemHolder implements NoProviderItemCapabilityHolder<UniversalFluidTank, Void>, Registerable {
+public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<UniversalFluidTank, Void>, Registerable {
     public static final FluidItemHolder INSTANCE = new FluidItemHolder();
     private FluidItemHolder() {registerSelf();}
 
     private final List<Supplier<Item>> registeredItems = new ArrayList<>();
 
     @Override
-    public @Nullable UniversalFluidTank getCapability(ItemStack stack) {
+    public @Nullable List<UniversalFluidTank> getCapability(ItemStack stack) {
         IFluidHandler fluidTank = stack.getCapability(Capabilities.FluidHandler.ITEM);
-        return fluidTank == null ? null : new UniversalFluidStorage(fluidTank);
+        return fluidTank == null ? null : List.of(new UniversalFluidStorage(fluidTank));
     }
 
     @Override

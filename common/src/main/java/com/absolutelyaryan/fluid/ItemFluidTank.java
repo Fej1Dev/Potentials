@@ -4,9 +4,9 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 
 public class ItemFluidTank implements UniversalFluidTank {
-    private FluidStack stack;
     private long maxAmount;
     private final ItemStack itemStack;
     private final DataComponentType<FluidStack> component;
@@ -15,32 +15,25 @@ public class ItemFluidTank implements UniversalFluidTank {
         this.itemStack = itemStack;
         this.maxAmount = maxAmount;
         this.component = component;
-
-        if (itemStack.has(this.component)) {
-            stack = itemStack.get(this.component);
-        } else {
-            stack = FluidStack.empty();
-            itemStack.set(this.component, stack);
-        }
     }
 
     @Override
     public Fluid getBaseFluid() {
-        return stack.getFluid();
+        return itemStack.getOrDefault(component, FluidStack.empty()).getFluid();
     }
 
     @Override
     public long getFluidValue() {
-        return stack.getAmount();
+        return itemStack.getOrDefault(component, FluidStack.empty()).getAmount();
     }
 
     @Override
     public FluidStack getFluidStack() {
-        return stack;
+        return itemStack.getOrDefault(component, FluidStack.empty());
     }
 
     public void setFluidStack(FluidStack stack) {
-        this.stack = stack;
+        itemStack.set(component, stack);
     }
 
     @Override
@@ -50,13 +43,13 @@ public class ItemFluidTank implements UniversalFluidTank {
 
     @Override
     public boolean isValid(FluidStack otherStack) {
-        return this.stack.isFluidEqual(otherStack);
+        return getFluidStack().isFluidEqual(otherStack) || getFluidStack().isEmpty();
     }
 
     @Override
     public long fillFluid(FluidStack fluidStack, boolean simulate) {
-        if (this.stack.getFluid() == fluidStack.getFluid() || this.stack.isEmpty()) {
-            long amount = this.stack.getAmount() + fluidStack.getAmount();
+        if (isValid(fluidStack)) {
+            long amount = getFluidValue() + fluidStack.getAmount();
             if (amount > maxAmount) {
                 amount = maxAmount;
             }
@@ -71,8 +64,8 @@ public class ItemFluidTank implements UniversalFluidTank {
 
     @Override
     public long drainFluid(FluidStack fluidStack, boolean simulate) {
-        if (this.stack.getFluid() == fluidStack.getFluid() || this.stack.isEmpty()) {
-            long amount = this.stack.getAmount() - fluidStack.getAmount();
+        if (isValid(fluidStack)) {
+            long amount = getFluidValue() - fluidStack.getAmount();
             if (amount < 0) {
                 amount = 0;
             }
