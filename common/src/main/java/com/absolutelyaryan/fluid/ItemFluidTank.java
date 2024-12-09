@@ -48,34 +48,22 @@ public class ItemFluidTank implements UniversalFluidTank {
 
     @Override
     public long fillFluid(FluidStack fluidStack, boolean simulate) {
-        if (isValid(fluidStack)) {
-            long amount = getFluidValue() + fluidStack.getAmount();
-            if (amount > maxAmount) {
-                amount = maxAmount;
-            }
+        if (!isValid(fluidStack)) return 0;
 
-            if (!simulate) {
-                setFluidStack(FluidStack.create(fluidStack, amount));
-            }
-            return amount;
-        }
-        return 0;
+        long toReceive = Math.min(maxAmount, Math.clamp(fluidStack.getAmount(), 0, maxAmount - getFluidValue()));
+        if (!simulate)
+            setFluidStack(FluidStack.create(fluidStack, toReceive));
+        return toReceive;
     }
 
     @Override
     public long drainFluid(FluidStack fluidStack, boolean simulate) {
-        if (isValid(fluidStack)) {
-            long amount = getFluidValue() - fluidStack.getAmount();
-            if (amount < 0) {
-                amount = 0;
-            }
+        if (!isValid(fluidStack)) return 0;
 
-            if (!simulate) {
-                setFluidStack(FluidStack.create(fluidStack, amount));
-            }
-            return amount;
-        }
-        return 0;
+        long toDrain = Math.min(maxAmount, Math.clamp(fluidStack.getAmount(), 0, getFluidValue()));
+        if (!simulate)
+            setFluidStack(FluidStack.create(fluidStack, getFluidValue() - toDrain));
+        return toDrain;
     }
 
 }

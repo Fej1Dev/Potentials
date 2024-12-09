@@ -44,33 +44,25 @@ public class BaseFluidTank implements UniversalFluidTank {
 
     @Override
     public long fillFluid(FluidStack stack, boolean simulate) {
-        if (isValid(stack)) {
-            long amount = this.stack.getAmount() + stack.getAmount();
-            if (amount > maxAmount) {
-                amount = maxAmount;
-            }
+        if (!isValid(stack)) return 0;
 
-            if (!simulate) {
-                setFluidStack(FluidStack.create(stack, amount));
-            }
-            return amount;
+        long toReceive = Math.min(maxAmount, Math.min(stack.getAmount(), maxAmount - getFluidValue()));
+        if (!simulate) {
+            setFluidStack(FluidStack.create(stack, toReceive));
         }
-        return 0;
+        return toReceive;
     }
 
     @Override
     public long drainFluid(FluidStack stack, boolean simulate) {
-        if (isValid(stack)) {
-            long amount = this.stack.getAmount() - stack.getAmount();
-            if (amount < 0) {
-                amount = 0;
-            }
-            if (!simulate) {
-                setFluidStack(FluidStack.create(stack, amount));
-            }
-            return amount;
+        if (!isValid(stack)) return 0;
+
+        long toDrain = Math.min(stack.getAmount(), getFluidValue());
+        if (!simulate) {
+            setFluidStack(FluidStack.create(this.stack, getFluidValue() - toDrain));
         }
-        return 0;
+        return toDrain;
+
     }
 
 }

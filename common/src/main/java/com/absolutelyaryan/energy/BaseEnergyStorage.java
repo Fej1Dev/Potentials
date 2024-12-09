@@ -28,31 +28,24 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
     }
 
     @Override
-    public int insert(int toReceive, boolean simulate) {
-        if (!canInsertEnergy() || toReceive <= 0) {
-            return 0;
-        }
-        int amount = this.energy + toReceive;
-        if (amount > capacity) {
-            toReceive = capacity - this.energy;
-        }
-        if (!simulate) {
-            this.energy += toReceive;
-        }
+    public int insert(int amount, boolean simulate) {
+        if (!canInsertEnergy()) return 0;
+
+        int toReceive = Math.min(maxReceive, Math.clamp(amount, 0, getMaxEnergy() - getEnergy()));
+        if (!simulate)
+            setEnergyStored(getEnergy() + toReceive);
+
         return toReceive;
     }
 
     @Override
-    public int extract(int toExtract, boolean simulate) {
-        if (!canExtractEnergy() || toExtract <= 0)
-            return 0;
-        int amount = this.energy - toExtract;
-        if (amount < 0) {
-            toExtract = this.energy;
-        }
-        if (!simulate) {
-            this.energy -= toExtract;
-        }
+    public int extract(int amount, boolean simulate) {
+        if (!canExtractEnergy()) return 0;
+
+        int toExtract = Math.min(maxExtract, Math.clamp(amount, 0, getEnergy()));
+        if (!simulate)
+            setEnergyStored(getEnergy() - toExtract);
+
         return toExtract;
     }
 
