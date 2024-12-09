@@ -8,13 +8,21 @@ import net.minecraft.world.level.material.Fluids;
 
 public class ItemFluidTank implements UniversalFluidTank {
     private long maxAmount;
+    private long maxFill;
+    private long maxDrain;
     private final ItemStack itemStack;
     private final DataComponentType<FluidStack> component;
 
     public ItemFluidTank(ItemStack itemStack, DataComponentType<FluidStack> component, long maxAmount) {
+        this(itemStack, component, maxAmount, maxAmount, maxAmount);
+    }
+
+    public ItemFluidTank(ItemStack itemStack, DataComponentType<FluidStack> component, long maxAmount,  long maxFill, long maxDrain) {
         this.itemStack = itemStack;
         this.maxAmount = maxAmount;
         this.component = component;
+        this.maxFill = maxFill;
+        this.maxDrain = maxDrain;
     }
 
     @Override
@@ -47,22 +55,22 @@ public class ItemFluidTank implements UniversalFluidTank {
     }
 
     @Override
-    public long fillFluid(FluidStack fluidStack, boolean simulate) {
-        if (!isValid(fluidStack)) return 0;
+    public long fillFluid(FluidStack stack, boolean simulate) {
+        if (!isValid(stack)) return 0;
 
-        long toReceive = Math.min(maxAmount, Math.clamp(fluidStack.getAmount(), 0, maxAmount - getFluidValue()));
+        long toReceive = Math.clamp(this.maxAmount - getFluidValue(), 0, Math.min(this.maxFill, stack.getAmount()));
         if (!simulate)
-            setFluidStack(FluidStack.create(fluidStack, toReceive));
+            setFluidStack(FluidStack.create(stack, toReceive));
         return toReceive;
     }
 
     @Override
-    public long drainFluid(FluidStack fluidStack, boolean simulate) {
-        if (!isValid(fluidStack)) return 0;
+    public long drainFluid(FluidStack stack, boolean simulate) {
+        if (!isValid(stack)) return 0;
 
-        long toDrain = Math.min(maxAmount, Math.clamp(fluidStack.getAmount(), 0, getFluidValue()));
+        long toDrain = Math.min(getFluidValue(), Math.min(this.maxDrain, stack.getAmount()));
         if (!simulate)
-            setFluidStack(FluidStack.create(fluidStack, getFluidValue() - toDrain));
+            setFluidStack(FluidStack.create(stack, getFluidValue() - toDrain));
         return toDrain;
     }
 

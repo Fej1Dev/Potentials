@@ -6,12 +6,19 @@ import net.minecraft.world.level.material.Fluid;
 public class BaseFluidTank implements UniversalFluidTank {
     private FluidStack stack;
     private long maxAmount;
+    private long maxFill;
+    private long maxDrain;
 
     public BaseFluidTank(long maxAmount) {
-        this.stack = FluidStack.empty();
-        this.maxAmount = maxAmount;
+        this(maxAmount, maxAmount, maxAmount);
     }
 
+    public BaseFluidTank(long maxAmount, long maxFill, long maxDrain) {
+        this.stack = FluidStack.empty();
+        this.maxAmount = maxAmount;
+        this.maxFill = maxFill;
+        this.maxDrain = maxDrain;
+    }
 
     @Override
     public Fluid getBaseFluid() {
@@ -46,9 +53,9 @@ public class BaseFluidTank implements UniversalFluidTank {
     public long fillFluid(FluidStack stack, boolean simulate) {
         if (!isValid(stack)) return 0;
 
-        long toReceive = Math.min(maxAmount, Math.min(stack.getAmount(), maxAmount - getFluidValue()));
+        long toReceive = Math.clamp(this.maxAmount - getFluidValue(), 0, Math.min(this.maxFill, stack.getAmount()));
         if (!simulate) {
-            setFluidStack(FluidStack.create(stack, toReceive));
+            setFluidStack(FluidStack.create(stack, getFluidValue() + toReceive));
         }
         return toReceive;
     }
@@ -57,7 +64,7 @@ public class BaseFluidTank implements UniversalFluidTank {
     public long drainFluid(FluidStack stack, boolean simulate) {
         if (!isValid(stack)) return 0;
 
-        long toDrain = Math.min(stack.getAmount(), getFluidValue());
+        long toDrain = Math.min(getFluidValue(), Math.min(this.maxDrain, stack.getAmount()));
         if (!simulate) {
             setFluidStack(FluidStack.create(this.stack, getFluidValue() - toDrain));
         }

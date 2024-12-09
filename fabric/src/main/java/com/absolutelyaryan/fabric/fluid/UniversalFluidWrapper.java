@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.world.level.material.Fluid;
 
+@Deprecated(forRemoval = true)
 public class UniversalFluidWrapper implements UniversalFluidTank {
     private final SingleVariantStorage<FluidVariant> storage;
 

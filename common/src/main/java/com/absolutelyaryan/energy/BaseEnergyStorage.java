@@ -31,7 +31,7 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
     public int insert(int amount, boolean simulate) {
         if (!canInsertEnergy()) return 0;
 
-        int toReceive = Math.min(maxReceive, Math.clamp(amount, 0, getMaxEnergy() - getEnergy()));
+        int toReceive = Math.clamp(this.capacity - getEnergy(), 0, Math.min(this.maxReceive, amount));
         if (!simulate)
             setEnergyStored(getEnergy() + toReceive);
 
@@ -42,7 +42,7 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
     public int extract(int amount, boolean simulate) {
         if (!canExtractEnergy()) return 0;
 
-        int toExtract = Math.min(maxExtract, Math.clamp(amount, 0, getEnergy()));
+        int toExtract = Math.min(getEnergy(), Math.min(this.maxExtract, amount));
         if (!simulate)
             setEnergyStored(getEnergy() - toExtract);
 

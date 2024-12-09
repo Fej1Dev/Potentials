@@ -1,11 +1,8 @@
 package com.absolutelyaryan.fabric.capabilities.holders;
 
 import com.absolutelyaryan.capabilities.types.NoProviderFluidItemCapabilityHolder;
-import com.absolutelyaryan.capabilities.types.NoProviderItemCapabilityHolder;
-import com.absolutelyaryan.fabric.fluid.FluidStorageWrapper;
 import com.absolutelyaryan.fabric.fluid.SingleVariantTank;
 import com.absolutelyaryan.fabric.fluid.StorageViewWrapper;
-import com.absolutelyaryan.fabric.fluid.UniversalFluidWrapper;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
