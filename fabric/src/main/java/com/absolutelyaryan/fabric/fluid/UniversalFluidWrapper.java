@@ -65,13 +65,5 @@ public class UniversalFluidWrapper implements UniversalFluidTank {
     }
 
 
-    @Override
-    public void setFluidValue(long amount) {
-        storage.amount = ConversionHelper.milliBucketsToDroplets(amount);
-    }
 
-    @Override
-    public void setMaxAmount(long amount) {
-        //not supported
-    }
 }

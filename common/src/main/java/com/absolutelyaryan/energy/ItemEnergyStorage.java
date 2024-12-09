@@ -44,21 +44,28 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
             return 0;
         }
 
-        int inserted = Mth.clamp(this.capacity - getEnergy(), 0, Math.min(this.maxReceive, toReceive));
-        if (!simulate)
-            setEnergyStored(getEnergy() + inserted);
-        return inserted;
+        int amount = getEnergy() + toReceive;
+        if(amount > capacity) {
+            toReceive = capacity - getEnergy();
+        }
+        if (!simulate) {
+            setEnergyStored(getEnergy() + toReceive);
+        }
+        return toReceive;
     }
 
     @Override
     public int extract(int toExtract, boolean simulate) {
         if (!canExtractEnergy() || toExtract <= 0)
             return 0;
-
-        int extracted = Math.min(getEnergy(), Math.min(this.maxExtract, toExtract));
-        if (!simulate)
-            setEnergyStored(getEnergy() - extracted);
-        return extracted;
+        int amount = getEnergy() - toExtract;
+        if (amount < 0) {
+            toExtract = getEnergy();
+        }
+        if (!simulate) {
+            setEnergyStored(getEnergy() - toExtract);
+        }
+        return toExtract;
     }
 
     @Override
