@@ -4,7 +4,6 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 
 public class ItemFluidTank implements UniversalFluidTank {
     private long maxAmount;

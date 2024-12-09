@@ -1,6 +1,5 @@
 package com.absolutelyaryan.neoforge.capabilities.holders;
 
-import com.absolutelyaryan.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.absolutelyaryan.capabilities.types.NoProviderFluidBlockCapabilityHolder;
 import com.absolutelyaryan.fluid.UniversalFluidTank;
 import com.absolutelyaryan.neoforge.capabilities.Registerable;
