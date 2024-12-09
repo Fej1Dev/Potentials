@@ -24,6 +24,19 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
         this(stack, component, capacity, capacity, capacity);
     }
 
+    @Override
+    public int getEnergy() {
+        return stack.getOrDefault(component, 0);
+    }
+
+    @Override
+    public int getMaxEnergy() {
+        return capacity;
+    }
+
+    /**
+     * This method does not check for max receive and extract, or if energy can be inserted or extracted
+     */
     public void setEnergyStored(int amount) {
         stack.set(component, Math.clamp(amount, 0, getMaxEnergy()));
     }
@@ -39,43 +52,25 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
     }
 
     @Override
-    public int insert(int toReceive, boolean simulate) {
-        if (!canInsertEnergy() || toReceive <= 0) {
-            return 0;
-        }
+    public int insert(int amount, boolean simulate) {
+        if (!canInsertEnergy()) return 0;
 
-        int amount = getEnergy() + toReceive;
-        if(amount > capacity) {
-            toReceive = capacity - getEnergy();
-        }
-        if (!simulate) {
+        int toReceive = Math.min(maxReceive, Math.clamp(amount, 0, getMaxEnergy() - getEnergy()));
+        if (!simulate)
             setEnergyStored(getEnergy() + toReceive);
-        }
+
         return toReceive;
     }
 
     @Override
-    public int extract(int toExtract, boolean simulate) {
-        if (!canExtractEnergy() || toExtract <= 0)
-            return 0;
-        int amount = getEnergy() - toExtract;
-        if (amount < 0) {
-            toExtract = getEnergy();
-        }
-        if (!simulate) {
+    public int extract(int amount, boolean simulate) {
+        if (!canExtractEnergy()) return 0;
+
+        int toExtract = Math.min(maxExtract, Math.clamp(amount, 0, getEnergy()));
+        if (!simulate)
             setEnergyStored(getEnergy() - toExtract);
-        }
+
         return toExtract;
-    }
-
-    @Override
-    public int getEnergy() {
-        return stack.getOrDefault(component, 0);
-    }
-
-    @Override
-    public int getMaxEnergy() {
-        return capacity;
     }
 
 }

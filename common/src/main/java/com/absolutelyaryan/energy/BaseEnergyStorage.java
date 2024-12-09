@@ -1,8 +1,5 @@
 package com.absolutelyaryan.energy;
 
-
-import net.minecraft.util.Mth;
-
 public class BaseEnergyStorage implements UniversalEnergyStorage {
     protected int energy;
     protected int capacity;
