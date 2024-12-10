@@ -3,15 +3,15 @@
   "id": "potentials_test",
   "version": "${version}",
   "name": "Potentials Test",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "description": "",
   "authors": [
     "Fej1Fun"
   ],
   "contact": {
     "sources": "https://github.com/Fej1Dev/Potentials",
-    "discord": ""
+    "issues": "https://github.com/Fej1Dev/Potentials/issues"
   },
-  "license": "CC0-1.0",
+  "license": "Unlicense",
   "icon": "assets/potentials/icon.png",
   "environment": "*",
   "entrypoints": {

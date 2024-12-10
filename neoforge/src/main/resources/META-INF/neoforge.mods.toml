@@ -1,16 +1,14 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-#issueTrackerURL = ""
-license = "Insert License Here"
+issueTrackerURL = "https://github.com/Fej1Dev/Potentials/issues"
+license = "MIT"
 
 [[mods]]
 modId = "potentials"
 version = "${version}"
 displayName = "Potentials"
 authors = "Fej1Fun"
-description = '''
-This is an example description! Tell everyone what your mod is about!
-'''
+description = '''''' #TODO fill the descriptions
 #logoFile = ""
 
 [[dependencies.potentials]]

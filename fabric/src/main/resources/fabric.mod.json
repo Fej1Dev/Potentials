@@ -8,9 +8,10 @@
     "Fej1Fun"
   ],
   "contact": {
-    "sources": "https://github.com/Fej1Dev/Potentials"
+    "sources": "https://github.com/Fej1Dev/Potentials",
+    "issues": "https://github.com/Fej1Dev/Potentials/issues"
   },
-  "license": "CC0-1.0",
+  "license": "MIT",
   "icon": "assets/potentials/icon.png",
   "environment": "*",
   "entrypoints": {
