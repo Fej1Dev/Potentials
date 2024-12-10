@@ -1,8 +1,8 @@
 package test;
 
-import com.absolutelyaryan.fluid.BaseFluidTank;
-import com.absolutelyaryan.fluid.UniversalFluidTank;
-import com.absolutelyaryan.providers.FluidProvider;
+import com.fej1fun.fluid.BaseFluidTank;
+import com.fej1fun.fluid.UniversalFluidTank;
+import com.fej1fun.providers.FluidProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;

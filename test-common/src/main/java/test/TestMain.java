@@ -1,8 +1,8 @@
 package test;
 
-import com.absolutelyaryan.capabilities.Capabilities;
-import com.absolutelyaryan.capabilities.types.BlockCapabilityHolder;
-import com.absolutelyaryan.capabilities.types.ItemCapabilityHolder;
+import com.fej1fun.capabilities.Capabilities;
+import com.fej1fun.capabilities.types.BlockCapabilityHolder;
+import com.fej1fun.capabilities.types.ItemCapabilityHolder;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -25,7 +25,7 @@ import test.gas.IGasStorage;
 import java.util.function.UnaryOperator;
 
 public class TestMain {
-    public static final String MOD_ID = "space_energy_test";
+    public static final String MOD_ID = "potentials_test";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
 
     public static DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
@@ -35,7 +35,7 @@ public class TestMain {
 
     public static final DeferredSupplier<DataComponentType<Integer>> ENERGY = register("energy", builder -> builder.persistent(Codec.INT));
     public static final DeferredSupplier<DataComponentType<FluidStack>> FLUID = register("fluid", builder -> builder.persistent(FluidStack.CODEC));
-    private static <T>DeferredSupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
+    private static <T> DeferredSupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }
 

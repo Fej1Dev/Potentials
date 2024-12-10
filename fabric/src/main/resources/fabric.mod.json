@@ -1,29 +1,29 @@
 {
   "schemaVersion": 1,
-  "id": "space_energy_api",
+  "id": "potentials",
   "version": "${version}",
-  "name": "EnergyAPI",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Potentials",
+  "description": "",
   "authors": [
-    "Me!"
+    "Fej1Fun"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "sources": "https://github.com/Fej1Dev/Potentials",
+    "issues": "https://github.com/Fej1Dev/Potentials/issues"
   },
-  "license": "CC0-1.0",
-  "icon": "assets/space_energy_api/icon.png",
+  "license": "MIT",
+  "icon": "assets/potentials/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.absolutelyaryan.fabric.SpaceEnergyFabric"
+      "com.fej1fun.fabric.PotentialsFabric"
     ],
     "client": [
-      "com.absolutelyaryan.fabric.client.SpaceEnergyFabricClient"
+      "com.fej1fun.fabric.client.PotentialsFabricClient"
     ]
   },
   "mixins": [
-    "space_energy_api.mixins.json"
+    "potentials.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.16.7",

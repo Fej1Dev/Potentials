@@ -7,7 +7,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'space_energy_api'
+rootProject.name = 'potentials'
 
 include 'common'
 include 'fabric'
