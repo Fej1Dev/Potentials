@@ -1,1 +1,1 @@
-# Space Energy API
+# Potentials
