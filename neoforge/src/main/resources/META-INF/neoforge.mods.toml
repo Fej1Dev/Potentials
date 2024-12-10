@@ -4,30 +4,30 @@ loaderVersion = "[4,)"
 license = "Insert License Here"
 
 [[mods]]
-modId = "space_energy_api"
+modId = "potentials"
 version = "${version}"
-displayName = "EnergyAPI"
-authors = "Me!"
+displayName = "Potentials"
+authors = "Fej1Fun"
 description = '''
 This is an example description! Tell everyone what your mod is about!
 '''
 #logoFile = ""
 
-[[dependencies.space_energy_api]]
+[[dependencies.potentials]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21.0,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.space_energy_api]]
+[[dependencies.potentials]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.space_energy_api]]
+[[dependencies.potentials]]
 modId = "architectury"
 type = "required"
 versionRange = "[13.0.2,)"
@@ -35,4 +35,4 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[mixins]]
-config = "space_energy_api.mixins.json"
+config = "potentials.mixins.json"

@@ -1,12 +1,12 @@
 package test;
 
-import com.absolutelyaryan.capabilities.Capabilities;
-import com.absolutelyaryan.energy.ItemEnergyStorage;
-import com.absolutelyaryan.energy.UniversalEnergyStorage;
-import com.absolutelyaryan.fluid.ItemFluidTank;
-import com.absolutelyaryan.fluid.UniversalFluidTank;
-import com.absolutelyaryan.providers.EnergyProvider;
-import com.absolutelyaryan.providers.FluidProvider;
+import com.fej1fun.capabilities.Capabilities;
+import com.fej1fun.energy.ItemEnergyStorage;
+import com.fej1fun.energy.UniversalEnergyStorage;
+import com.fej1fun.fluid.ItemFluidTank;
+import com.fej1fun.fluid.UniversalFluidTank;
+import com.fej1fun.providers.EnergyProvider;
+import com.fej1fun.providers.FluidProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

@@ -4,7 +4,7 @@ loaderVersion = "[4,)"
 license = "Insert License Here"
 
 [[mods]]
-modId = "space_energy_test"
+modId = "potentials_test"
 version = "1.0.0"
 displayName = "EnergyApiTest"
 authors = "Me!"
@@ -13,30 +13,30 @@ This is an example description! Tell everyone what your mod is about!
 '''
 #logoFile = ""
 
-[[dependencies.space_energy_test]]
+[[dependencies.potentials_test]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21.0,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.space_energy_test]]
+[[dependencies.potentials_test]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.space_energy_test]]
+[[dependencies.potentials_test]]
 modId = "architectury"
 type = "required"
 versionRange = "[13.0.2,)"
 ordering = "AFTER"
 side = "BOTH"
 
-[[dependencies.space_energy_test]]
-modId = "space_energy_api"
+[[dependencies.potentials_test]]
+modId = "potentials"
 type = "required"
-versionRange = "[1.0.0,)"
+versionRange = "[0.1.0,)"
 ordering = "AFTER"
 side = "BOTH"
