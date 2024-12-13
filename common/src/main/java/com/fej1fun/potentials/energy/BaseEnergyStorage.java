@@ -13,6 +13,10 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
         this.energy = 0;
     }
 
+    public BaseEnergyStorage(int capacity) {
+        this(capacity, capacity, capacity);
+    }
+
     public void setEnergyStored(int energy) {
         this.energy = Math.clamp(energy, 0, getMaxEnergy());
     }
