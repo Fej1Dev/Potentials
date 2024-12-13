@@ -13,7 +13,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.function.Supplier;
 
-@ApiStatus.Internal
 public interface NoProviderFluidBlockCapabilityHolder<X, Y> {
 
     @Nullable List<X> getCapability(Level level, BlockPos pos, Y context);

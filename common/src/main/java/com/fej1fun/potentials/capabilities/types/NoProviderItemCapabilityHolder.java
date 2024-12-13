@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-@ApiStatus.Internal
 public interface NoProviderItemCapabilityHolder<X,Y> {
 
    @Nullable X getCapability(ItemStack stack);

@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
-@ApiStatus.Internal
 public interface NoProviderBlockCapabilityHolder<X, Y> {
 
     @Nullable X getCapability(Level level, BlockPos pos, Y context);
