@@ -81,6 +81,13 @@ subprojects {
                     password = System.getenv("GITHUB_TOKEN")
                 }
             }
+            maven {
+                url = "https://maven.odysseyus.fr/releases/"
+                credentials {
+                    username = System.getenv("MAVEN_USER")
+                    password = System.getenv("MAVEN_PASS")
+                }
+            }
         }
     }
 }
