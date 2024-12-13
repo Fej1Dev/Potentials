@@ -6,15 +6,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
 public class ItemFluidTank implements UniversalFluidTank {
-    private long maxAmount;
-    private long maxFill;
-    private long maxDrain;
+    private final long maxAmount;
+    private final long maxFill;
+    private final long maxDrain;
     private final ItemStack itemStack;
     private final DataComponentType<FluidStack> component;
-
-    public ItemFluidTank(ItemStack itemStack, DataComponentType<FluidStack> component, long maxAmount) {
-        this(itemStack, component, maxAmount, maxAmount, maxAmount);
-    }
 
     public ItemFluidTank(ItemStack itemStack, DataComponentType<FluidStack> component, long maxAmount,  long maxFill, long maxDrain) {
         this.itemStack = itemStack;
@@ -22,6 +18,10 @@ public class ItemFluidTank implements UniversalFluidTank {
         this.component = component;
         this.maxFill = maxFill;
         this.maxDrain = maxDrain;
+    }
+
+    public ItemFluidTank(ItemStack itemStack, DataComponentType<FluidStack> component, long maxAmount) {
+        this(itemStack, component, maxAmount, maxAmount, maxAmount);
     }
 
     @Override

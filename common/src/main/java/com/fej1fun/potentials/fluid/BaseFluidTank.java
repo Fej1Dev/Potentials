@@ -5,19 +5,19 @@ import net.minecraft.world.level.material.Fluid;
 
 public class BaseFluidTank implements UniversalFluidTank {
     private FluidStack stack;
-    private long maxAmount;
-    private long maxFill;
-    private long maxDrain;
-
-    public BaseFluidTank(long maxAmount) {
-        this(maxAmount, maxAmount, maxAmount);
-    }
+    private final long maxAmount;
+    private final long maxFill;
+    private final long maxDrain;
 
     public BaseFluidTank(long maxAmount, long maxFill, long maxDrain) {
         this.stack = FluidStack.empty();
         this.maxAmount = maxAmount;
         this.maxFill = maxFill;
         this.maxDrain = maxDrain;
+    }
+
+    public BaseFluidTank(long maxAmount) {
+        this(maxAmount, maxAmount, maxAmount);
     }
 
     @Override
