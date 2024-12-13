@@ -61,7 +61,7 @@ subprojects {
         publications {
             mavenJava(MavenPublication) {
                 groupId "com.fej1fun.potentials"
-                artifactId "potentials-$modLoader-" + minecraft_version
+                artifactId "potentials-$modLoader"
                 version project.version
                 from components.java
                 pom {
