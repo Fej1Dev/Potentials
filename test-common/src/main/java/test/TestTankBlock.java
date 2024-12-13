@@ -1,8 +1,8 @@
 package test;
 
-import com.fej1fun.fluid.BaseFluidTank;
-import com.fej1fun.fluid.UniversalFluidTank;
-import com.fej1fun.providers.FluidProvider;
+import com.fej1fun.potentials.fluid.BaseFluidTank;
+import com.fej1fun.potentials.fluid.UniversalFluidTank;
+import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;

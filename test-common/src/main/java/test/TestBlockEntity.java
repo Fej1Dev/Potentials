@@ -1,11 +1,11 @@
 package test;
 
-import com.fej1fun.energy.BaseEnergyStorage;
-import com.fej1fun.energy.UniversalEnergyStorage;
-import com.fej1fun.fluid.BaseFluidTank;
-import com.fej1fun.fluid.UniversalFluidTank;
-import com.fej1fun.providers.EnergyProvider;
-import com.fej1fun.providers.FluidProvider;
+import com.fej1fun.potentials.energy.BaseEnergyStorage;
+import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.fluid.BaseFluidTank;
+import com.fej1fun.potentials.fluid.UniversalFluidTank;
+import com.fej1fun.potentials.providers.EnergyProvider;
+import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.minecraft.core.BlockPos;

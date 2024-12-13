@@ -1,8 +1,8 @@
 package test;
 
-import com.fej1fun.capabilities.Capabilities;
-import com.fej1fun.capabilities.types.BlockCapabilityHolder;
-import com.fej1fun.capabilities.types.ItemCapabilityHolder;
+import com.fej1fun.potentials.capabilities.Capabilities;
+import com.fej1fun.potentials.capabilities.types.BlockCapabilityHolder;
+import com.fej1fun.potentials.capabilities.types.ItemCapabilityHolder;
 import com.mojang.serialization.Codec;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;

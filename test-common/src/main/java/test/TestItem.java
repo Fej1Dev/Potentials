@@ -1,12 +1,12 @@
 package test;
 
-import com.fej1fun.capabilities.Capabilities;
-import com.fej1fun.energy.ItemEnergyStorage;
-import com.fej1fun.energy.UniversalEnergyStorage;
-import com.fej1fun.fluid.ItemFluidTank;
-import com.fej1fun.fluid.UniversalFluidTank;
-import com.fej1fun.providers.EnergyProvider;
-import com.fej1fun.providers.FluidProvider;
+import com.fej1fun.potentials.capabilities.Capabilities;
+import com.fej1fun.potentials.energy.ItemEnergyStorage;
+import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.fluid.ItemFluidTank;
+import com.fej1fun.potentials.fluid.UniversalFluidTank;
+import com.fej1fun.potentials.providers.EnergyProvider;
+import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;

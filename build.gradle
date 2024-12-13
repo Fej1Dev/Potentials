@@ -23,6 +23,8 @@ subprojects {
         archivesName = "$rootProject.archives_name-$project.name"
     }
 
+    def modLoader = project.name
+
     repositories {
         // Add repositories to retrieve artifacts from in here.
         // You should only use this when depending on other mods because
@@ -58,17 +60,27 @@ subprojects {
     publishing {
         publications {
             mavenJava(MavenPublication) {
-                artifactId = base.archivesName.get()
+                groupId "com.fej1fun.potentials"
+                artifactId "potentials-$modLoader-" + minecraft_version
+                version project.version
                 from components.java
+                pom {
+                    name = "Potentials" + modLoader.capitalize()
+                    url = "https://github.com/Fej1Dev/Potentials"
+                }
             }
         }
 
         // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
         repositories {
-            // Add repositories to publish to here.
-            // Notice: This block does NOT have the same function as the block in the top level.
-            // The repositories here will be used for publishing your artifact, not for
-            // retrieving dependencies.
+            maven {
+                name = "GithubPackages"
+                url = "https://maven.pkg.github.com/Fej1Dev/Potentials"
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = System.getenv("GITHUB_TOKEN")
+                }
+            }
         }
     }
 }

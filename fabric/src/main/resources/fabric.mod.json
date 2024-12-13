@@ -16,10 +16,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.fej1fun.fabric.PotentialsFabric"
+      "com.fej1fun.potentials.fabric.PotentialsFabric"
     ],
     "client": [
-      "com.fej1fun.fabric.client.PotentialsFabricClient"
+      "com.fej1fun.potentials.fabric.client.PotentialsFabricClient"
     ]
   },
   "mixins": [

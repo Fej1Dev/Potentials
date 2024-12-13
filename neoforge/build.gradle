@@ -58,15 +58,15 @@ remapJar {
     input.set shadowJar.archiveFile
 }
 
-publishing {
-    repositories {
-        maven {
-            name = "GithubPackages"
-            url = "https://maven.pkg.github.com/Fej1Dev/Potentials"
-            credentials {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
-            }
-        }
-    }
-}
+//publishing {
+//    repositories {
+//        maven {
+//            name = "GithubPackages"
+//            url = "https://maven.pkg.github.com/Fej1Dev/Potentials"
+//            credentials {
+//                username = System.getenv("GITHUB_ACTOR")
+//                password = System.getenv("GITHUB_TOKEN")
+//            }
+//        }
+//    }
+//}
