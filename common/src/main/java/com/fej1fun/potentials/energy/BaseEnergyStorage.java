@@ -55,11 +55,11 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public boolean canInsertEnergy() {
-        return maxExtract > 0;
+        return maxReceive > 0;
     }
 
     @Override
     public boolean canExtractEnergy() {
-        return maxReceive > 0;
+        return maxExtract > 0;
     }
 }
