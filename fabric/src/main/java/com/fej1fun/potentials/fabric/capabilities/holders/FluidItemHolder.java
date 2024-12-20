@@ -2,11 +2,8 @@ package com.fej1fun.potentials.fabric.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
-import com.fej1fun.potentials.fabric.fluid.SingleVariantTank;
-import com.fej1fun.potentials.fabric.fluid.StorageViewWrapper;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidVariantStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
@@ -17,9 +14,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.function.Supplier;
 
 public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<UniversalFluidStorage, Void> {

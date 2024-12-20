@@ -2,7 +2,6 @@ package com.fej1fun.potentials.fabric.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityHolder;
 import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
-import com.fej1fun.potentials.fabric.fluid.SingleVariantTank;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidVariantStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.FluidProvider;

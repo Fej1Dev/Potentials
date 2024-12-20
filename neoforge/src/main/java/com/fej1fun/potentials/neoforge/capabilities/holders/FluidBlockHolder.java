@@ -2,11 +2,9 @@ package com.fej1fun.potentials.neoforge.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityHolder;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidTank;
 import com.fej1fun.potentials.neoforge.fluid.UniversalFluidHandler;
-import com.fej1fun.potentials.neoforge.fluid.UniversalFluidStorageDEPRECATED;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

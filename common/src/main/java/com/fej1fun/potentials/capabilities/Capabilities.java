@@ -6,7 +6,6 @@ import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHo
 import com.fej1fun.potentials.capabilities.types.NoProviderItemCapabilityHolder;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import com.fej1fun.potentials.platform.CapabilitiesHelper;
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.Nullable;
