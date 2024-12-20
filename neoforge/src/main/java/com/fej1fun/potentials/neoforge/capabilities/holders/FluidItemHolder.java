@@ -4,7 +4,7 @@ import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHo
 import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidItem;
-import com.fej1fun.potentials.neoforge.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.neoforge.fluid.UniversalFluidStorageDEPRECATED;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -26,7 +26,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     @Override
     public UniversalFluidTank getCapability(ItemStack stack) {
         IFluidHandler fluidTank = stack.getCapability(Capabilities.FluidHandler.ITEM);
-        return fluidTank == null ? null : List.of(new UniversalFluidStorage(fluidTank));
+        return fluidTank == null ? null : List.of(new UniversalFluidStorageDEPRECATED(fluidTank));
     }
 
     @Override

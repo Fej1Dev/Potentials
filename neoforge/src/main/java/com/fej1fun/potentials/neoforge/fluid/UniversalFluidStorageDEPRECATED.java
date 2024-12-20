@@ -7,10 +7,10 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 
 @Deprecated
-public class UniversalFluidStorage implements UniversalFluidTank {
+public class UniversalFluidStorageDEPRECATED implements UniversalFluidTank {
     private final IFluidHandler fluidHandler;
 
-    public UniversalFluidStorage(IFluidHandler fluidHandler) {
+    public UniversalFluidStorageDEPRECATED(IFluidHandler fluidHandler) {
         this.fluidHandler = fluidHandler;
     }
 

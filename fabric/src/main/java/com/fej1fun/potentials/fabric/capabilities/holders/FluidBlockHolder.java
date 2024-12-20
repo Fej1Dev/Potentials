@@ -34,7 +34,7 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
     @Override
     public @Nullable UniversalFluidStorage getCapability(Level level, BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, Direction direction) {
         Storage<FluidVariant> fluidStorage = blockApiLookup.find(level, pos, state, blockEntity, direction);
-        return new UniversalFluidVariantStorage(fluidStorage);
+        return fluidStorage == null ? null : new UniversalFluidVariantStorage(fluidStorage);
     }
 
     @Override
