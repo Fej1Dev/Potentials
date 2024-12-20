@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.world.level.material.Fluid;
 
+@Deprecated
 public class StorageViewWrapper implements UniversalFluidTank {
 
     private final StorageView<FluidVariant> view;

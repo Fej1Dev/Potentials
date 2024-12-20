@@ -3,6 +3,7 @@ package com.fej1fun.potentials.fluid;
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.world.level.material.Fluid;
 
+@Deprecated
 public interface UniversalFluidTank {
 
     Fluid getBaseFluid();

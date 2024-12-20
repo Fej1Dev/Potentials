@@ -5,6 +5,7 @@ import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityH
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.NoProviderItemCapabilityHolder;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import com.fej1fun.potentials.platform.CapabilitiesHelper;
 import net.minecraft.core.Direction;
@@ -19,8 +20,8 @@ public final class Capabilities {
     }
 
     public static final class Fluid {
-        public static final NoProviderFluidBlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> BLOCK = CapabilitiesHelper.getFluidBlockCapability();
-        public static final NoProviderFluidItemCapabilityHolder<UniversalFluidTank, Void> ITEM = CapabilitiesHelper.getFluidItemCapability();
+        public static final NoProviderFluidBlockCapabilityHolder<UniversalFluidStorage, @Nullable Direction> BLOCK = CapabilitiesHelper.getFluidBlockCapability();
+        public static final NoProviderFluidItemCapabilityHolder<UniversalFluidStorage, Void> ITEM = CapabilitiesHelper.getFluidItemCapability();
 
         private Fluid() {}
     }

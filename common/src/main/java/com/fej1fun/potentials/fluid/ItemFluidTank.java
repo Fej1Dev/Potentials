@@ -5,6 +5,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 
+@Deprecated
 public class ItemFluidTank implements UniversalFluidTank {
     private final long maxAmount;
     private final long maxFill;

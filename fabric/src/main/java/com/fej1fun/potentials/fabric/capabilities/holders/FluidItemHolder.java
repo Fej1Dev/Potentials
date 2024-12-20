@@ -13,7 +13,6 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +24,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     private final ItemApiLookup<Storage<FluidVariant>, ContainerItemContext> itemApiLookup = FluidStorage.ITEM;
 
     @Override
-    public @Nullable List<UniversalFluidTank> getCapability(ItemStack stack) {
+    public UniversalFluidTank getCapability(ItemStack stack) {
         Storage<FluidVariant> fluidStorage = itemApiLookup.find(stack, null);
         List<UniversalFluidTank> tanks = new ArrayList<>();
         if (fluidStorage == null) return null;

@@ -31,7 +31,7 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
     private final List<Supplier<BlockEntityType<?>>> registeredBlockEntities = new ArrayList<>();
 
     @Override
-    public @Nullable List<UniversalFluidTank> getCapability(Level level, BlockPos pos, Direction direction) {
+    public UniversalFluidTank getCapability(Level level, BlockPos pos, Direction direction) {
         return getCapability(level, pos, null, null, direction);
     }
 

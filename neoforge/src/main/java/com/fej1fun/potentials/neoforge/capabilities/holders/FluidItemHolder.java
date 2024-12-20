@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +24,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     private final List<Supplier<Item>> registeredItems = new ArrayList<>();
 
     @Override
-    public @Nullable List<UniversalFluidTank> getCapability(ItemStack stack) {
+    public UniversalFluidTank getCapability(ItemStack stack) {
         IFluidHandler fluidTank = stack.getCapability(Capabilities.FluidHandler.ITEM);
         return fluidTank == null ? null : List.of(new UniversalFluidStorage(fluidTank));
     }
