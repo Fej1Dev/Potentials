@@ -3,6 +3,8 @@ package com.fej1fun.potentials.neoforge.capabilities.holders;
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityHolder;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
+import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidHandlerItem;
+import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidStorage;
 import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidTank;
 import com.fej1fun.potentials.neoforge.fluid.UniversalFluidHandler;
 import com.fej1fun.potentials.providers.FluidProvider;
@@ -62,11 +64,11 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
                 event.registerBlock(Capabilities.FluidHandler.BLOCK, (level, pos, state, blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
                         var fluid = fluidBlock.getFluidTank(direction);
-                        return fluid == null ? null : new NeoForgeFluidTank(fluid);
+                        return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     if (state.getBlock() instanceof FluidProvider.BLOCK fluidBlock) {
                         var fluid = fluidBlock.getFluidTank(direction);
-                        return fluid == null ? null : new NeoForgeFluidTank(fluid);
+                        return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     return null;
                 }, block.get()));
@@ -75,7 +77,7 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
                 event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type.get(), (blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
                         var fluid = fluidBlock.getFluidTank(direction);
-                        return fluid == null ? null : new NeoForgeFluidTank(fluid);
+                        return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     return null;
                 }));
