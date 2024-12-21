@@ -27,6 +27,10 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         this.maxDrain = maxDrain;
     }
 
+    public BaseFluidStorage(int tanks, long capacity) {
+        this(tanks, capacity, capacity, capacity);
+    }
+
     @Override
     public int getTanks() {
         return tanks;
