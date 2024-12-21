@@ -9,8 +9,12 @@ import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
+import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class UniversalFluidVariantStorage implements UniversalFluidStorage {
@@ -76,5 +80,14 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
                     });
             return toReturn.get();
         }
+    }
+
+    @Override
+    public @NotNull Iterator<FluidStack> iterator() {
+        List<FluidStack> fluidStacks = new ArrayList<>();
+        for (StorageView<FluidVariant> storageView : fluidStorage) {
+            fluidStacks.add(FluidStackHooksFabric.fromFabric(storageView));
+        }
+        return fluidStacks.iterator();
     }
 }

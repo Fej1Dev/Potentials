@@ -2,7 +2,7 @@ package com.fej1fun.potentials.fluid;
 
 import dev.architectury.fluid.FluidStack;
 
-public interface UniversalFluidStorage {
+public interface UniversalFluidStorage extends Iterable<FluidStack> {
     int getTanks();
     FluidStack getFluidInTank(int tank);
     long getTankCapacity(int tank);
