@@ -5,7 +5,7 @@ import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityH
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.NoProviderItemCapabilityHolder;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
-import com.fej1fun.potentials.fluid.UniversalFluidTank;
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.Direction;
 import org.apache.commons.lang3.NotImplementedException;
@@ -25,12 +25,12 @@ public class CapabilitiesHelper {
     }
 
     @ExpectPlatform
-    public static NoProviderFluidBlockCapabilityHolder<UniversalFluidTank, @Nullable Direction> getFluidBlockCapability() {
+    public static NoProviderFluidBlockCapabilityHolder<UniversalFluidStorage, @Nullable Direction> getFluidBlockCapability() {
         throw new NotImplementedException();
     }
 
     @ExpectPlatform
-    public static NoProviderFluidItemCapabilityHolder<UniversalFluidTank, Void> getFluidItemCapability() {
+    public static NoProviderFluidItemCapabilityHolder<UniversalFluidStorage, Void> getFluidItemCapability() {
         throw new NotImplementedException();
     }
 }

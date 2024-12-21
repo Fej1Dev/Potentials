@@ -8,6 +8,7 @@ import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.NotNull;
 
+@Deprecated
 public class NeoForgeFluidItem implements IFluidHandlerItem {
     private final UniversalFluidTank universalFluidTank;
     private final ItemStack itemStack;

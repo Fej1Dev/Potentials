@@ -1,10 +1,12 @@
 package com.fej1fun.potentials.neoforge.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityHolder;
-import com.fej1fun.potentials.fluid.UniversalFluidTank;
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
+import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidHandlerItem;
+import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidStorage;
 import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidTank;
-import com.fej1fun.potentials.neoforge.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.neoforge.fluid.UniversalFluidHandler;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<UniversalFluidTank, Direction>, Registerable {
+public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<UniversalFluidStorage, Direction>, Registerable {
     public static final FluidBlockHolder INSTANCE = new FluidBlockHolder();
     private FluidBlockHolder() {registerSelf();}
 
@@ -31,14 +33,14 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
     private final List<Supplier<BlockEntityType<?>>> registeredBlockEntities = new ArrayList<>();
 
     @Override
-    public @Nullable List<UniversalFluidTank> getCapability(Level level, BlockPos pos, Direction direction) {
+    public UniversalFluidStorage getCapability(Level level, BlockPos pos, Direction direction) {
         return getCapability(level, pos, null, null, direction);
     }
 
     @Override
-    public @Nullable List<UniversalFluidTank> getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction direction) {
+    public @Nullable UniversalFluidStorage getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction direction) {
         IFluidHandler fluidTank = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, state, blockEntity, direction);
-        return fluidTank == null ? null : List.of(new UniversalFluidStorage(fluidTank));
+        return fluidTank == null ? null : new UniversalFluidHandler(fluidTank);
     }
 
     @Override
@@ -62,11 +64,11 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
                 event.registerBlock(Capabilities.FluidHandler.BLOCK, (level, pos, state, blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
                         var fluid = fluidBlock.getFluidTank(direction);
-                        return fluid == null ? null : new NeoForgeFluidTank(fluid);
+                        return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     if (state.getBlock() instanceof FluidProvider.BLOCK fluidBlock) {
                         var fluid = fluidBlock.getFluidTank(direction);
-                        return fluid == null ? null : new NeoForgeFluidTank(fluid);
+                        return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     return null;
                 }, block.get()));
@@ -75,7 +77,7 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
                 event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type.get(), (blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
                         var fluid = fluidBlock.getFluidTank(direction);
-                        return fluid == null ? null : new NeoForgeFluidTank(fluid);
+                        return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     return null;
                 }));

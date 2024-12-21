@@ -4,7 +4,10 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.ApiStatus;
 
+@Deprecated(forRemoval = true)
+@ApiStatus.ScheduledForRemoval(inVersion = "1.0.0")
 public class ItemFluidTank implements UniversalFluidTank {
     private final long maxAmount;
     private final long maxFill;
