@@ -4,6 +4,11 @@ import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class UniversalFluidHandler implements UniversalFluidStorage {
     private final IFluidHandler fluidHandler;
@@ -45,5 +50,14 @@ public class UniversalFluidHandler implements UniversalFluidStorage {
     @Override
     public FluidStack drain(int maxAmount, boolean simulate) {
         return FluidStackHooksForge.fromForge(fluidHandler.drain(maxAmount, simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE));
+    }
+
+    @Override
+    public @NotNull Iterator<FluidStack> iterator() {
+        List<FluidStack> toReturn = new ArrayList<>();
+        for (int i = 0; i < fluidHandler.getTanks(); i++) {
+            toReturn.add(FluidStackHooksForge.fromForge(fluidHandler.getFluidInTank(i)));
+        }
+        return toReturn.iterator();
     }
 }
