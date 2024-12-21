@@ -2,8 +2,8 @@ package test;
 
 import com.fej1fun.potentials.energy.BaseEnergyStorage;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
-import com.fej1fun.potentials.fluid.BaseFluidTank;
-import com.fej1fun.potentials.fluid.UniversalFluidTank;
+import com.fej1fun.potentials.fluid.BaseFluidStorage;
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
@@ -20,18 +20,15 @@ import test.gas.GasProvider;
 import test.gas.GasTank;
 import test.gas.IGasStorage;
 
-import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK, FluidProvider.BLOCK, GasProvider.BLOCK {
-    HashMap<Direction, BaseFluidTank> tanks = new HashMap<>();
+    BaseFluidStorage tanks = new BaseFluidStorage(6, 1000);
     private final BaseEnergyStorage energy = new BaseEnergyStorage(1024, 1024, 1024);
     private final GasTank gasTank = new GasTank();
 
     public TestBlockEntity(BlockPos blockPos, BlockState blockState) {
         super(TestMain.TEST_BLOCK_ENTITY_TYPE.get(), blockPos, blockState);
-        for (Direction direction : Direction.values()) {
-            tanks.put(direction, new BaseFluidTank(1000));
-        }
     }
 
 //    public void tick() {
@@ -59,12 +56,10 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
         super.saveAdditional(compoundTag, provider);
         compoundTag.putInt("energy", energy.getEnergy());
         Tag tag;
-        for(Direction direction : Direction.values()) {
-            if (!this.tanks.get(direction).getFluidStack().isEmpty()) {
-                tag = new CompoundTag();
-                tag = FluidStackHooks.write(provider, this.tanks.get(direction).getFluidStack(), tag);
-                compoundTag.put("fluid", tag);
-            }
+        for (int i = 0; i < tanks.getTanks(); i++) {
+            tag = new CompoundTag();
+            tanks.getFluidInTank(i).write(provider, tag);
+            compoundTag.put("tank"+i, tag);
         }
     }
 
@@ -72,8 +67,9 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
         energy.setEnergyStored(compoundTag.getInt("energy"));
-        for(Direction direction : Direction.values()) {
-            FluidStack.read(provider, compoundTag).ifPresent(this.tanks.get(direction)::setFluidStack);
+        for (AtomicInteger i = new AtomicInteger(0); i.get() < tanks.getTanks(); i.getAndIncrement()) {
+            FluidStack.read(provider, compoundTag.get("tank"+i.get())).ifPresent( fluidStack ->
+                tanks.setFluidInTank(i.get(), fluidStack));
         }
     }
 
@@ -84,8 +80,8 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     }
 
     @Override
-    public UniversalFluidTank getFluidTank(@Nullable Direction direction) {
-        return tanks.get(direction);
+    public @Nullable UniversalFluidStorage getFluidTank(@Nullable Direction direction) {
+        return tanks;
     }
 
     @Override

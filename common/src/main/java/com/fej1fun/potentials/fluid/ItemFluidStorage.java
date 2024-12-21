@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ItemFluidStorage implements UniversalFluidStorage {
@@ -15,10 +16,10 @@ public class ItemFluidStorage implements UniversalFluidStorage {
     private final long maxFill;
     private final long maxDrain;
     private final ItemStack stack;
-    private final DataComponentType<NonNullList<FluidStack>> component;
+    private final DataComponentType<List<FluidStack>> component;
     private final int tanks;
 
-    public ItemFluidStorage(DataComponentType<NonNullList<FluidStack>> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
+    public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
         this.maxAmount = maxAmount;
         this.maxFill = maxFill;
         this.maxDrain = maxDrain;
@@ -27,7 +28,7 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         this.tanks = tanks;
     }
 
-    public ItemFluidStorage(DataComponentType<NonNullList<FluidStack>> component,int tanks, ItemStack stack, long maxAmount) {
+    public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount) {
         this(component, stack, tanks, maxAmount, maxAmount, maxAmount);
     }
 
@@ -39,7 +40,7 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         return list;
     }
 
-    private NonNullList<FluidStack> getFluidStacks() {
+    private List<FluidStack> getFluidStacks() {
         return stack.getOrDefault(component, getEmpty());
     }
 

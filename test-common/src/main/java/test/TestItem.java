@@ -3,10 +3,13 @@ package test;
 import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.energy.ItemEnergyStorage;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.fluid.ItemFluidStorage;
 import com.fej1fun.potentials.fluid.ItemFluidTank;
+import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
+import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -42,8 +45,8 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
     }
 
     @Override
-    public UniversalFluidTank getFluidTank(@NotNull ItemStack stack) {
-        return new ItemFluidTank(stack, TestMain.FLUID.get(), 1000);
+    public UniversalFluidStorage getFluidTank(@NotNull ItemStack stack) {
+        return new ItemFluidStorage(TestMain.FLUID_LIST.get(), stack, 1, 1000);
     }
 
     @Override
@@ -57,11 +60,13 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
         if (!level.isClientSide()) {
             BlockPos pos = useOnContext.getClickedPos();
             Direction direction = useOnContext.getClickedFace();
-            List<UniversalFluidTank> fluids = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
-            if (useOnContext.getPlayer() != null && fluids!=null)
-                for (UniversalFluidTank fluid : fluids) {
-                useOnContext.getPlayer().sendSystemMessage(Component.literal(fluid.getBaseFluid().defaultFluidState().toString()));
-                useOnContext.getPlayer().sendSystemMessage(Component.literal(fluid.getFluidValue() + "/" + fluid.getMaxAmount()));
+            UniversalFluidStorage fluids = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
+            if (useOnContext.getPlayer() != null && fluids!=null) {
+                useOnContext.getPlayer().sendSystemMessage(Component.literal("Tanks: " + fluids.getTanks()));
+                for (int i = 0; i < fluids.getTanks(); i++) {
+                    useOnContext.getPlayer().sendSystemMessage(Component.literal(fluids.getFluidInTank(i).getFluid().defaultFluidState().toString()));
+                    useOnContext.getPlayer().sendSystemMessage(Component.literal(fluids.getFluidInTank(i).getAmount() + "/" + fluids.getTankCapacity(i)));
+                }
             }
         }
         return InteractionResult.sidedSuccess(level.isClientSide());
@@ -71,17 +76,18 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
     public void appendHoverText(ItemStack stack, TooltipContext tooltipContext, List<Component> list, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, tooltipContext, list, tooltipFlag);
         UniversalEnergyStorage energy = getEnergy(stack);
-        UniversalFluidTank fluid = getFluidTank(stack);
+        UniversalFluidStorage fluid = getFluidTank(stack);
         if (energy!=null)
             list.add(Component.literal("Energy: " + energy.getEnergy() + "/" + energy.getMaxEnergy()));
         if (fluid!=null)
-            list.add(Component.literal("Fluid: " + fluid.getFluidValue() + "/" + fluid.getMaxAmount()));
+            for (int i = 0; i < fluid.getTanks(); i++)
+                list.add(Component.literal("Fluid: " + fluid.getFluidInTank(i).getAmount() + "/" + fluid.getTankCapacity(i)));
         UniversalEnergyStorage capabilityTestEnergy = Capabilities.Energy.ITEM.getCapability(stack);
-        List<UniversalFluidTank> capabilityTestFluid = Capabilities.Fluid.ITEM.getCapability(stack);
+        UniversalFluidStorage capabilityTestFluid  = Capabilities.Fluid.ITEM.getCapability(stack);
         if (capabilityTestEnergy!=null)
             list.add(Component.literal("Energy capability: " + capabilityTestEnergy.getEnergy() + "/" + capabilityTestEnergy.getMaxEnergy()));
         if (capabilityTestFluid!=null)
-            for (UniversalFluidTank tank : capabilityTestFluid)
-                list.add(Component.literal("Fluid capability: " + tank.getFluidValue() + "/" + tank.getMaxAmount()));
+            for (int i = 0; i < capabilityTestFluid.getTanks(); i++)
+                list.add(Component.literal("Fluid capability: " + capabilityTestFluid.getFluidInTank(i).getAmount() + "/" + capabilityTestFluid.getTankCapacity(i)));
     }
 }
