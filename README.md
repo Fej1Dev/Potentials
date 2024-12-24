@@ -28,3 +28,7 @@ dependencies {
 ```
 replace PLATFORM for that build.gradle's platform: common, fabric, neoforge.
 replace VERSION for the latest Potentials version.
+
+----
+
+![https://www.curseforge.com/minecraft/mc-mods/architectury-api](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/requires/architectury-api_vector.svg)
