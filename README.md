@@ -30,5 +30,6 @@ replace PLATFORM for that build.gradle's platform: common, fabric, neoforge.
 replace VERSION for the latest Potentials version.
 
 ----
+[![CurseForge](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/available/curseforge_vector.svg)](https://legacy.curseforge.com/minecraft/mc-mods/potentials)
 
-![https://www.curseforge.com/minecraft/mc-mods/architectury-api](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/requires/architectury-api_vector.svg)
+[![Architectury Api](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@3/assets/cozy/requires/architectury-api_vector.svg)](https://www.curseforge.com/minecraft/mc-mods/architectury-api)
