@@ -11,6 +11,7 @@ public class FluidProvider {
     public interface BLOCK {
         @Nullable UniversalFluidStorage getFluidTank(@Nullable Direction direction);
     }
+
     public interface ITEM {
         @Nullable UniversalFluidStorage getFluidTank(@NotNull ItemStack stack);
     }
