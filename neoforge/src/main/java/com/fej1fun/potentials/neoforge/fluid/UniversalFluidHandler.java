@@ -49,7 +49,7 @@ public class UniversalFluidHandler implements UniversalFluidStorage {
 
     @Override
     public FluidStack drain(long maxAmount, boolean simulate) {
-        return FluidStackHooksForge.fromForge(fluidHandler.drain(maxAmount, simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE));
+        return FluidStackHooksForge.fromForge(fluidHandler.drain((int) maxAmount, simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE));
     }
 
     @Override
