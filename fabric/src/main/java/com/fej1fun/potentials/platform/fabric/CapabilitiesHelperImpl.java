@@ -10,7 +10,6 @@ import com.fej1fun.potentials.fabric.capabilities.holders.EnergyItemHolder;
 import com.fej1fun.potentials.fabric.capabilities.holders.FluidBlockHolder;
 import com.fej1fun.potentials.fabric.capabilities.holders.FluidItemHolder;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;

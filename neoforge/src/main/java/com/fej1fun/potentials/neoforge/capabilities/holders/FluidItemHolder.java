@@ -2,9 +2,9 @@ package com.fej1fun.potentials.neoforge.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
-import com.fej1fun.potentials.neoforge.fluid.*;
+import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidHandlerItem;
+import com.fej1fun.potentials.neoforge.fluid.UniversalFluidHandler;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
