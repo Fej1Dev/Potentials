@@ -4,9 +4,11 @@ import com.fej1fun.potentials.fluid.UniversalFluidTank;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
-@Deprecated
+@Deprecated(forRemoval = true)
+@ApiStatus.ScheduledForRemoval(inVersion = "1.0.0")
 public class NeoForgeFluidTank implements IFluidHandler {
     final UniversalFluidTank universalFluidTank;
 

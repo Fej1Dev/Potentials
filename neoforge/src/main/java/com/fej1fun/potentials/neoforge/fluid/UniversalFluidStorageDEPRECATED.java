@@ -5,8 +5,10 @@ import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.ApiStatus;
 
-@Deprecated
+@Deprecated(forRemoval = true)
+@ApiStatus.ScheduledForRemoval(inVersion = "1.0.0")
 public class UniversalFluidStorageDEPRECATED implements UniversalFluidTank {
     private final IFluidHandler fluidHandler;
 
