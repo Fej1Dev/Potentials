@@ -11,7 +11,6 @@ public class EnergyProvider {
     public interface BLOCK {
         @Nullable UniversalEnergyStorage getEnergy(@Nullable Direction direction);
     }
-
     public interface ITEM {
         @Nullable UniversalEnergyStorage getEnergy(@NotNull ItemStack stack);
     }
