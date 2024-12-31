@@ -1,8 +1,7 @@
 package com.fej1fun.potentials.fabric.fluid;
 
-import com.fej1fun.potentials.fabric.utils.SlotStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import dev.architectury.fluid.FluidStack;
+import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
@@ -32,12 +31,12 @@ public class FabricFluidStorage implements SlottedStorage<FluidVariant> {
 
     @Override
     public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
-        return 0;
+        return fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false) * 81L;
     }
 
     @Override
     public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
-        return 0;
+        return fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false).getAmount() * 81L;
     }
 
     @Override

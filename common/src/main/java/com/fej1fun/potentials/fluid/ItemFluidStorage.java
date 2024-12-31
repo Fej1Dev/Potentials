@@ -107,7 +107,7 @@ public class ItemFluidStorage implements UniversalFluidStorage {
     }
 
     @Override
-    public FluidStack drain(int maxAmount, boolean simulate) {
+    public FluidStack drain(long maxAmount, boolean simulate) {
         AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
         getFluidStacks().stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
             long removedAmount = Math.min(maxAmount, stack.getAmount());

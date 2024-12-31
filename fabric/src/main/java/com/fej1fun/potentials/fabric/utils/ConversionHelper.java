@@ -5,6 +5,7 @@ import dev.architectury.fluid.fabric.FluidStackImpl;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 
+@Deprecated
 public class ConversionHelper {
 
     private static final int DROPLETS_PER_BUCKET = 81000;

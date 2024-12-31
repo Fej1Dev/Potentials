@@ -15,15 +15,14 @@ public class SingleSlotFluidStorage implements SingleSlotStorage<FluidVariant> {
         this.slot = slot;
     }
 
-
     @Override
     public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
-        return fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount), false);
+        return fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false);
     }
 
     @Override
     public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
-        return fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount), false).getAmount();
+        return fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false).getAmount();
     }
 
     @Override
@@ -38,11 +37,11 @@ public class SingleSlotFluidStorage implements SingleSlotStorage<FluidVariant> {
 
     @Override
     public long getAmount() {
-        return fluidStorage.getFluidInTank(slot).getAmount();
+        return fluidStorage.getFluidInTank(slot).getAmount()*81;
     }
 
     @Override
     public long getCapacity() {
-        return fluidStorage.getTankCapacity(slot);
+        return fluidStorage.getTankCapacity(slot)*81;
     }
 }
