@@ -13,6 +13,7 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -61,15 +62,15 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
             BlockPos pos = useOnContext.getClickedPos();
             Direction direction = useOnContext.getClickedFace();
             UniversalFluidStorage fluids = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
-            if (useOnContext.getPlayer() != null && fluids!=null) {
-                useOnContext.getPlayer().sendSystemMessage(Component.literal("Tanks: " + fluids.getTanks()));
+            if (useOnContext.getPlayer() != null && fluids!=null && useOnContext.getPlayer() instanceof ServerPlayer serverPlayer) {
+                serverPlayer.sendSystemMessage(Component.literal("Tanks: " + fluids.getTanks()));
                 for (int i = 0; i < fluids.getTanks(); i++) {
-                    useOnContext.getPlayer().sendSystemMessage(Component.literal(fluids.getFluidInTank(i).getFluid().defaultFluidState().toString()));
-                    useOnContext.getPlayer().sendSystemMessage(Component.literal(fluids.getFluidInTank(i).getAmount() + "/" + fluids.getTankCapacity(i)));
+                    serverPlayer.sendSystemMessage(Component.literal(fluids.getFluidInTank(i).getFluid().defaultFluidState().toString()));
+                    serverPlayer.sendSystemMessage(Component.literal(fluids.getFluidInTank(i).getAmount() + "/" + fluids.getTankCapacity(i)));
                 }
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS_SERVER;
     }
 
     @Override

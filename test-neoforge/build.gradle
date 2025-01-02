@@ -49,7 +49,7 @@ dependencies {
     modImplementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
     //for testing
-    modImplementation "curse.maven:energized-power-782147:5510706"
+    //modImplementation "curse.maven:energized-power-782147:5510706"
     //modImplementation "curse.maven:mekanism-268560:5496791"
 
     implementation(project(path: ":neoforge", configuration: "namedElements")) { transitive false }

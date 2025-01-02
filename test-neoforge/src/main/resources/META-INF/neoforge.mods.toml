@@ -21,20 +21,20 @@ side = "BOTH"
 [[dependencies.potentials_test]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.21.3,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.potentials_test]]
 modId = "architectury"
 type = "required"
-versionRange = "[13.0.2,)"
+versionRange = "[14.0.4,)"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.potentials_test]]
 modId = "potentials"
 type = "required"
-versionRange = "[0.1.0,)"
+versionRange = "[0.2.1,)"
 ordering = "AFTER"
 side = "BOTH"

@@ -14,21 +14,21 @@ description = '''''' #TODO fill the descriptions
 [[dependencies.potentials]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0,)"
+versionRange = "[21.3,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.potentials]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.21.3,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.potentials]]
 modId = "architectury"
 type = "required"
-versionRange = "[13.0.2,)"
+versionRange = "[14.0.4,)"
 ordering = "AFTER"
 side = "BOTH"
 

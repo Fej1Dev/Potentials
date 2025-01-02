@@ -54,7 +54,7 @@ public class TestMain {
     public static final RegistrySupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
     public static final RegistrySupplier<Item> TEST_TANK_ITEM = ITEMS.register("test_tank", () -> new BlockItem(TEST_TANK_BLOCK.get(),new Item.Properties()));
 
-    public static final RegistrySupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> BlockEntityType.Builder.of(TestBlockEntity::new).build(null));
+    public static final RegistrySupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> new BlockEntityType<>(TestBlockEntity::new, TEST_BLOCK.get()));
 
     public static void init() {
         BLOCKS.register();
