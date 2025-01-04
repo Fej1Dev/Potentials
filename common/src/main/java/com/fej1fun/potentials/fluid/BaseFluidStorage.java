@@ -10,11 +10,10 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class BaseFluidStorage implements UniversalFluidStorage {
     private final int tanks;
-    private final long capacity;
+    protected final long capacity;
     protected final NonNullList<FluidStack> fluidStacks;
-
-    private final long maxFill;
-    private final long maxDrain;
+    protected final long maxFill;
+    protected final long maxDrain;
 
     public BaseFluidStorage(int tanks, long capacity, long maxFill, long maxDrain) {
         this.tanks = tanks;

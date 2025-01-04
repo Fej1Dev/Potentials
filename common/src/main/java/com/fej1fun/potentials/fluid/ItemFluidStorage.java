@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ItemFluidStorage implements UniversalFluidStorage {
-    private final long maxAmount;
-    private final long maxFill;
-    private final long maxDrain;
-    private final ItemStack stack;
-    private final DataComponentType<List<FluidStack>> component;
+    protected final long maxAmount;
+    protected final long maxFill;
+    protected final long maxDrain;
+    protected final ItemStack stack;
+    protected final DataComponentType<List<FluidStack>> component;
     private final int tanks;
 
     public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {

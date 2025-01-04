@@ -5,13 +5,13 @@ import net.minecraft.world.item.ItemStack;
 
 public class ItemEnergyStorage implements UniversalEnergyStorage {
 
-    protected ItemStack stack;
-    private final int capacity;
-    private final int maxReceive;
-    private final int maxExtract;
+    protected final ItemStack stack;
+    protected final int capacity;
+    protected final int maxReceive;
+    protected final int maxExtract;
     protected final DataComponentType<Integer> component;
 
-    public ItemEnergyStorage(ItemStack stack, DataComponentType<Integer> component, int capacity, int maxReceive, int maxExtract) {
+    public ItemEnergyStorage(final ItemStack stack, DataComponentType<Integer> component, int capacity, int maxReceive, int maxExtract) {
         this.stack = stack;
         this.capacity = capacity;
         this.maxReceive = maxReceive;

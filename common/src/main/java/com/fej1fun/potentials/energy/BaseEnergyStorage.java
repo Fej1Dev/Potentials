@@ -2,9 +2,9 @@ package com.fej1fun.potentials.energy;
 
 public class BaseEnergyStorage implements UniversalEnergyStorage {
     protected int energy;
-    private final int capacity;
-    private final int maxReceive;
-    private final int maxExtract;
+    protected final int capacity;
+    protected final int maxReceive;
+    protected final int maxExtract;
 
     public BaseEnergyStorage(int capacity, int maxReceive, int maxExtract) {
         this.capacity = capacity;
