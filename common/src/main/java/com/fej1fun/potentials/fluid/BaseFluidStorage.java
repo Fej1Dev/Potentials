@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class BaseFluidStorage implements UniversalFluidStorage {
     private final int tanks;
     private final long capacity;
-    private final NonNullList<FluidStack> fluidStacks;
+    protected final NonNullList<FluidStack> fluidStacks;
 
     private final long maxFill;
     private final long maxDrain;
