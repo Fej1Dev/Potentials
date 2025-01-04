@@ -83,7 +83,8 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         long drained = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
-            if (!(getFluidInTank(i).getFluid()==stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
+            if (getFluidInTank(i).isEmpty()) continue;
+            if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
             drained = Math.min(getFluidValueInTank(i), Math.min(this.maxDrain, stack.getAmount()));
             if (!simulate) {
                 setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) - drained));
