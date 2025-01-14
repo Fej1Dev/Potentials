@@ -53,6 +53,26 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
         return toExtract;
     }
 
+    public int insertWithoutLimits(int amount, boolean simulate) {
+        if (!canInsertEnergy()) return 0;
+
+        int toReceive = Math.clamp(this.capacity - getEnergy(), 0, amount);
+        if (!simulate)
+            setEnergyStored(getEnergy() + toReceive);
+
+        return toReceive;
+    }
+
+    public int extractWithoutLimits(int amount, boolean simulate) {
+        if (!canExtractEnergy()) return 0;
+
+        int toExtract = Math.min(getEnergy(), amount);
+        if (!simulate)
+            setEnergyStored(getEnergy() - toExtract);
+
+        return toExtract;
+    }
+
     @Override
     public boolean canInsertEnergy() {
         return maxReceive > 0;
