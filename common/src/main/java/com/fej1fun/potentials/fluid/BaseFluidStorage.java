@@ -98,7 +98,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
     public FluidStack drain(long maxAmount, boolean simulate) {
         AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
         fluidStacks.stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
-            long removedAmount = Math.min(maxAmount, stack.getAmount());
+            long removedAmount = Math.min(this.maxDrain, Math.min(maxAmount, stack.getAmount()));
             toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
             stack.shrink(removedAmount);
         });
