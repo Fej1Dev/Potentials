@@ -69,8 +69,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
     public long fill(FluidStack stack, boolean simulate) {
         long filled = 0;
         for (int i = 0; i < getTanks(); i++) {
-            if (!isFluidValid(i, stack)) continue;
-            if (!(fluidStacks.get(i).getFluid()==stack.getFluid() || fluidStacks.get(i).isEmpty())) continue;
+            if (!fluidStacks.get(i).getFluid().isSame(stack.getFluid())) continue;
             if (fluidStacks.get(i).getAmount()>=capacity) continue;
             filled = Math.clamp(this.capacity - getFluidValueInTank(i), 0L, Math.min(this.maxFill, stack.getAmount()));
             if (!simulate) {
@@ -85,7 +84,6 @@ public class BaseFluidStorage implements UniversalFluidStorage {
     public FluidStack drain(FluidStack stack, boolean simulate) {
         long drained = 0;
         for (int i = 0; i < getTanks(); i++) {
-            if (!isFluidValid(i, stack)) continue;
             if (getFluidInTank(i).isEmpty()) continue;
             if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
             drained = Math.min(getFluidValueInTank(i), Math.min(this.maxDrain, stack.getAmount()));
