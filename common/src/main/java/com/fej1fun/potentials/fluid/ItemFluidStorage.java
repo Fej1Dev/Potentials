@@ -34,9 +34,9 @@ public class ItemFluidStorage implements UniversalFluidStorage {
 
     private NonNullList<FluidStack> getEmpty() {
         NonNullList<FluidStack> list = NonNullList.create();
-        for (int i = 0; i < tanks; i++) {
+        for (int i = 0; i < tanks; i++)
             list.set(i, FluidStack.empty());
-        }
+
         return list;
     }
 
@@ -83,9 +83,9 @@ public class ItemFluidStorage implements UniversalFluidStorage {
             if (!(getFluidInTank(i).getFluid()==stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
             if (getFluidInTank(i).getAmount()>=maxAmount) continue;
             filled = Math.clamp(maxAmount - getFluidValueInTank(i), 0L, Math.min(this.maxFill, stack.getAmount()));
-            if (!simulate) {
-                setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) + filled));
-            }
+            if (!simulate)
+                setFluidInTank(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
+
             break;
         }
         return filled;
@@ -99,9 +99,9 @@ public class ItemFluidStorage implements UniversalFluidStorage {
             if (getFluidInTank(i).isEmpty()) continue;
             if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
             drained = Math.min(getFluidValueInTank(i), Math.min(this.maxDrain, stack.getAmount()));
-            if (!simulate) {
-                setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) - drained));
-            }
+            if (!simulate)
+                setFluidInTank(i, stack.copyWithAmount(getFluidValueInTank(i) - drained));
+
             break;
         }
         return FluidStack.create(stack, drained);

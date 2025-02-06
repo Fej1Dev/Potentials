@@ -39,8 +39,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
     }
 
     /**
-     * @return A copy of the FluidStack
-     */
+     * @return A copy of the FluidStack */
     @Override
     public FluidStack getFluidInTank(int tank) {
         return fluidStacks.get(tank).copy();
@@ -73,9 +72,9 @@ public class BaseFluidStorage implements UniversalFluidStorage {
             if (!(fluidStacks.get(i).getFluid()==stack.getFluid() || fluidStacks.get(i).isEmpty())) continue;
             if (fluidStacks.get(i).getAmount()>=capacity) continue;
             filled = Math.clamp(this.capacity - getFluidValueInTank(i), 0L, Math.min(this.maxFill, stack.getAmount()));
-            if (!simulate) {
-                setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) + filled));
-            }
+            if (!simulate)
+                fluidStacks.set(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
+
             break;
         }
         return filled;
@@ -89,9 +88,9 @@ public class BaseFluidStorage implements UniversalFluidStorage {
             if (getFluidInTank(i).isEmpty()) continue;
             if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
             drained = Math.min(getFluidValueInTank(i), Math.min(this.maxDrain, stack.getAmount()));
-            if (!simulate) {
+            if (!simulate)
                 setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) - drained));
-            }
+
             break;
         }
         return FluidStack.create(stack, drained);
@@ -103,7 +102,8 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         fluidStacks.stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
             long removedAmount = Math.min(this.maxDrain, Math.min(maxAmount, stack.getAmount()));
             toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            stack.shrink(removedAmount);
+            if (simulate)
+                stack.shrink(removedAmount);
         });
         return toReturn.get();
     }
@@ -115,9 +115,9 @@ public class BaseFluidStorage implements UniversalFluidStorage {
             if (!(fluidStacks.get(i).getFluid()==stack.getFluid() || fluidStacks.get(i).isEmpty())) continue;
             if (fluidStacks.get(i).getAmount()>=capacity) continue;
             filled = Math.clamp(this.capacity - getFluidValueInTank(i), 0L, stack.getAmount());
-            if (!simulate) {
-                setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) + filled));
-            }
+            if (!simulate)
+                fluidStacks.set(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
+
             break;
         }
         return filled;
@@ -130,9 +130,9 @@ public class BaseFluidStorage implements UniversalFluidStorage {
             if (getFluidInTank(i).isEmpty()) continue;
             if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
             drained = Math.min(getFluidValueInTank(i), stack.getAmount());
-            if (!simulate) {
-                setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) - drained));
-            }
+            if (!simulate)
+                fluidStacks.get(i).shrink(drained);
+
             break;
         }
         return FluidStack.create(stack, drained);
