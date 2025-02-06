@@ -113,7 +113,8 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         getFluidStacks().stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
             long removedAmount = Math.min(maxAmount, stack.getAmount());
             toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            stack.shrink(removedAmount);
+            if (!simulate)
+                stack.shrink(removedAmount);
         });
         return toReturn.get();
     }

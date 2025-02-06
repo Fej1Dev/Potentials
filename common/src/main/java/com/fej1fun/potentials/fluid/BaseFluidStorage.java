@@ -102,7 +102,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         fluidStacks.stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
             long removedAmount = Math.min(this.maxDrain, Math.min(maxAmount, stack.getAmount()));
             toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            if (simulate)
+            if (!simulate)
                 stack.shrink(removedAmount);
         });
         return toReturn.get();
@@ -143,7 +143,8 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         fluidStacks.stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
             long removedAmount = Math.min(maxAmount, stack.getAmount());
             toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            stack.shrink(removedAmount);
+            if (!simulate)
+                stack.shrink(removedAmount);
         });
         return toReturn.get();
     }
