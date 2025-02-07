@@ -3,6 +3,7 @@ package com.fej1fun.potentials.fabric.capabilities.holders;
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidVariantStorage;
+import com.fej1fun.potentials.fabric.utils.ItemStackStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
@@ -22,7 +23,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
 
     @Override
     public UniversalFluidStorage getCapability(ItemStack stack) {
-        Storage<FluidVariant> fluidStorage = itemApiLookup.find(stack, null);
+        Storage<FluidVariant> fluidStorage = itemApiLookup.find(stack, ContainerItemContext.ofSingleSlot(new ItemStackStorage(stack)));
         return fluidStorage == null ? null : new UniversalFluidVariantStorage(fluidStorage);
     }
 
