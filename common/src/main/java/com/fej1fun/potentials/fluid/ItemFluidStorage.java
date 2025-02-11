@@ -80,9 +80,9 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         long filled = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
-            if (!(getFluidInTank(i).getFluid()==stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
-            if (getFluidInTank(i).getAmount()>=maxAmount) continue;
-            filled = Math.clamp(maxAmount - getFluidValueInTank(i), 0L, Math.min(this.maxFill, stack.getAmount()));
+            if (!(getFluidInTank(i).getFluid() == stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
+            if (getFluidValueInTank(i) >= maxAmount) continue;
+            filled = Math.clamp(Math.min(this.maxFill, stack.getAmount()), 0L, maxAmount - getFluidValueInTank(i));
             if (!simulate)
                 setFluidInTank(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
 
