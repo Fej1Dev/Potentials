@@ -1,5 +1,3 @@
-import me.modmuss50.mpp.ReleaseType
-
 plugins {
     id 'dev.architectury.loom' version '1.6-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
@@ -100,7 +98,7 @@ subprojects {
         publishMods {
             file = file("../${modLoader.capitalize()}/build/libs/potentials-${modLoader}-${minecraft_version}-${mod_version}.jar")
             changelog = file("../changelog.md").getText('UTF-8')
-            type = release_type == 'alpha' ? ReleaseType.ALPHA : (release_type == 'beta' ? ReleaseType.BETA : ReleaseType.STABLE)
+            type = release_type == 'alpha' ? ALPHA : (release_type == 'beta' ? BETA : STABLE)
             modLoaders.add(modLoader)
             displayName = "[${modLoader.capitalize()} ${minecraft_version}] Potentials ${mod_version}"
 
