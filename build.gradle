@@ -128,20 +128,20 @@ subprojects {
 
             }
 
-            github {
-                repository = "Fej1Dev/Potentials"
-                accessToken = providers.gradleProperty("GITHUB_TOKEN")
-                commitish = "main"
-                tagName = "${type}/${minecraft_version}"
-
-                // Upload the files to a previously created release, by providing another github publish task
-                // This is useful in multi-project builds where you want to publish multiple subprojects to a single release
-                //parent tasks.named("publishGithub")
-
-                // Optionally allow the release to be created without any attached files.
-                // This is useful when you have subprojects using the parent option that you want to publish a single release.
-                allowEmptyFiles = true
-            }
+//            github {
+//                repository = "Fej1Dev/Potentials"
+//                accessToken = providers.gradleProperty("GITHUB_TOKEN")
+//                commitish = "main"
+//                tagName = "${type}/${minecraft_version}"
+//
+//                // Upload the files to a previously created release, by providing another github publish task
+//                // This is useful in multi-project builds where you want to publish multiple subprojects to a single release
+//                //parent tasks.named("publishGithub")
+//
+//                // Optionally allow the release to be created without any attached files.
+//                // This is useful when you have subprojects using the parent option that you want to publish a single release.
+//                allowEmptyFiles = true
+//            }
         }
     }
 }
