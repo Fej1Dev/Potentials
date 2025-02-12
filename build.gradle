@@ -118,7 +118,7 @@ subprojects {
             }
 
             modrinth {
-                projectId = "ItTQpuBn"
+                projectId = "J9pKOkxP"
                 accessToken = providers.gradleProperty("MODRINTH_TOKEN")
                 minecraftVersions.add("${minecraft_version}")
                 requires("architectury-api")
