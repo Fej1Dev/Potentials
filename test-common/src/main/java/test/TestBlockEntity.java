@@ -7,7 +7,6 @@ import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
-import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
