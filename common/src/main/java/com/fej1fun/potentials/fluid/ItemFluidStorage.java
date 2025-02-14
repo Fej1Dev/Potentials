@@ -6,6 +6,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +27,8 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         this.stack = stack;
         this.component = component;
         this.tanks = tanks;
+
+        stack.set(component, getEmpty());
     }
 
     public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount) {
