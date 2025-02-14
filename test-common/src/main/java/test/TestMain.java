@@ -11,6 +11,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -35,10 +36,11 @@ public class TestMain {
     public static DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(MOD_ID, Registries.BLOCK_ENTITY_TYPE);
     public static DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(MOD_ID, Registries.DATA_COMPONENT_TYPE);
 
-    public static final DeferredSupplier<DataComponentType<Integer>> ENERGY = register("energy", builder -> builder.persistent(Codec.INT));
-    public static final DeferredSupplier<DataComponentType<FluidStack>> FLUID = register("fluid", builder -> builder.persistent(FluidStack.CODEC));
-    public static final DeferredSupplier<DataComponentType<List<FluidStack>>> FLUID_LIST = register("fluid", builder -> builder.persistent(Codec.list(FluidStack.CODEC)));
-    private static <T> DeferredSupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
+    public static final RegistrySupplier<DataComponentType<Integer>> ENERGY = register("energy", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
+    public static final RegistrySupplier<DataComponentType<List<FluidStack>>> FLUID_LIST = register("fluid", builder -> builder
+            .persistent(Codec.list(FluidStack.CODEC))
+            .networkSynchronized(FluidStack.STREAM_CODEC.apply(ByteBufCodecs.list())));
+    private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }
 
