@@ -1,0 +1,1 @@
+- Fix item components not registering
