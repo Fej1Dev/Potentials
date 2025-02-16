@@ -87,8 +87,8 @@ subprojects {
             maven {
                 url = "https://maven.exodusstudio.org/releases"
                 credentials {
-                    username = providers.gradleProperty("MAVEN_USER")
-                    password = providers.gradleProperty("MAVEN_PASS")
+                    username = System.getenv("MAVEN_USER")
+                    password = System.getenv("MAVEN_PASS")
                 }
             }
         }
