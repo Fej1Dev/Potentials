@@ -5,6 +5,7 @@ import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityH
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.NoProviderItemCapabilityHolder;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.neoforge.capabilities.holders.EnergyBlockHolder;
 import com.fej1fun.potentials.neoforge.capabilities.holders.EnergyItemHolder;
@@ -29,7 +30,7 @@ public class CapabilitiesHelperImpl {
         return FluidBlockHolder.INSTANCE;
     }
 
-    public static NoProviderFluidItemCapabilityHolder<UniversalFluidStorage, Void> getFluidItemCapability() {
+    public static NoProviderFluidItemCapabilityHolder<UniversalFluidItemStorage, Void> getFluidItemCapability() {
         return FluidItemHolder.INSTANCE;
     }
 

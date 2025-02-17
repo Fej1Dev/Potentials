@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class UniversalFluidVariantStorage implements UniversalFluidStorage {
-    private final SlottedStorage<FluidVariant> fluidStorage;
+    protected final SlottedStorage<FluidVariant> fluidStorage;
 
     public UniversalFluidVariantStorage(Storage<FluidVariant> fluidStorage) {
         this.fluidStorage = new SlotStorage<>(fluidStorage);
