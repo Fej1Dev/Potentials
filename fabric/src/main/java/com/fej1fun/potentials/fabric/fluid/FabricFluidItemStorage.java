@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -40,7 +41,7 @@ public class FabricFluidItemStorage implements SlottedStorage<FluidVariant> {
     }
 
     @Override
-    public Iterator<StorageView<FluidVariant>> iterator() {
+    public @NotNull Iterator<StorageView<FluidVariant>> iterator() {
         List<StorageView<FluidVariant>> toReturn = new ArrayList<>();
         for (int i = 0; i < getSlotCount(); i++) {
             toReturn.add(new SingleSlotFluidStorage(fluidStorage, i));

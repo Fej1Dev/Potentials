@@ -1,6 +1,7 @@
 package com.fej1fun.potentials.fabric.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
+import com.fej1fun.potentials.fabric.fluid.FabricFluidItemStorage;
 import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidItemVariantStorage;
 import com.fej1fun.potentials.fabric.utils.ItemStackStorage;
@@ -33,7 +34,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
         itemApiLookup.registerForItems((stack, context) -> {
             if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
                 var fluid = fluidItem.getFluidTank(stack);
-                return fluid == null ? null : new FabricFluidStorage(fluid);
+                return fluid == null ? null : new FabricFluidItemStorage(fluid);
             }
             return null;
         }, item.get());
