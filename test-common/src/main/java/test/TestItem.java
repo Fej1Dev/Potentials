@@ -4,6 +4,7 @@ import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.energy.ItemEnergyStorage;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.fluid.ItemFluidStorage;
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
@@ -42,7 +43,7 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
     }
 
     @Override
-    public UniversalFluidStorage getFluidTank(@NotNull ItemStack stack) {
+    public UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack) {
         return new ItemFluidStorage(TestMain.FLUID_LIST.get(), stack, 1, 1000);
     }
 
