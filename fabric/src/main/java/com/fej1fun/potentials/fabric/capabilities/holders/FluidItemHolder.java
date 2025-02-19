@@ -2,7 +2,6 @@ package com.fej1fun.potentials.fabric.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.fej1fun.potentials.fabric.fluid.FabricFluidItemStorage;
-import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidItemVariantStorage;
 import com.fej1fun.potentials.fabric.utils.ItemStackStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
