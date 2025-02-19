@@ -6,10 +6,8 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class ItemFluidStorage implements UniversalFluidItemStorage {
     protected final long maxAmount;
@@ -101,18 +99,6 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
             break;
         }
         return FluidStack.create(stack, drained);
-    }
-
-    @Override
-    public FluidStack drain(long maxAmount, boolean simulate) {
-        AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
-        getFluidStacks().stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
-            long removedAmount = Math.min(this.maxAmount, stack.getAmount());
-            toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            if (!simulate)
-                stack.shrink(removedAmount);
-        });
-        return toReturn.get();
     }
 
     @Override

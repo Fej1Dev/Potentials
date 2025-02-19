@@ -45,7 +45,11 @@ public class NeoForgeFluidStorage implements IFluidHandler {
     }
 
     @Override
-    public @NotNull FluidStack drain(int i, @NotNull FluidAction fluidAction) {
-        return FluidStackHooksForge.toForge(fluidStorage.drain(i, fluidAction.simulate())); //TODO fill this
+    public @NotNull FluidStack drain(int maxDrain, @NotNull FluidAction fluidAction) {
+        for (dev.architectury.fluid.FluidStack stack : fluidStorage) {
+            if (stack.isEmpty()) continue;
+            return FluidStackHooksForge.toForge(fluidStorage.drain(stack.copyWithAmount(maxDrain), fluidAction.simulate()));
+        }
+        return FluidStack.EMPTY;
     }
 }

@@ -50,11 +50,6 @@ public class UniversalFluidItemHandler implements UniversalFluidItemStorage {
     }
 
     @Override
-    public FluidStack drain(long maxAmount, boolean simulate) {
-        return FluidStackHooksForge.fromForge(fluidHandler.drain((int) maxAmount, simulate ? IFluidHandler.FluidAction.SIMULATE : IFluidHandler.FluidAction.EXECUTE));
-    }
-
-    @Override
     public @NotNull Iterator<FluidStack> iterator() {
         List<FluidStack> toReturn = new ArrayList<>();
         for (int i = 0; i < fluidHandler.getTanks(); i++) {

@@ -13,7 +13,6 @@ public class UniversalFluidItemVariantStorage extends UniversalFluidVariantStora
         this.context = context;
     }
 
-
     @Override
     public ItemStack getContainer() {
         return context.getItemVariant().toStack();
