@@ -1,19 +1,21 @@
 package com.fej1fun.potentials.neoforge.fluid;
 
-import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class UniversalFluidHandler implements UniversalFluidStorage {
-    protected final IFluidHandler fluidHandler;
+public class UniversalFluidItemHandler implements UniversalFluidItemStorage {
+    protected final IFluidHandlerItem fluidHandler;
 
-    public UniversalFluidHandler(IFluidHandler fluidHandler) {
+    public UniversalFluidItemHandler(IFluidHandlerItem fluidHandler) {
         this.fluidHandler = fluidHandler;
     }
 
@@ -54,5 +56,10 @@ public class UniversalFluidHandler implements UniversalFluidStorage {
             toReturn.add(FluidStackHooksForge.fromForge(fluidHandler.getFluidInTank(i)));
         }
         return toReturn.iterator();
+    }
+
+    @Override
+    public ItemStack getContainer() {
+        return fluidHandler.getContainer();
     }
 }

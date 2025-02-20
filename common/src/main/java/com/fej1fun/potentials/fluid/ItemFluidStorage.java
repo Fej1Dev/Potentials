@@ -6,13 +6,10 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
-public class ItemFluidStorage implements UniversalFluidStorage {
+public class ItemFluidStorage implements UniversalFluidItemStorage {
     protected final long maxAmount;
     protected final long maxFill;
     protected final long maxDrain;
@@ -27,8 +24,6 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         this.stack = stack;
         this.component = component;
         this.tanks = tanks;
-
-        stack.set(component, getEmpty());
     }
 
     public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount) {
@@ -44,7 +39,7 @@ public class ItemFluidStorage implements UniversalFluidStorage {
     }
 
     private List<FluidStack> getFluidStacks() {
-        return stack.getOrDefault(component, getEmpty());
+        return this.stack.getOrDefault(this.component, getEmpty());
     }
 
     @Override
@@ -70,7 +65,7 @@ public class ItemFluidStorage implements UniversalFluidStorage {
 
     @Override
     public long getTankCapacity(int tank) {
-        return maxAmount;
+        return this.maxAmount;
     }
 
     @Override
@@ -84,8 +79,8 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
             if (!(getFluidInTank(i).getFluid() == stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
-            if (getFluidValueInTank(i) >= maxAmount) continue;
-            filled = Math.clamp(Math.min(this.maxFill, stack.getAmount()), 0L, maxAmount - getFluidValueInTank(i));
+            if (getFluidValueInTank(i) >= this.maxAmount) continue;
+            filled = Math.clamp(Math.min(this.maxFill, stack.getAmount()), 0L, this.maxAmount - getFluidValueInTank(i));
             if (!simulate)
                 setFluidInTank(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
 
@@ -111,20 +106,12 @@ public class ItemFluidStorage implements UniversalFluidStorage {
     }
 
     @Override
-    public FluidStack drain(long maxAmount, boolean simulate) {
-        AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
-        getFluidStacks().stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
-            long removedAmount = Math.min(maxAmount, stack.getAmount());
-            toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            if (!simulate)
-                stack.shrink(removedAmount);
-        });
-        return toReturn.get();
-    }
-
-    @Override
     public @NotNull Iterator<FluidStack> iterator() {
         return getFluidStacks().iterator();
     }
 
+    @Override
+    public ItemStack getContainer() {
+        return this.stack;
+    }
 }

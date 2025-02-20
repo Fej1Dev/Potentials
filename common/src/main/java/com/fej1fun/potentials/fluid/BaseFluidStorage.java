@@ -4,9 +4,7 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.NonNullList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
 * Basic implementation for UniversalFluidStorage
@@ -96,18 +94,6 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         return FluidStack.create(stack, drained);
     }
 
-    @Override
-    public FluidStack drain(long maxAmount, boolean simulate) {
-        AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
-        fluidStacks.stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
-            long removedAmount = Math.min(this.maxDrain, Math.min(maxAmount, stack.getAmount()));
-            toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            if (!simulate)
-                stack.shrink(removedAmount);
-        });
-        return toReturn.get();
-    }
-
     public long fillWithoutLimits(FluidStack stack, boolean simulate) {
         long filled = 0;
         for (int i = 0; i < getTanks(); i++) {
@@ -136,17 +122,6 @@ public class BaseFluidStorage implements UniversalFluidStorage {
             break;
         }
         return FluidStack.create(stack, drained);
-    }
-
-    public FluidStack drainWithoutLimits(long maxAmount, boolean simulate) {
-        AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
-        fluidStacks.stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
-            long removedAmount = Math.min(maxAmount, stack.getAmount());
-            toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            if (!simulate)
-                stack.shrink(removedAmount);
-        });
-        return toReturn.get();
     }
 
     @Override

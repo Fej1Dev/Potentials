@@ -1,6 +1,5 @@
 package com.fej1fun.potentials.fabric.fluid;
 
-import com.fej1fun.potentials.fabric.utils.SlotStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
@@ -12,31 +11,52 @@ import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class UniversalFluidVariantStorage implements UniversalFluidStorage {
-    private final SlottedStorage<FluidVariant> fluidStorage;
+    protected final Storage<FluidVariant> storage;
 
-    public UniversalFluidVariantStorage(Storage<FluidVariant> fluidStorage) {
-        this.fluidStorage = new SlotStorage<>(fluidStorage);
+    public UniversalFluidVariantStorage(Storage<FluidVariant> storage) {
+        this.storage = storage;
     }
 
     @Override
     public int getTanks() {
-        return fluidStorage.getSlotCount();
+        int i = 0;
+        if (storage instanceof SlottedStorage<FluidVariant> slottedStorage)
+            return slottedStorage.getSlotCount();
+        for (StorageView<FluidVariant> ignored : storage)
+            i++;
+        return i;
     }
 
     @Override
     public FluidStack getFluidInTank(int tank) {
-        return FluidStackHooksFabric.fromFabric(fluidStorage.getSlot(tank).getResource(), fluidStorage.getSlot(tank).getAmount() / 81L);
+        if (storage instanceof SlottedStorage<FluidVariant> slottedStorage)
+            return FluidStackHooksFabric.fromFabric(slottedStorage.getSlot(tank).getResource(), slottedStorage.getSlot(tank).getAmount() / 81L);
+
+        int i = 0;
+        for (StorageView<FluidVariant> view : storage) {
+            if (i == tank)
+                return FluidStackHooksFabric.fromFabric(view.getResource(), view.getAmount() / 81L);
+        }
+
+        throw new IndexOutOfBoundsException(tank);
     }
 
     @Override
     public long getTankCapacity(int tank) {
-        return fluidStorage.getSlot(tank).getCapacity() / 81L;
+        if (storage instanceof SlottedStorage<FluidVariant> slottedStorage)
+            return slottedStorage.getSlot(tank).getCapacity() / 81L;
+
+        int i = 0;
+        for (StorageView<FluidVariant> view : storage) {
+            if (i == tank)
+                return view.getCapacity() / 81L;
+        }
+
+        throw new IndexOutOfBoundsException(tank);
     }
 
     @Override
@@ -47,7 +67,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
     @Override
     public long fill(FluidStack stack, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            long inserted = fluidStorage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction);
+            long inserted = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction);
             if (simulate)
                 transaction.abort();
             return inserted / 81L;
@@ -57,7 +77,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
     @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            long extracted = fluidStorage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction);
+            long extracted = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction);
             if (simulate)
                 transaction.abort();
             return FluidStack.create(stack, extracted / 81L);
@@ -65,27 +85,9 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
     }
 
     @Override
-    public FluidStack drain(long maxAmount, boolean simulate) {
-        AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
-        try(Transaction transaction = Transaction.openOuter()) {
-            fluidStorage.getSlots().stream()
-                    .filter(StorageView::isResourceBlank)
-                    .max(Comparator.comparing(StorageView::getAmount))
-                    .ifPresent(storageView -> {
-                        long extracted = storageView.extract(storageView.getResource(), maxAmount * 81L, transaction);
-                        if (simulate)
-                            transaction.abort();
-                        toReturn.set(FluidStackHooksFabric.fromFabric(storageView.getResource(), extracted / 81L));
-
-                    });
-            return toReturn.get();
-        }
-    }
-
-    @Override
     public @NotNull Iterator<FluidStack> iterator() {
         List<FluidStack> fluidStacks = new ArrayList<>();
-        for (StorageView<FluidVariant> storageView : fluidStorage) {
+        for (StorageView<FluidVariant> storageView : storage) {
             fluidStacks.add(FluidStackHooksFabric.fromFabric(storageView.getResource(), storageView.getAmount() / 81L));
         }
         return fluidStacks.iterator();

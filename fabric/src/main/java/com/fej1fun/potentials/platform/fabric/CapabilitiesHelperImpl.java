@@ -9,6 +9,7 @@ import com.fej1fun.potentials.fabric.capabilities.holders.EnergyBlockHolder;
 import com.fej1fun.potentials.fabric.capabilities.holders.EnergyItemHolder;
 import com.fej1fun.potentials.fabric.capabilities.holders.FluidBlockHolder;
 import com.fej1fun.potentials.fabric.capabilities.holders.FluidItemHolder;
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import net.minecraft.core.Direction;
 import org.jetbrains.annotations.ApiStatus;
@@ -29,7 +30,7 @@ public class CapabilitiesHelperImpl {
         return FluidBlockHolder.INSTANCE;
     }
 
-    public static NoProviderFluidItemCapabilityHolder<UniversalFluidStorage, Void> getFluidItemCapability() {
+    public static NoProviderFluidItemCapabilityHolder<UniversalFluidItemStorage, Void> getFluidItemCapability() {
         return FluidItemHolder.INSTANCE;
     }
 

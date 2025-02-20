@@ -9,5 +9,4 @@ public interface UniversalFluidStorage extends Iterable<FluidStack> {
     boolean isFluidValid(int tank, FluidStack stack);
     long fill(FluidStack stack, boolean simulate);
     FluidStack drain(FluidStack stack, boolean simulate);
-    FluidStack drain(long maxAmount, boolean simulate);
 }

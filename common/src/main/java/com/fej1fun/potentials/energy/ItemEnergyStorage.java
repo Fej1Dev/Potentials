@@ -17,6 +17,7 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
         this.component = component;
+
     }
 
     public ItemEnergyStorage(ItemStack stack, DataComponentType<Integer> component, int capacity) {
