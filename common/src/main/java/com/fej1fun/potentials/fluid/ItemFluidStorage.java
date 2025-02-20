@@ -31,7 +31,7 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     }
 
     private NonNullList<FluidStack> getEmpty() {
-        return NonNullList.withSize(tanks, FluidStack.empty());
+        return getEmpty(this.tanks);
     }
 
     public static NonNullList<FluidStack> getEmpty(int tanks) {
