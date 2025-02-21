@@ -17,7 +17,7 @@ Current implementations:
 Add the maven to your `build.gradle` file
 ```
 repositories {
-    maven { url "https://maven.odysseyus.fr/releases" }
+    maven { url "https://maven.exodusstudio.org/releases" }
 }
 ```
 Now add the api to each of your modules' `build.gradle` file
