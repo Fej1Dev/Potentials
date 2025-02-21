@@ -85,6 +85,7 @@ subprojects {
                 }
             }
             maven {
+                name = "ExodusStudio"
                 url = "https://maven.exodusstudio.org/releases"
                 credentials {
                     username = System.getenv("MAVEN_USER")
