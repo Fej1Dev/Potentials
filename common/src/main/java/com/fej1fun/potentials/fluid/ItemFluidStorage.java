@@ -1,23 +1,22 @@
 package com.fej1fun.potentials.fluid;
 
+import com.fej1fun.potentials.components.FluidAmountListDataComponent;
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
-import java.util.List;
 
 public class ItemFluidStorage implements UniversalFluidItemStorage {
     protected final long maxAmount;
     protected final long maxFill;
     protected final long maxDrain;
     protected final ItemStack stack;
-    protected final DataComponentType<List<FluidStack>> component;
+    protected final DataComponentType<FluidAmountListDataComponent> component;
     private final int tanks;
 
-    public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
+    public ItemFluidStorage(DataComponentType<FluidAmountListDataComponent> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
         this.maxAmount = maxAmount;
         this.maxFill = maxFill;
         this.maxDrain = maxDrain;
@@ -30,15 +29,15 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
 
     }
 
-    public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount) {
+    public ItemFluidStorage(DataComponentType<FluidAmountListDataComponent> component, ItemStack stack, int tanks, long maxAmount) {
         this(component, stack, tanks, maxAmount, maxAmount, maxAmount);
     }
 
-    private NonNullList<FluidStack> getEmpty() {
-        return NonNullList.withSize(tanks, FluidStack.empty());
+    private FluidAmountListDataComponent getEmpty() {
+        return FluidAmountListDataComponent.emptyWithSize(this.tanks);
     }
 
-    private List<FluidStack> getFluidStacks() {
+    private FluidAmountListDataComponent getComponent() {
         return this.stack.getOrDefault(this.component, getEmpty());
     }
 
@@ -52,15 +51,15 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
      */
     @Override
     public FluidStack getFluidInTank(int tank) {
-        return getFluidStacks().get(tank).copy();
+        return getComponent().getAsFluidStack(tank);
     }
 
     public void setFluidInTank(int tank, FluidStack fluidStack) {
-        getFluidStacks().set(tank, fluidStack);
+        getComponent().setFluidStack(tank, fluidStack);
     }
 
     public long getFluidValueInTank(int tank) {
-        return getFluidInTank(tank).getAmount();
+        return getComponent().getAmount(tank);
     }
 
     @Override
@@ -107,7 +106,7 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
 
     @Override
     public @NotNull Iterator<FluidStack> iterator() {
-        return getFluidStacks().iterator();
+        return getComponent().asFluidStackList().iterator();
     }
 
     @Override
