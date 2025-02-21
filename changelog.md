@@ -1,1 +1,2 @@
-- Set stack component if component is null
+#### BREAKING:
+- new data component for fluid items
