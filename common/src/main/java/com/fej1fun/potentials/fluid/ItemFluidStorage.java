@@ -24,6 +24,10 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
         this.stack = stack;
         this.component = component;
         this.tanks = tanks;
+
+        if (this.stack.get(component) == null)
+            stack.set(component, getEmpty());
+
     }
 
     public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount) {
@@ -31,10 +35,6 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     }
 
     private NonNullList<FluidStack> getEmpty() {
-        return getEmpty(this.tanks);
-    }
-
-    public static NonNullList<FluidStack> getEmpty(int tanks) {
         return NonNullList.withSize(tanks, FluidStack.empty());
     }
 
