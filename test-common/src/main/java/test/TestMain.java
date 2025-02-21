@@ -3,8 +3,8 @@ package test;
 import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.capabilities.types.BlockCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.ItemCapabilityHolder;
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import com.mojang.serialization.Codec;
-import dev.architectury.fluid.FluidStack;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponentType;
@@ -22,7 +22,6 @@ import org.slf4j.LoggerFactory;
 import test.gas.GasProvider;
 import test.gas.IGasStorage;
 
-import java.util.List;
 import java.util.function.UnaryOperator;
 
 public class TestMain {
@@ -35,9 +34,9 @@ public class TestMain {
     public static DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(MOD_ID, Registries.DATA_COMPONENT_TYPE);
 
     public static final RegistrySupplier<DataComponentType<Integer>> ENERGY = register("energy", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
-    public static final RegistrySupplier<DataComponentType<List<FluidStack>>> FLUID_LIST = register("fluid", builder -> builder
-            .persistent(Codec.list(FluidStack.CODEC))
-            .networkSynchronized(FluidStack.STREAM_CODEC.apply(ByteBufCodecs.list())));
+    public static final RegistrySupplier<DataComponentType<FluidAmountMapDataComponent>> FLUID_AMOUNT = register("fluid_amount", builder -> builder
+            .persistent(FluidAmountMapDataComponent.CODEC)
+            .networkSynchronized(FluidAmountMapDataComponent.STREAM_CODEC));
     private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
         return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
     }
