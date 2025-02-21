@@ -3,7 +3,7 @@
 ----
 ***THIS MOD DOES NOTHING ON ITS OWN!***
 
-Potentials allows mod makers to use capabilities(lookups) for both
+Potentials allows mod makers to use Capabilities(Api lookups) for both
 Neoforge and Fabric simultaneously!
 
 You can create your own capabilities or use existing ones.
