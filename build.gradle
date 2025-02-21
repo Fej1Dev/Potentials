@@ -14,16 +14,6 @@ allprojects {
     version = rootProject.mod_version
 }
 
-tasks.register('publishToMavenAndPlatforms') {
-    dependsOn 'clean'
-    dependsOn 'build'
-    dependsOn 'publish'
-    dependsOn 'publishMods'
-    tasks.named('build').mustRunAfter 'clean'
-    tasks.named('publish').mustRunAfter 'build'
-    tasks.named('publishMods').mustRunAfter 'build'
-}
-
 subprojects {
     apply plugin: 'dev.architectury.loom'
     apply plugin: 'architectury-plugin'

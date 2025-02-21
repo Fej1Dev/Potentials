@@ -1,6 +1,6 @@
 package com.fej1fun.potentials.fluid;
 
-import com.fej1fun.potentials.components.FluidAmountListDataComponent;
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
@@ -13,10 +13,10 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     protected final long maxFill;
     protected final long maxDrain;
     protected final ItemStack stack;
-    protected final DataComponentType<FluidAmountListDataComponent> component;
+    protected final DataComponentType<FluidAmountMapDataComponent> component;
     private final int tanks;
 
-    public ItemFluidStorage(DataComponentType<FluidAmountListDataComponent> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
+    public ItemFluidStorage(DataComponentType<FluidAmountMapDataComponent> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
         this.maxAmount = maxAmount;
         this.maxFill = maxFill;
         this.maxDrain = maxDrain;
@@ -29,15 +29,15 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
 
     }
 
-    public ItemFluidStorage(DataComponentType<FluidAmountListDataComponent> component, ItemStack stack, int tanks, long maxAmount) {
+    public ItemFluidStorage(DataComponentType<FluidAmountMapDataComponent> component, ItemStack stack, int tanks, long maxAmount) {
         this(component, stack, tanks, maxAmount, maxAmount, maxAmount);
     }
 
-    private FluidAmountListDataComponent getEmpty() {
-        return FluidAmountListDataComponent.emptyWithSize(this.tanks);
+    private FluidAmountMapDataComponent getEmpty() {
+        return FluidAmountMapDataComponent.emptyWithSize(this.tanks);
     }
 
-    private FluidAmountListDataComponent getComponent() {
+    private FluidAmountMapDataComponent getComponent() {
         return this.stack.getOrDefault(this.component, getEmpty());
     }
 

@@ -17,34 +17,34 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class FluidAmountListDataComponent implements Serializable {
+public class FluidAmountMapDataComponent implements Serializable {
 
     @SuppressWarnings("all")
-    public static final Codec<FluidAmountListDataComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final Codec<FluidAmountMapDataComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             BuiltInRegistries.FLUID.holderByNameCodec().listOf().fieldOf("fluids")
                     .forGetter(component ->
                             component.fluids.stream().map(fluid -> (Holder<Fluid>) fluid.builtInRegistryHolder()).toList()),
             Codec.LONG.listOf().fieldOf("amounts").forGetter(component -> component.amounts.stream().toList())
-    ).apply(instance, FluidAmountListDataComponent::create));
+    ).apply(instance, FluidAmountMapDataComponent::create));
     @SuppressWarnings("all")
-    public static final StreamCodec<RegistryFriendlyByteBuf, FluidAmountListDataComponent> STREAM_CODEC = StreamCodec.composite(
+    public static final StreamCodec<RegistryFriendlyByteBuf, FluidAmountMapDataComponent> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.FLUID).apply(ByteBufCodecs.list()), component ->
                     component.fluids.stream().map(fluid-> (Holder<Fluid>) fluid.builtInRegistryHolder()).toList(),
             ByteBufCodecs.VAR_LONG.apply(ByteBufCodecs.list()), component -> component.amounts.stream().toList(),
-            FluidAmountListDataComponent::create
+            FluidAmountMapDataComponent::create
     );
 
     protected final List<Fluid> fluids;
     protected final List<Long> amounts;
 
 
-    public FluidAmountListDataComponent(final Map<Fluid, Long> fluidAmounts) {
+    public FluidAmountMapDataComponent(final Map<Fluid, Long> fluidAmounts) {
         if (fluidAmounts.isEmpty()) throw new IllegalArgumentException("Map<Fluid, Long> Cannot be empty");
 
         this.fluids = fluidAmounts.keySet().stream().toList();
         this.amounts = fluidAmounts.values().stream().toList();
     }
-    public FluidAmountListDataComponent(final List<Fluid> fluids, final List<Long> amounts) {
+    public FluidAmountMapDataComponent(final List<Fluid> fluids, final List<Long> amounts) {
         if (fluids.isEmpty()) throw new IllegalArgumentException("List<Fluid> Cannot be empty");
         if (amounts.isEmpty()) throw new IllegalArgumentException("List<Long> Cannot be empty");
         if (fluids.size() != amounts.size()) throw new IllegalArgumentException("List<Fluid> must be the same length as List<Long>");
@@ -53,22 +53,22 @@ public class FluidAmountListDataComponent implements Serializable {
         this.amounts = amounts;
     }
 
-    public static FluidAmountListDataComponent create(List<Holder<Fluid>> holders, List<Long> amounts) {
+    public static FluidAmountMapDataComponent create(List<Holder<Fluid>> holders, List<Long> amounts) {
         if (holders.isEmpty()) throw new IllegalArgumentException("List<Holder<Fluid>> Cannot be empty");
         if (amounts.isEmpty()) throw new IllegalArgumentException("List<Long> Cannot be empty");
         if (holders.size() != amounts.size()) throw new IllegalArgumentException("List<Holder<Fluid>> must be the same length as List<Long>");
 
-        return new FluidAmountListDataComponent(holders.stream().map(Holder::value).toList(), amounts);
+        return new FluidAmountMapDataComponent(holders.stream().map(Holder::value).toList(), amounts);
     }
-    public static FluidAmountListDataComponent create(final List<FluidStack> fluidStacks) {
+    public static FluidAmountMapDataComponent create(final List<FluidStack> fluidStacks) {
         if (fluidStacks.isEmpty()) throw new IllegalArgumentException("List<FluidStack> Cannot be empty");
 
-        return new FluidAmountListDataComponent(fluidStacks.stream().collect(Collectors.toMap(FluidStack::getFluid, FluidStack::getAmount)));
+        return new FluidAmountMapDataComponent(fluidStacks.stream().collect(Collectors.toMap(FluidStack::getFluid, FluidStack::getAmount)));
     }
-    public static FluidAmountListDataComponent emptyWithSize(int size) {
+    public static FluidAmountMapDataComponent emptyWithSize(int size) {
         List<Fluid> fluids = NonNullList.withSize(size, Fluids.EMPTY);
         List<Long> amounts = NonNullList.withSize(size, 0L);
-        return new FluidAmountListDataComponent(fluids, amounts);
+        return new FluidAmountMapDataComponent(fluids, amounts);
     }
 
     public List<FluidStack> asFluidStackList() {
