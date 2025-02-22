@@ -1,1 +1,1 @@
-- Fix Minecraft not recognizing hashCode and equals methods 
+- Make Lists in FluidAmountMapDataComponent mutable
