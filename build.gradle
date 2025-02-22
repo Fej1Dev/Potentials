@@ -60,7 +60,7 @@ subprojects {
         it.options.release = 21
     }
 
-    if (!isCommon && !isTest) {
+    if (!isTest) {
     // Configure Maven publishing.
         publishing {
             publications {
@@ -97,37 +97,37 @@ subprojects {
             }
         }
 
+        if (!isCommon) {
+            publishMods {
+                file = file("../${modLoader.capitalize()}/build/libs/potentials-${modLoader}-${minecraft_version}-${mod_version}.jar")
+                changelog = file("../changelog.md").getText('UTF-8')
+                type = release_type == 'alpha' ? ALPHA : (release_type == 'beta' ? BETA : STABLE)
+                modLoaders.add(modLoader)
+                displayName = "[${modLoader.capitalize()} ${minecraft_version}] Potentials ${mod_version}"
 
-        publishMods {
-            file = file("../${modLoader.capitalize()}/build/libs/potentials-${modLoader}-${minecraft_version}-${mod_version}.jar")
-            changelog = file("../changelog.md").getText('UTF-8')
-            type = release_type == 'alpha' ? ALPHA : (release_type == 'beta' ? BETA : STABLE)
-            modLoaders.add(modLoader)
-            displayName = "[${modLoader.capitalize()} ${minecraft_version}] Potentials ${mod_version}"
+                curseforge {
+                    projectId = "1165185"
+                    projectSlug = "potentials" // Required for discord webhook
+                    accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
+                    minecraftVersions.add("${minecraft_version}")
+                    javaVersions.add(JavaVersion.VERSION_21)
+                    requires("architectury-api")
+                    if (modLoader == "fabric") {
+                        requires("fabric-api")
+                    }
 
-            curseforge {
-                projectId = "1165185"
-                projectSlug = "potentials" // Required for discord webhook
-                accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
-                minecraftVersions.add("${minecraft_version}")
-                javaVersions.add(JavaVersion.VERSION_21)
-                requires("architectury-api")
-                if (modLoader == "fabric") {
-                    requires("fabric-api")
                 }
 
-            }
+                modrinth {
+                    projectId = "J9pKOkxP"
+                    accessToken = providers.gradleProperty("MODRINTH_TOKEN")
+                    minecraftVersions.add("${minecraft_version}")
+                    requires("architectury-api")
+                    if (modLoader == "fabric") {
+                        requires("fabric-api")
+                    }
 
-            modrinth {
-                projectId = "J9pKOkxP"
-                accessToken = providers.gradleProperty("MODRINTH_TOKEN")
-                minecraftVersions.add("${minecraft_version}")
-                requires("architectury-api")
-                if (modLoader == "fabric") {
-                    requires("fabric-api")
                 }
-
-            }
 
 //            github {
 //                repository = "Fej1Dev/Potentials"
@@ -143,6 +143,7 @@ subprojects {
 //                // This is useful when you have subprojects using the parent option that you want to publish a single release.
 //                allowEmptyFiles = true
 //            }
+            }
         }
     }
 }
