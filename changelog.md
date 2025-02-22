@@ -1,2 +1,1 @@
-#### BREAKING:
-- new data component for fluid items
+- Fix Minecraft not recognizing hashCode and equals methods 
