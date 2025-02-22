@@ -14,10 +14,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -27,15 +24,14 @@ public class FluidAmountMapDataComponent implements Serializable {
     public static final Codec<FluidAmountMapDataComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             BuiltInRegistries.FLUID.holderByNameCodec().listOf().fieldOf("fluids")
                     .forGetter(component ->
-                        getListFromStream(component.fluids.stream().map(fluid -> (Holder<Fluid>) fluid.builtInRegistryHolder()))
-                    ),
+                        component.fluids.stream().map(fluid -> (Holder<Fluid>) fluid.builtInRegistryHolder()).toList()),
             Codec.LONG.listOf().fieldOf("amounts").forGetter(component -> component.amounts)
     ).apply(instance, FluidAmountMapDataComponent::create));
     @SuppressWarnings("all")
     public static final StreamCodec<RegistryFriendlyByteBuf, FluidAmountMapDataComponent> STREAM_CODEC = StreamCodec.composite(
             ByteBufCodecs.holderRegistry(Registries.FLUID).apply(ByteBufCodecs.list()), component ->
-                    getListFromStream(component.fluids.stream().map(fluid-> (Holder<Fluid>) fluid.builtInRegistryHolder())),
-            ByteBufCodecs.VAR_LONG.apply(ByteBufCodecs.list()), component -> getListFromStream(component.amounts.stream()),
+                    component.fluids.stream().map(fluid-> (Holder<Fluid>) fluid.builtInRegistryHolder()).toList(),
+            ByteBufCodecs.VAR_LONG.apply(ByteBufCodecs.list()), component -> component.amounts,
             FluidAmountMapDataComponent::create
     );
 
@@ -44,16 +40,16 @@ public class FluidAmountMapDataComponent implements Serializable {
 
     public FluidAmountMapDataComponent(final Map<Fluid, Long> fluidAmounts) {
         if (fluidAmounts.isEmpty()) throw new IllegalArgumentException("Map<Fluid, Long> Cannot be empty");
-        this.fluids = getListFromStream(fluidAmounts.keySet().stream());
-        this.amounts = getListFromStream(fluidAmounts.values().stream());
+        this.fluids = new ArrayList<>(fluidAmounts.keySet());
+        this.amounts = new ArrayList<>(fluidAmounts.values());
     }
     public FluidAmountMapDataComponent(final List<Fluid> fluids, final List<Long> amounts) {
         if (fluids.isEmpty()) throw new IllegalArgumentException("List<Fluid> Cannot be empty");
         if (amounts.isEmpty()) throw new IllegalArgumentException("List<Long> Cannot be empty");
         if (fluids.size() != amounts.size()) throw new IllegalArgumentException("List<Fluid> must be the same length as List<Long>");
 
-        this.fluids = fluids;
-        this.amounts = amounts;
+        this.fluids = Arrays.asList(fluids.toArray(new Fluid[0]));
+        this.amounts = Arrays.asList(amounts.toArray(new Long[0]));
     }
 
     public static FluidAmountMapDataComponent create(List<Holder<Fluid>> holders, List<Long> amounts) {
@@ -61,7 +57,7 @@ public class FluidAmountMapDataComponent implements Serializable {
         if (amounts.isEmpty()) throw new IllegalArgumentException("List<Long> Cannot be empty");
         if (holders.size() != amounts.size()) throw new IllegalArgumentException("List<Holder<Fluid>> must be the same length as List<Long>");
 
-        return new FluidAmountMapDataComponent(getListFromStream(holders.stream().map(Holder::value)), amounts);
+        return new FluidAmountMapDataComponent(holders.stream().map(Holder::value).toList(), amounts);
     }
     public static FluidAmountMapDataComponent create(final List<FluidStack> fluidStacks) {
         if (fluidStacks.isEmpty()) throw new IllegalArgumentException("List<FluidStack> Cannot be empty");
