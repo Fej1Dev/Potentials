@@ -1,5 +1,6 @@
 package com.fej1fun.potentials.components;
 
+import com.google.common.hash.HashCode;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.fluid.FluidStack;
@@ -104,4 +105,15 @@ public class FluidAmountMapDataComponent implements Serializable {
         setAmount(i, stack.getAmount());
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof FluidAmountMapDataComponent component)
+            return component.fluids.equals(this.fluids) && component.amounts.equals(this.amounts);
+        return super.equals(obj);
+    }
 }
