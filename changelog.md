@@ -1,1 +1,2 @@
-- Make Lists in FluidAmountMapDataComponent mutable (again)
+- Fix BaseEnergyStorage's WithoutLimits methods not work correctly
+- Make all values from SingleSlotFluidStorage returned as droplets

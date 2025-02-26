@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 
+/// Returns values in droplets
 public class SingleSlotFluidStorage implements SingleSlotStorage<FluidVariant> {
     private final UniversalFluidStorage fluidStorage;
     private final int slot;
