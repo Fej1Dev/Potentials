@@ -70,6 +70,8 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
             long inserted = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction);
             if (simulate)
                 transaction.abort();
+            else
+                transaction.commit();
             return inserted / 81L;
         }
     }
@@ -80,6 +82,8 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
             long extracted = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction);
             if (simulate)
                 transaction.abort();
+            else
+                transaction.commit();
             return FluidStack.create(stack, extracted / 81L);
         }
     }

@@ -27,6 +27,8 @@ public class UniversalEnergyWrapper implements UniversalEnergyStorage {
             int inserted = (int) energyStorage.insert(amount, transaction);
             if (simulate)
                 transaction.abort();
+            else
+                transaction.commit();
             return inserted;
         }
     }
@@ -37,6 +39,8 @@ public class UniversalEnergyWrapper implements UniversalEnergyStorage {
             int extracted = (int) energyStorage.extract(amount, transaction);
             if (simulate)
                 transaction.abort();
+            else
+                transaction.commit();
             return extracted;
         }
     }
