@@ -1,2 +1,1 @@
-- Use has component instead of comparing get with null
-- Use Fabric's Transaction system correctly in energy implementations
+- Fix not committing transaction
