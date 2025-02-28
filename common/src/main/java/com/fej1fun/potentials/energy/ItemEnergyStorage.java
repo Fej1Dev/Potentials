@@ -18,7 +18,7 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
         this.maxExtract = maxExtract;
         this.component = component;
 
-        if (this.stack.get(component) == null)
+        if (!this.stack.has(component))
             stack.set(component, 0);
 
     }

@@ -24,7 +24,7 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
         this.component = component;
         this.tanks = tanks;
 
-        if (this.stack.get(component) == null)
+        if (!this.stack.has(component))
             stack.set(component, getEmpty());
 
     }
