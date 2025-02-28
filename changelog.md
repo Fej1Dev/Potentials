@@ -1,2 +1,2 @@
-- Fix BaseEnergyStorage's WithoutLimits methods not work correctly
-- Make all values from SingleSlotFluidStorage returned as droplets
+- Use has component instead of comparing get with null
+- Use Fabric's Transaction system correctly in energy implementations
