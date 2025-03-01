@@ -24,24 +24,30 @@ public class UniversalEnergyWrapper implements UniversalEnergyStorage {
     @Override
     public int insert(int amount, boolean simulate) {
         try (Transaction transaction = Transaction.openOuter()) {
-            int inserted = (int) energyStorage.insert(amount, transaction);
-            if (simulate)
+            long inserted = Math.min(amount, energyStorage.getCapacity() - energyStorage.getAmount());
+            if (simulate) {
                 transaction.abort();
-            else
+            } else {
                 transaction.commit();
-            return inserted;
+                energyStorage.insert(inserted, transaction);
+            }
+
+            return (int)inserted;
         }
     }
 
     @Override
     public int extract(int amount, boolean simulate) {
         try (Transaction transaction = Transaction.openOuter()) {
-            int extracted = (int) energyStorage.extract(amount, transaction);
-            if (simulate)
+            long extracted = Math.min(amount, energyStorage.getAmount());
+            if (simulate) {
                 transaction.abort();
-            else
+            } else {
                 transaction.commit();
-            return extracted;
+                energyStorage.extract(extracted, transaction);
+            }
+
+            return (int)extracted;
         }
     }
 

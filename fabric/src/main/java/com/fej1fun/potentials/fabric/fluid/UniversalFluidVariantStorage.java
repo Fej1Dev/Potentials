@@ -67,24 +67,23 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
     @Override
     public long fill(FluidStack stack, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            long inserted = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction);
             if (simulate)
                 transaction.abort();
             else
                 transaction.commit();
-            return inserted / 81L;
+
+            return storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L;
         }
     }
 
     @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            long extracted = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction);
             if (simulate)
                 transaction.abort();
             else
                 transaction.commit();
-            return FluidStack.create(stack, extracted / 81L);
+            return FluidStack.create(stack, storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L);
         }
     }
 
