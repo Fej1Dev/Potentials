@@ -40,6 +40,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
         for (StorageView<FluidVariant> view : storage) {
             if (i == tank)
                 return FluidStackHooksFabric.fromFabric(view.getResource(), view.getAmount() / 81L);
+            i++;
         }
 
         throw new IndexOutOfBoundsException(tank);
@@ -54,6 +55,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
         for (StorageView<FluidVariant> view : storage) {
             if (i == tank)
                 return view.getCapacity() / 81L;
+            i++;
         }
 
         throw new IndexOutOfBoundsException(tank);
@@ -67,23 +69,45 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
     @Override
     public long fill(FluidStack stack, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            if (simulate)
-                transaction.abort();
-            else
-                transaction.commit();
+            long amount = 0L;
+            for (int i = 0; i < getTanks(); i++) {
+                if (getFluidInTank(i).isEmpty() || getFluidInTank(i).isFluidEqual(stack)) {
+                    amount = Math.min(getTankCapacity(i), stack.getAmount());
+                    break;
+                }
 
-            return storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L;
+            }
+
+            if (simulate)
+                transaction.close();
+            else {
+                storage.insert(FluidStackHooksFabric.toFabric(stack), amount * 81L, transaction);
+                transaction.commit();
+            }
+
+            return amount;
         }
     }
 
     @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
+            long amount = 0L;
+            for (int i = 0; i < getTanks(); i++) {
+                if (getFluidInTank(i).isEmpty() || getFluidInTank(i).isFluidEqual(stack)) {
+                    amount = Math.min(getTankCapacity(i), stack.getAmount());
+                    break;
+                }
+            }
+
             if (simulate)
-                transaction.abort();
-            else
+                transaction.close();
+            else {
+                storage.extract(FluidStackHooksFabric.toFabric(stack), amount * 81L, transaction);
                 transaction.commit();
-            return FluidStack.create(stack, storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L);
+            }
+
+            return FluidStack.create(stack, amount);
         }
     }
 
