@@ -25,8 +25,7 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
         this.tanks = tanks;
 
         if (!this.stack.has(component))
-            stack.set(component, getEmpty());
-
+            this.stack.set(component, getEmpty());
     }
 
     public ItemFluidStorage(DataComponentType<FluidAmountMapDataComponent> component, ItemStack stack, int tanks, long maxAmount) {

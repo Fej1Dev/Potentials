@@ -40,11 +40,11 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
     public void registerForBlock(Supplier<Block> block) {
         blockApiLookup.registerForBlocks((level, pos, state, blockEntity, direction) -> {
             if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
-                var fluid = fluidBlock.getFluidTank(direction);
+                UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
                 return fluid == null ? null : new FabricFluidStorage(fluid);
             }
             if (state.getBlock() instanceof FluidProvider.BLOCK fluidBlock) {
-                var fluid = fluidBlock.getFluidTank(direction);
+                UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
                 return fluid == null ? null : new FabricFluidStorage(fluid);
             }
             return null;
@@ -55,7 +55,7 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
     public void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
         blockApiLookup.registerForBlockEntity((blockEntity, direction) -> {
             if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
-                var fluid = fluidBlock.getFluidTank(direction);
+                UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
                 return fluid == null ? null : new FabricFluidStorage(fluid);
             }
             return null;

@@ -38,11 +38,11 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     public void registerForBlock(Supplier<Block> block) {
         blockApiLookup.registerForBlocks((level, blockPos, state, blockEntity,direction) -> {
             if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
-                var energy = energyBlock.getEnergy(direction);
+                UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
                 return energy == null ? null : new FabricEnergyStorage(energy);
             }
             if (state.getBlock() instanceof EnergyProvider.BLOCK energyBlock) {
-                var energy = energyBlock.getEnergy(direction);
+                UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
                 return energy == null ? null : new FabricEnergyStorage(energy);
             }
             return null;
@@ -53,7 +53,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     public void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
         blockApiLookup.registerForBlockEntity((blockEntity, direction) -> {
             if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
-                var energy = energyBlock.getEnergy(direction);
+                UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
                 return energy == null ? null : new FabricEnergyStorage(energy);
             }
             return null;

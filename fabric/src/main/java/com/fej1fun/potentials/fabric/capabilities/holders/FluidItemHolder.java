@@ -32,7 +32,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     public void registerForItem(Supplier<Item> item) {
         itemApiLookup.registerForItems((stack, context) -> {
             if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
-                var fluid = fluidItem.getFluidTank(stack);
+                UniversalFluidItemStorage fluid = fluidItem.getFluidTank(stack);
                 return fluid == null ? null : new FabricFluidItemStorage(fluid);
             }
             return null;
