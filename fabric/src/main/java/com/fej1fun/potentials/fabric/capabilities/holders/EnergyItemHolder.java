@@ -22,6 +22,9 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(ItemStack stack) {
+        if (stack.getItem() instanceof EnergyProvider.ITEM provider)
+            return provider.getEnergy(stack);
+
         EnergyStorage energyStorage = itemApiLookup.find(stack, ContainerItemContext.ofSingleSlot(new ItemStackStorage(stack)));
         return energyStorage == null ? null : new UniversalEnergyWrapper(energyStorage);
     }

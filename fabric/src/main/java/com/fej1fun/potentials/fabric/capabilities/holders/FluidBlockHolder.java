@@ -4,6 +4,7 @@ import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityH
 import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidVariantStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<UniversalFluidStorage, Direction> {
@@ -31,8 +33,17 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
     }
 
     @Override
-    public @Nullable UniversalFluidStorage getCapability(Level level, BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, Direction direction) {
-        Storage<FluidVariant> fluidStorage = blockApiLookup.find(level, pos, state, blockEntity, direction);
+    public @Nullable UniversalFluidStorage getCapability(Level level, BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, Direction context) {
+        blockEntity = blockEntity != null ? blockEntity : level.getBlockEntity(pos);
+
+        if (blockEntity != null)
+            if (blockEntity instanceof FluidProvider.BLOCK provider)
+                return provider.getFluidTank(context);
+
+        if (Objects.requireNonNullElseGet(state, () -> level.getBlockState(pos)).getBlock() instanceof FluidProvider.BLOCK provider)
+            return provider.getFluidTank(context);
+
+        Storage<FluidVariant> fluidStorage = blockApiLookup.find(level, pos, state, blockEntity, context);
         return fluidStorage == null ? null : new UniversalFluidVariantStorage(fluidStorage);
     }
 

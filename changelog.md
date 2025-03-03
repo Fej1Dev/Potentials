@@ -1,1 +1,1 @@
-- Fix not committing transaction
+- Optimize capability querying by checking if it's an instance of a provider first
