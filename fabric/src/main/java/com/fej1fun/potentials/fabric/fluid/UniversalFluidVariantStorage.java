@@ -81,7 +81,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
             if (simulate)
                 transaction.close();
             else {
-                amount = storage.insert(FluidStackHooksFabric.toFabric(stack), amount * 81L, transaction);
+                amount = storage.insert(FluidStackHooksFabric.toFabric(stack), amount * 81L, transaction) / 81L;
                 transaction.commit();
             }
 
@@ -103,7 +103,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
             if (simulate)
                 transaction.close();
             else {
-                amount = storage.extract(FluidStackHooksFabric.toFabric(stack), amount * 81L, transaction);
+                amount = storage.extract(FluidStackHooksFabric.toFabric(stack), amount * 81L, transaction) / 81L;
                 transaction.commit();
             }
 
