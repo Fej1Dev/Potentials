@@ -43,7 +43,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
     public void register(RegisterCapabilitiesEvent event) {
         registeredItems.forEach(item -> event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> {
             if (stack.getItem() instanceof EnergyProvider.ITEM energyItem) {
-                var energy = energyItem.getEnergy(stack);
+                UniversalEnergyStorage energy = energyItem.getEnergy(stack);
                 return energy == null ? null : new NeoForgeEnergyStorage(energy);
             }
             return null;

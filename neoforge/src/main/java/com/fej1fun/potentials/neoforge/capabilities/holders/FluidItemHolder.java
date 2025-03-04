@@ -43,7 +43,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     public void register(RegisterCapabilitiesEvent event) {
         registeredItems.forEach(item -> event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> {
             if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
-                var fluid = fluidItem.getFluidTank(stack);
+                UniversalFluidItemStorage fluid = fluidItem.getFluidTank(stack);
                 return fluid == null ? null : new NeoForgeFluidHandlerItem(fluid);
             }
             return null;

@@ -61,11 +61,11 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
         registeredBlocks.forEach(block ->
                 event.registerBlock(Capabilities.FluidHandler.BLOCK, (level, pos, state, blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
-                        var fluid = fluidBlock.getFluidTank(direction);
+                        UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
                         return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     if (state.getBlock() instanceof FluidProvider.BLOCK fluidBlock) {
-                        var fluid = fluidBlock.getFluidTank(direction);
+                        UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
                         return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     return null;
@@ -74,7 +74,7 @@ public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<Un
         registeredBlockEntities.forEach(type ->
                 event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type.get(), (blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
-                        var fluid = fluidBlock.getFluidTank(direction);
+                        UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
                         return fluid == null ? null : new NeoForgeFluidStorage(fluid);
                     }
                     return null;
