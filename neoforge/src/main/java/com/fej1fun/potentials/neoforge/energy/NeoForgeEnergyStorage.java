@@ -42,7 +42,4 @@ public class NeoForgeEnergyStorage implements IEnergyStorage {
         return universalEnergyStorage.canInsertEnergy();
     }
 
-    public UniversalEnergyStorage getUniversalEnergyStorage() {
-        return universalEnergyStorage;
-    }
 }
