@@ -69,20 +69,12 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
     @Override
     public long fill(FluidStack stack, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            long amount = 0L;
-            for (int i = 0; i < getTanks(); i++) {
-                if ((getFluidInTank(i).isEmpty() || getFluidInTank(i).isFluidEqual(stack)) && isFluidValid(i, stack) && getFluidInTank(i).getAmount() < getTankCapacity(i) ) {
-                    amount = Math.min(getTankCapacity(i) - getFluidInTank(i).getAmount(), stack.getAmount());
-                    break;
-                }
-            }
 
-            amount = storage.insert(FluidStackHooksFabric.toFabric(stack), amount * 81L, transaction) / 81L;
+            long amount = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L;
             if (simulate || amount == 0L)
                 transaction.close();
-            else {
+            else
                 transaction.commit();
-            }
 
             return amount;
         }
@@ -91,15 +83,8 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
     @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
         try(Transaction transaction = Transaction.openOuter()) {
-            long amount = 0L;
-            for (int i = 0; i < getTanks(); i++) {
-                if ((getFluidInTank(i).isEmpty() || getFluidInTank(i).isFluidEqual(stack)) && isFluidValid(i, stack)) {
-                    amount = Math.min(getFluidInTank(i).getAmount(), stack.getAmount());
-                    break;
-                }
-            }
 
-            amount = storage.extract(FluidStackHooksFabric.toFabric(stack), amount * 81L, transaction) / 81L;
+            long amount = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L;
             if (simulate || amount == 0L)
                 transaction.close();
             else {
