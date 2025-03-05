@@ -72,7 +72,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
             long amount = 0L;
             for (int i = 0; i < getTanks(); i++) {
                 if ((getFluidInTank(i).isEmpty() || getFluidInTank(i).isFluidEqual(stack)) && isFluidValid(i, stack) && getFluidInTank(i).getAmount() < getTankCapacity(i) ) {
-                    amount = Math.min(getTankCapacity(i) - stack.getAmount(), stack.getAmount());
+                    amount = Math.min(getTankCapacity(i) - getFluidInTank(i).getAmount(), stack.getAmount());
                     break;
                 }
             }
