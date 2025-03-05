@@ -1,1 +1,2 @@
 - Optimize capability querying by checking if it's an instance of a provider first
+- Fix bucket filling
