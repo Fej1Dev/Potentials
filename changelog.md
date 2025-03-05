@@ -1,2 +1,3 @@
 - Optimize capability querying by checking if it's an instance of a provider first
-- Fix bucket filling
+- Fix not returning correct amounts in Fabric implementations
+- Optimize some Fabric implementations
