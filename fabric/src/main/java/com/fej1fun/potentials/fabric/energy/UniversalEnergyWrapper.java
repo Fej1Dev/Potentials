@@ -25,10 +25,10 @@ public class UniversalEnergyWrapper implements UniversalEnergyStorage {
     public int insert(int amount, boolean simulate) {
         try (Transaction transaction = Transaction.openOuter()) {
             long inserted = Math.min(amount, energyStorage.getCapacity() - energyStorage.getAmount());
+            energyStorage.insert(inserted, transaction);
             if (simulate) {
                 transaction.close();
             } else {
-                energyStorage.insert(inserted, transaction);
                 transaction.commit();
             }
 
@@ -40,10 +40,10 @@ public class UniversalEnergyWrapper implements UniversalEnergyStorage {
     public int extract(int amount, boolean simulate) {
         try (Transaction transaction = Transaction.openOuter()) {
             long extracted = Math.min(amount, energyStorage.getAmount());
+            energyStorage.extract(extracted, transaction);
             if (simulate) {
                 transaction.close();
             } else {
-                energyStorage.extract(extracted, transaction);
                 transaction.commit();
             }
 
