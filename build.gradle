@@ -1,3 +1,6 @@
+import com.google.gson.JsonSerializer
+import groovy.json.JsonSlurper
+
 plugins {
     id 'dev.architectury.loom' version '1.6-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
@@ -99,6 +102,10 @@ subprojects {
 
         if (!isCommon) {
             publishMods {
+
+                def parsedJson = new JsonSlurper().parseText("${supported_minecraft_versions}")
+                def supported_versions = parsedJson.versions
+
                 file = file("../${modLoader.capitalize()}/build/libs/potentials-${modLoader}-${minecraft_version}-${mod_version}.jar")
                 changelog = file("../changelog.md").getText('UTF-8')
                 type = release_type == 'alpha' ? ALPHA : (release_type == 'beta' ? BETA : STABLE)
@@ -109,8 +116,7 @@ subprojects {
                     projectId = "1165185"
                     projectSlug = "potentials" // Required for discord webhook
                     accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
-                    minecraftVersions.add("${minecraft_version}")
-                    minecraftVersions.add("${supported_minecraft_version}")
+                    minecraftVersions.add(supported_versions)
                     javaVersions.add(JavaVersion.VERSION_21)
                     requires("architectury-api")
                     if (modLoader == "fabric") {
@@ -121,8 +127,7 @@ subprojects {
                 modrinth {
                     projectId = "J9pKOkxP"
                     accessToken = providers.gradleProperty("MODRINTH_TOKEN")
-                    minecraftVersions.add("${minecraft_version}")
-                    minecraftVersions.add("${supported_minecraft_version}")
+                    minecraftVersions.add(supported_versions)
                     requires("architectury-api")
                     if (modLoader == "fabric") {
                         requires("fabric-api")
