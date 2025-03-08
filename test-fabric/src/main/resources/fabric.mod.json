@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "potentials_test",
-  "version": "${version}",
+  "version": "1.0.0",
   "name": "Potentials Test",
   "description": "",
   "authors": [
@@ -30,7 +30,7 @@
     "java": ">=21",
     "architectury": ">=14.0.4",
     "fabric-api": "*",
-    "potentials": ">=0.2.1"
+    "potentials": ">=0.6.0"
   },
   "suggests": {
     "another-mod": "*"
