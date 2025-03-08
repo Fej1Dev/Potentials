@@ -16,11 +16,6 @@ allprojects {
     version = rootProject.mod_version
 }
 
-tasks.register("fullBuildPipeline") {
-    dependsOn("clean", "build")
-    finalizedBy("publish", "publishMods")
-}
-
 subprojects {
     apply plugin: 'dev.architectury.loom'
     apply plugin: 'architectury-plugin'
