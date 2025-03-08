@@ -116,7 +116,9 @@ subprojects {
                     projectId = "1165185"
                     projectSlug = "potentials" // Required for discord webhook
                     accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
-                    minecraftVersions.add(supported_versions)
+                    for (String version : supported_versions)
+                        minecraftVersions.add(version)
+
                     javaVersions.add(JavaVersion.VERSION_21)
                     requires("architectury-api")
                     if (modLoader == "fabric") {
@@ -127,7 +129,9 @@ subprojects {
                 modrinth {
                     projectId = "J9pKOkxP"
                     accessToken = providers.gradleProperty("MODRINTH_TOKEN")
-                    minecraftVersions.add(supported_versions)
+                    for (String version : supported_versions)
+                        minecraftVersions.add(version)
+
                     requires("architectury-api")
                     if (modLoader == "fabric") {
                         requires("fabric-api")
