@@ -69,93 +69,93 @@ subprojects {
         it.options.release = 21
     }
 
-    if (!isTest) {
-    // Configure Maven publishing.
-        publishing {
-            publications {
-                mavenJava(MavenPublication) {
-                    groupId "com.fej1fun.potentials"
-                    artifactId "potentials-$modLoader"
-                    version project.version
-                    from components.java
-                    pom {
-                        name = "Potentials" + modLoader.capitalize()
-                        url = "https://github.com/Fej1Dev/Potentials"
-                    }
-                }
-            }
-
-            // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-            repositories {
-                maven {
-                    name = "GithubPackages"
-                    url = "https://maven.pkg.github.com/Fej1Dev/Potentials"
-                    credentials {
-                        username = System.getenv("GITHUB_ACTOR")
-                        password = System.getenv("GITHUB_TOKEN")
-                    }
-                }
-                maven {
-                    name = "ExodusStudio"
-                    url = "https://maven.exodusstudio.org/releases"
-                    credentials {
-                        username = System.getenv("MAVEN_USER")
-                        password = System.getenv("MAVEN_PASS")
-                    }
-                }
-            }
-        }
-
-        if (!isCommon) {
-            publishMods {
-
-                def parsedJson = new JsonSlurper().parseText("${supported_minecraft_versions}")
-                def supported_versions = parsedJson.versions
-
-                file = file("../${modLoader.capitalize()}/build/libs/potentials-${modLoader}-${minecraft_version}-${mod_version}.jar")
-                changelog = file("../changelog.md").getText('UTF-8')
-                type = release_type == 'alpha' ? ALPHA : (release_type == 'beta' ? BETA : STABLE)
-                modLoaders.add(modLoader)
-                displayName = "[${modLoader.capitalize()} ${minecraft_version}] Potentials ${mod_version}"
-
-                curseforge {
-                    projectId = "1165185"
-                    projectSlug = "potentials" // Required for discord webhook
-                    accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
-                    minecraftVersions.add(supported_versions)
-                    javaVersions.add(JavaVersion.VERSION_21)
-                    requires("architectury-api")
-                    if (modLoader == "fabric") {
-                        requires("fabric-api")
-                    }
-                }
-
-                modrinth {
-                    projectId = "J9pKOkxP"
-                    accessToken = providers.gradleProperty("MODRINTH_TOKEN")
-                    minecraftVersions.add(supported_versions)
-                    requires("architectury-api")
-                    if (modLoader == "fabric") {
-                        requires("fabric-api")
-                    }
-
-                }
-
-//            github {
-//                repository = "Fej1Dev/Potentials"
-//                accessToken = providers.gradleProperty("GITHUB_TOKEN")
-//                commitish = "main"
-//                tagName = "${type}/${minecraft_version}"
-//
-//                // Upload the files to a previously created release, by providing another github publish task
-//                // This is useful in multi-project builds where you want to publish multiple subprojects to a single release
-//                parent project(":").tasks.named("publishGithub")
-//
-//                // Optionally allow the release to be created without any attached files.
-//                // This is useful when you have subprojects using the parent option that you want to publish a single release.
-//                allowEmptyFiles = true
+//    if (!isTest) {
+//    // Configure Maven publishing.
+//        publishing {
+//            publications {
+//                mavenJava(MavenPublication) {
+//                    groupId "com.fej1fun.potentials"
+//                    artifactId "potentials-$modLoader"
+//                    version project.version
+//                    from components.java
+//                    pom {
+//                        name = "Potentials" + modLoader.capitalize()
+//                        url = "https://github.com/Fej1Dev/Potentials"
+//                    }
+//                }
 //            }
-            }
-        }
-    }
+//
+//            // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+//            repositories {
+//                maven {
+//                    name = "GithubPackages"
+//                    url = "https://maven.pkg.github.com/Fej1Dev/Potentials"
+//                    credentials {
+//                        username = System.getenv("GITHUB_ACTOR")
+//                        password = System.getenv("GITHUB_TOKEN")
+//                    }
+//                }
+//                maven {
+//                    name = "ExodusStudio"
+//                    url = "https://maven.exodusstudio.org/releases"
+//                    credentials {
+//                        username = System.getenv("MAVEN_USER")
+//                        password = System.getenv("MAVEN_PASS")
+//                    }
+//                }
+//            }
+//        }
+//
+//        if (!isCommon) {
+//            publishMods {
+//
+//                def parsedJson = new JsonSlurper().parseText("${supported_minecraft_versions}")
+//                def supported_versions = parsedJson.versions
+//
+//                file = file("../${modLoader.capitalize()}/build/libs/potentials-${modLoader}-${minecraft_version}-${mod_version}.jar")
+//                changelog = file("../changelog.md").getText('UTF-8')
+//                type = release_type == 'alpha' ? ALPHA : (release_type == 'beta' ? BETA : STABLE)
+//                modLoaders.add(modLoader)
+//                displayName = "[${modLoader.capitalize()} ${minecraft_version}] Potentials ${mod_version}"
+//
+//                curseforge {
+//                    projectId = "1165185"
+//                    projectSlug = "potentials" // Required for discord webhook
+//                    accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
+//                    minecraftVersions.add(supported_versions)
+//                    javaVersions.add(JavaVersion.VERSION_21)
+//                    requires("architectury-api")
+//                    if (modLoader == "fabric") {
+//                        requires("fabric-api")
+//                    }
+//                }
+//
+//                modrinth {
+//                    projectId = "J9pKOkxP"
+//                    accessToken = providers.gradleProperty("MODRINTH_TOKEN")
+//                    minecraftVersions.add(supported_versions)
+//                    requires("architectury-api")
+//                    if (modLoader == "fabric") {
+//                        requires("fabric-api")
+//                    }
+//
+//                }
+//
+////            github {
+////                repository = "Fej1Dev/Potentials"
+////                accessToken = providers.gradleProperty("GITHUB_TOKEN")
+////                commitish = "main"
+////                tagName = "${type}/${minecraft_version}"
+////
+////                // Upload the files to a previously created release, by providing another github publish task
+////                // This is useful in multi-project builds where you want to publish multiple subprojects to a single release
+////                parent project(":").tasks.named("publishGithub")
+////
+////                // Optionally allow the release to be created without any attached files.
+////                // This is useful when you have subprojects using the parent option that you want to publish a single release.
+////                allowEmptyFiles = true
+////            }
+//            }
+//        }
+//    }
 }
