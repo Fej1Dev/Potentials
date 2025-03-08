@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TestBlock extends BaseEntityBlock {
 
-    protected TestBlock(Properties properties) {
+    public TestBlock(Properties properties) {
         super(properties);
     }
 

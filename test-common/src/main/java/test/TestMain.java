@@ -10,6 +10,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -19,7 +20,6 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import test.gas.GasProvider;
 import test.gas.IGasStorage;
 
 import java.util.Set;
@@ -47,12 +47,12 @@ public class TestMain {
     public static final ItemCapabilityHolder<IGasStorage, Void> GAS_ITEM =
             ItemCapabilityHolder.createVoid(IGasStorage.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_item"));
 
-    public static final RegistrySupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
-    public static final RegistrySupplier<Block> TEST_TANK_BLOCK = BLOCKS.register("test_tank_block", () -> new TestTankBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK)));
+    public static final RegistrySupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(getBlockId("test_block"))));
+    public static final RegistrySupplier<Block> TEST_TANK_BLOCK = BLOCKS.register("test_tank_block", () -> new TestTankBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(getBlockId("test_tank_block"))));
 
-    public static final RegistrySupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1), 1024, 1024, 1024));
-    public static final RegistrySupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties()));
-    public static final RegistrySupplier<Item> TEST_TANK_ITEM = ITEMS.register("test_tank", () -> new BlockItem(TEST_TANK_BLOCK.get(),new Item.Properties()));
+    public static final RegistrySupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1).setId(getItemId("test_item")), 1024, 1024, 1024));
+    public static final RegistrySupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties().setId(getItemId("test_block"))));
+    public static final RegistrySupplier<Item> TEST_TANK_ITEM = ITEMS.register("test_tank", () -> new BlockItem(TEST_TANK_BLOCK.get(),new Item.Properties().setId(getItemId("test_tank"))));
 
     public static final RegistrySupplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type", () -> new BlockEntityType<>(TestBlockEntity::new, Set.of(TEST_BLOCK.get())));
 
@@ -76,18 +76,26 @@ public class TestMain {
 //        GAS_BLOCK.registerForBlockEntity(
 //                ((blockEntity, context) -> blockEntity instanceof GasProvider.BLOCK block ? block.getGas() : null), TEST_BLOCK_ENTITY_TYPE);
 
-        GAS_BLOCK.registerForBlock((level, pos, state, blockEntity, context) -> {
-            if (state.getBlock() instanceof GasProvider.BLOCK block)
-                return block.getGas();
-            if (level.getBlockState(pos).getBlock() instanceof GasProvider.BLOCK block)
-                return block.getGas();
-            if (blockEntity != null)
-                if (blockEntity instanceof GasProvider.BLOCK block)
-                    return block.getGas();
-            return null;
-        }, TEST_BLOCK);
+//        GAS_BLOCK.registerForBlock((level, pos, state, blockEntity, context) -> {
+//            if (state.getBlock() instanceof GasProvider.BLOCK block)
+//                return block.getGas();
+//            if (level.getBlockState(pos).getBlock() instanceof GasProvider.BLOCK block)
+//                return block.getGas();
+//            if (blockEntity != null)
+//                if (blockEntity instanceof GasProvider.BLOCK block)
+//                    return block.getGas();
+//            return null;
+//        }, TEST_BLOCK);
 
-        GAS_ITEM.registerForItem((stack, context) -> stack.getItem() instanceof GasProvider.ITEM gasItem ? gasItem.getGas(stack) : null, TEST_ITEM);
+//        GAS_ITEM.registerForItem((stack, context) -> stack.getItem() instanceof GasProvider.ITEM gasItem ? gasItem.getGas(stack) : null, TEST_ITEM);
 
+    }
+
+    private static ResourceKey<Block> getBlockId(String id) {
+        return ResourceKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath(MOD_ID, id));
+    }
+
+    private static ResourceKey<Item> getItemId(String id) {
+        return ResourceKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath(MOD_ID, id));
     }
 }
