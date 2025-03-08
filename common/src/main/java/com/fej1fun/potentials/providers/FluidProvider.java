@@ -1,5 +1,6 @@
 package com.fej1fun.potentials.providers;
 
+import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
@@ -12,6 +13,6 @@ public class FluidProvider {
         @Nullable UniversalFluidStorage getFluidTank(@Nullable Direction direction);
     }
     public interface ITEM {
-        @Nullable UniversalFluidStorage getFluidTank(@NotNull ItemStack stack);
+        @Nullable UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack);
     }
 }

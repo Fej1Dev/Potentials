@@ -4,17 +4,17 @@ import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.NonNullList;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicReference;
 
+/**
+* Basic implementation for UniversalFluidStorage
+* */
 public class BaseFluidStorage implements UniversalFluidStorage {
     private final int tanks;
-    private final long capacity;
-    private final NonNullList<FluidStack> fluidStacks;
-
-    private final long maxFill;
-    private final long maxDrain;
+    protected final long capacity;
+    protected final NonNullList<FluidStack> fluidStacks;
+    protected final long maxFill;
+    protected final long maxDrain;
 
     public BaseFluidStorage(int tanks, long capacity, long maxFill, long maxDrain) {
         this.tanks = tanks;
@@ -37,8 +37,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
     }
 
     /**
-     * @return A copy of the FluidStack
-     */
+     * @return A copy of the FluidStack */
     @Override
     public FluidStack getFluidInTank(int tank) {
         return fluidStacks.get(tank).copy();
@@ -71,9 +70,9 @@ public class BaseFluidStorage implements UniversalFluidStorage {
             if (!(fluidStacks.get(i).getFluid()==stack.getFluid() || fluidStacks.get(i).isEmpty())) continue;
             if (fluidStacks.get(i).getAmount()>=capacity) continue;
             filled = Math.clamp(this.capacity - getFluidValueInTank(i), 0L, Math.min(this.maxFill, stack.getAmount()));
-            if (!simulate) {
-                setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) + filled));
-            }
+            if (!simulate)
+                fluidStacks.set(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
+
             break;
         }
         return filled;
@@ -84,25 +83,45 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         long drained = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
-            if (!(getFluidInTank(i).getFluid()==stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
+            if (getFluidInTank(i).isEmpty()) continue;
+            if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
             drained = Math.min(getFluidValueInTank(i), Math.min(this.maxDrain, stack.getAmount()));
-            if (!simulate) {
+            if (!simulate)
                 setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) - drained));
-            }
+
             break;
         }
         return FluidStack.create(stack, drained);
     }
 
-    @Override
-    public FluidStack drain(long maxAmount, boolean simulate) {
-        AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
-        fluidStacks.stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
-            long removedAmount = Math.min(maxAmount, stack.getAmount());
-            toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            stack.shrink(removedAmount);
-        });
-        return toReturn.get();
+    public long fillWithoutLimits(FluidStack stack, boolean simulate) {
+        long filled = 0;
+        for (int i = 0; i < getTanks(); i++) {
+            if (!isFluidValid(i, stack)) continue;
+            if (!(fluidStacks.get(i).getFluid()==stack.getFluid() || fluidStacks.get(i).isEmpty())) continue;
+            if (fluidStacks.get(i).getAmount()>=capacity) continue;
+            filled = Math.clamp(this.capacity - getFluidValueInTank(i), 0L, stack.getAmount());
+            if (!simulate)
+                fluidStacks.set(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
+
+            break;
+        }
+        return filled;
+    }
+
+    public FluidStack drainWithoutLimits(FluidStack stack, boolean simulate) {
+        long drained = 0;
+        for (int i = 0; i < getTanks(); i++) {
+            if (!isFluidValid(i, stack)) continue;
+            if (getFluidInTank(i).isEmpty()) continue;
+            if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
+            drained = Math.min(getFluidValueInTank(i), stack.getAmount());
+            if (!simulate)
+                fluidStacks.get(i).shrink(drained);
+
+            break;
+        }
+        return FluidStack.create(stack, drained);
     }
 
     @Override

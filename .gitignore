@@ -38,6 +38,7 @@ classes/
 .settings
 *.launch
 .profileconfig.json
+.run/
 
 /.architectury-transformer/
 .log

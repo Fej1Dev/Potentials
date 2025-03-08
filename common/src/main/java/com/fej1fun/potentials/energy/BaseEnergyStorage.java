@@ -2,9 +2,9 @@ package com.fej1fun.potentials.energy;
 
 public class BaseEnergyStorage implements UniversalEnergyStorage {
     protected int energy;
-    private final int capacity;
-    private final int maxReceive;
-    private final int maxExtract;
+    protected final int capacity;
+    protected final int maxReceive;
+    protected final int maxExtract;
 
     public BaseEnergyStorage(int capacity, int maxReceive, int maxExtract) {
         this.capacity = capacity;
@@ -47,6 +47,22 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
         if (!canExtractEnergy()) return 0;
 
         int toExtract = Math.min(getEnergy(), Math.min(this.maxExtract, amount));
+        if (!simulate)
+            setEnergyStored(getEnergy() - toExtract);
+
+        return toExtract;
+    }
+
+    public int insertWithoutLimits(int amount, boolean simulate) {
+        int toReceive = Math.clamp(this.capacity - getEnergy(), 0, amount);
+        if (!simulate)
+            setEnergyStored(getEnergy() + toReceive);
+
+        return toReceive;
+    }
+
+    public int extractWithoutLimits(int amount, boolean simulate) {
+        int toExtract = Math.min(getEnergy(), amount);
         if (!simulate)
             setEnergyStored(getEnergy() - toExtract);
 

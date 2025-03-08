@@ -1,47 +1,43 @@
 package com.fej1fun.potentials.fluid;
 
+import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Comparator;
 import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
-public class ItemFluidStorage implements UniversalFluidStorage {
-    private final long maxAmount;
-    private final long maxFill;
-    private final long maxDrain;
-    private final ItemStack stack;
-    private final DataComponentType<List<FluidStack>> component;
+public class ItemFluidStorage implements UniversalFluidItemStorage {
+    protected final long maxAmount;
+    protected final long maxFill;
+    protected final long maxDrain;
+    protected final ItemStack stack;
+    protected final DataComponentType<FluidAmountMapDataComponent> component;
     private final int tanks;
 
-    public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
+    public ItemFluidStorage(DataComponentType<FluidAmountMapDataComponent> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
         this.maxAmount = maxAmount;
         this.maxFill = maxFill;
         this.maxDrain = maxDrain;
         this.stack = stack;
         this.component = component;
         this.tanks = tanks;
+
+        if (!this.stack.has(component))
+            this.stack.set(component, getEmpty());
     }
 
-    public ItemFluidStorage(DataComponentType<List<FluidStack>> component, ItemStack stack, int tanks, long maxAmount) {
+    public ItemFluidStorage(DataComponentType<FluidAmountMapDataComponent> component, ItemStack stack, int tanks, long maxAmount) {
         this(component, stack, tanks, maxAmount, maxAmount, maxAmount);
     }
 
-    private NonNullList<FluidStack> getEmpty() {
-        NonNullList<FluidStack> list = NonNullList.create();
-        for (int i = 0; i < tanks; i++) {
-            list.set(i, FluidStack.empty());
-        }
-        return list;
+    private FluidAmountMapDataComponent getEmpty() {
+        return FluidAmountMapDataComponent.emptyWithSize(this.tanks);
     }
 
-    private List<FluidStack> getFluidStacks() {
-        return stack.getOrDefault(component, getEmpty());
+    private FluidAmountMapDataComponent getComponent() {
+        return this.stack.getOrDefault(this.component, getEmpty());
     }
 
     @Override
@@ -54,20 +50,20 @@ public class ItemFluidStorage implements UniversalFluidStorage {
      */
     @Override
     public FluidStack getFluidInTank(int tank) {
-        return getFluidStacks().get(tank).copy();
+        return getComponent().getAsFluidStack(tank);
     }
 
     public void setFluidInTank(int tank, FluidStack fluidStack) {
-        getFluidStacks().set(tank, fluidStack);
+        getComponent().setFluidStack(tank, fluidStack);
     }
 
     public long getFluidValueInTank(int tank) {
-        return getFluidInTank(tank).getAmount();
+        return getComponent().getAmount(tank);
     }
 
     @Override
     public long getTankCapacity(int tank) {
-        return maxAmount;
+        return this.maxAmount;
     }
 
     @Override
@@ -80,12 +76,12 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         long filled = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
-            if (!(getFluidInTank(i).getFluid()==stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
-            if (getFluidInTank(i).getAmount()>=maxAmount) continue;
-            filled = Math.clamp(maxAmount - getFluidValueInTank(i), 0L, Math.min(this.maxFill, stack.getAmount()));
-            if (!simulate) {
-                setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) + filled));
-            }
+            if (!(getFluidInTank(i).getFluid() == stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
+            if (getFluidValueInTank(i) >= this.maxAmount) continue;
+            filled = Math.clamp(Math.min(this.maxFill, stack.getAmount()), 0L, this.maxAmount - getFluidValueInTank(i));
+            if (!simulate)
+                setFluidInTank(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
+
             break;
         }
         return filled;
@@ -96,30 +92,24 @@ public class ItemFluidStorage implements UniversalFluidStorage {
         long drained = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
-            if (!(getFluidInTank(i).getFluid()==stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
+            if (getFluidInTank(i).isEmpty()) continue;
+            if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
             drained = Math.min(getFluidValueInTank(i), Math.min(this.maxDrain, stack.getAmount()));
-            if (!simulate) {
-                setFluidInTank(i, FluidStack.create(getFluidInTank(i), getFluidValueInTank(i) - drained));
-            }
+            if (!simulate)
+                setFluidInTank(i, stack.copyWithAmount(getFluidValueInTank(i) - drained));
+
             break;
         }
         return FluidStack.create(stack, drained);
     }
 
     @Override
-    public FluidStack drain(long maxAmount, boolean simulate) {
-        AtomicReference<FluidStack> toReturn = new AtomicReference<>(FluidStack.empty());
-        getFluidStacks().stream().filter(stack -> !stack.isEmpty()).max(Comparator.comparing(FluidStack::getAmount)).ifPresent(stack -> {
-            long removedAmount = Math.min(maxAmount, stack.getAmount());
-            toReturn.set(FluidStack.create(stack.getFluid(), removedAmount));
-            stack.shrink(removedAmount);
-        });
-        return toReturn.get();
+    public @NotNull Iterator<FluidStack> iterator() {
+        return getComponent().asFluidStackList().iterator();
     }
 
     @Override
-    public @NotNull Iterator<FluidStack> iterator() {
-        return getFluidStacks().iterator();
+    public ItemStack getContainer() {
+        return this.stack;
     }
-
 }

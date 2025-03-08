@@ -3,7 +3,7 @@
 ----
 ***THIS MOD DOES NOTHING ON ITS OWN!***
 
-Potentials allows mod makers to use capabilities(lookups) for both
+Potentials allows mod makers to use Capabilities(Api lookups) for both
 Neoforge and Fabric simultaneously!
 
 You can create your own capabilities or use existing ones.
@@ -17,7 +17,7 @@ Current implementations:
 Add the maven to your `build.gradle` file
 ```
 repositories {
-    maven { url "https://maven.odysseyus.fr/releases" }
+    maven { url "https://maven.exodusstudio.org/releases" }
 }
 ```
 Now add the api to each of your modules' `build.gradle` file

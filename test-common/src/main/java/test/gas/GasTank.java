@@ -4,10 +4,7 @@ public class GasTank implements IGasStorage {
     private int gas = 0;
     private int maxGas = 0;
 
-    public GasTank() {
-
-    }
-
+    public GasTank() {}
 
     @Override
     public void setGas(int gas) {

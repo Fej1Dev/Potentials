@@ -8,9 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 public class NeoForgeFluidStorage implements IFluidHandler {
 
-    private final UniversalFluidStorage fluidStorage;
+    final UniversalFluidStorage fluidStorage;
 
-    public NeoForgeFluidStorage(UniversalFluidStorage storage) {
+    public NeoForgeFluidStorage(@NotNull final UniversalFluidStorage storage) {
         this.fluidStorage = storage;
     }
 
@@ -45,7 +45,11 @@ public class NeoForgeFluidStorage implements IFluidHandler {
     }
 
     @Override
-    public @NotNull FluidStack drain(int i, @NotNull FluidAction fluidAction) {
-        return FluidStackHooksForge.toForge(fluidStorage.drain(i, fluidAction.simulate())); //TODO fill this
+    public @NotNull FluidStack drain(int maxDrain, @NotNull FluidAction fluidAction) {
+        for (dev.architectury.fluid.FluidStack stack : fluidStorage) {
+            if (stack.isEmpty()) continue;
+            return FluidStackHooksForge.toForge(fluidStorage.drain(stack.copyWithAmount(maxDrain), fluidAction.simulate()));
+        }
+        return FluidStack.EMPTY;
     }
 }

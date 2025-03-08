@@ -17,6 +17,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
+import java.util.Objects;
+import java.util.Properties;
 import java.util.function.Supplier;
 
 public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<UniversalEnergyStorage, Direction> {
@@ -30,6 +32,15 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, @Nullable BlockState state, @Nullable BlockEntity blockEntity, Direction context) {
+        blockEntity = blockEntity != null ? blockEntity : level.getBlockEntity(pos);
+
+        if (blockEntity != null)
+            if (blockEntity instanceof EnergyProvider.BLOCK provider)
+                return provider.getEnergy(context);
+
+        if (Objects.requireNonNullElseGet(state, () -> level.getBlockState(pos)).getBlock() instanceof EnergyProvider.BLOCK provider)
+            return provider.getEnergy(context);
+
         EnergyStorage energyStorage = blockApiLookup.find(level, pos, state, blockEntity, context);
         return energyStorage == null ? null : new UniversalEnergyWrapper(energyStorage);
     }
@@ -38,11 +49,11 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     public void registerForBlock(Supplier<Block> block) {
         blockApiLookup.registerForBlocks((level, blockPos, state, blockEntity,direction) -> {
             if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
-                var energy = energyBlock.getEnergy(direction);
+                UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
                 return energy == null ? null : new FabricEnergyStorage(energy);
             }
             if (state.getBlock() instanceof EnergyProvider.BLOCK energyBlock) {
-                var energy = energyBlock.getEnergy(direction);
+                UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
                 return energy == null ? null : new FabricEnergyStorage(energy);
             }
             return null;
@@ -53,7 +64,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     public void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
         blockApiLookup.registerForBlockEntity((blockEntity, direction) -> {
             if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
-                var energy = energyBlock.getEnergy(direction);
+                UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
                 return energy == null ? null : new FabricEnergyStorage(energy);
             }
             return null;

@@ -22,9 +22,6 @@
       "com.fej1fun.potentials.fabric.client.PotentialsFabricClient"
     ]
   },
-  "mixins": [
-    "potentials.mixins.json"
-  ],
   "depends": {
     "fabricloader": ">=0.16.7",
     "minecraft": "~1.21.3",
