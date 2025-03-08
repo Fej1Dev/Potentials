@@ -7,6 +7,7 @@ import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
 import dev.architectury.fluid.FluidStack;
+import dev.architectury.hooks.fluid.FluidStackHooks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -54,11 +55,11 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.saveAdditional(compoundTag, provider);
         compoundTag.putInt("energy", energy.getEnergy());
-        Tag tag;
         for (int i = 0; i < tanks.getTanks(); i++) {
-            tag = new CompoundTag();
-            tanks.getFluidInTank(i).write(provider, tag);
-            compoundTag.put("tank"+i, tag);
+
+            if (!tanks.getFluidInTank(i).isEmpty()) {
+                compoundTag.put("fluid-"+i, FluidStackHooks.write(provider, tanks.getFluidInTank(i), new CompoundTag()));
+            }
         }
     }
 
@@ -66,9 +67,11 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
         energy.setEnergyStored(compoundTag.getInt("energy"));
-        for (AtomicInteger i = new AtomicInteger(0); i.get() < tanks.getTanks(); i.getAndIncrement()) {
-            FluidStack.read(provider, compoundTag.get("tank"+i.get())).ifPresent( fluidStack ->
-                tanks.setFluidInTank(i.get(), fluidStack));
+        for (int i = 0; i < tanks.getTanks(); i++) {
+
+            if (compoundTag.contains("fluid-"+i)) {
+                tanks.setFluidInTank(i, FluidStackHooks.read(provider, compoundTag.get("fluid-"+i)).orElse(FluidStack.empty()));
+            }
         }
     }
 
