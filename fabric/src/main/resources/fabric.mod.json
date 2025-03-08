@@ -3,7 +3,7 @@
   "id": "potentials",
   "version": "${version}",
   "name": "Potentials",
-  "description": "",
+  "description": "Library to allow mod developers to use cross platform capabilities",
   "authors": [
     "Fej1Fun"
   ],

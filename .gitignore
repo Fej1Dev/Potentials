@@ -42,3 +42,6 @@ classes/
 
 /.architectury-transformer/
 .log
+
+# Allow
+!.idea/icon.png
