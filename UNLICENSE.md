@@ -1,4 +1,4 @@
-ANYTHING UNDER THE test-fabric FOLDER IS LICENSED VIA THE (UN)LICENSE BELOW:
+ANYTHING UNDER */test FOLDERS IS LICENSED VIA THE (UN)LICENSE BELOW:
 
 This is free and unencumbered software released into the public domain.
 
