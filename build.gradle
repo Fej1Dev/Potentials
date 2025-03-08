@@ -1,4 +1,3 @@
-import com.google.gson.JsonSerializer
 import groovy.json.JsonSlurper
 
 plugins {
