@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "potentials_test",
-  "version": "${version}",
+  "version": "0.0.0",
   "name": "Potentials Test",
   "description": "",
   "authors": [
@@ -16,14 +16,9 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "test.TestFabricMain"
-    ],
-    "client": [
-      "test.client.TestFabricClient"
+      "test.TestMain::init"
     ]
   },
-  "mixins": [
-  ],
   "depends": {
     "fabricloader": ">=0.16.7",
     "minecraft": "~1.21",
