@@ -1,2 +1,3 @@
-- Optimize capability querying by checking if it's an instance of a provider first
-- Fix bucket filling
+- Mark as compatible with 1.21-1.21.4
+- Add icon
+- Fill descriptions

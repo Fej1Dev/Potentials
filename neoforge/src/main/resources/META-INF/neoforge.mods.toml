@@ -8,7 +8,7 @@ modId = "potentials"
 version = "${version}"
 displayName = "Potentials"
 authors = "Fej1Fun"
-description = '''''' #TODO fill the descriptions
+description = '''Library to allow mod developers to use cross platform capabilities'''
 #logoFile = ""
 
 [[dependencies.potentials]]
@@ -21,7 +21,7 @@ side = "BOTH"
 [[dependencies.potentials]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.21,1.21.4]"
 ordering = "NONE"
 side = "BOTH"
 
