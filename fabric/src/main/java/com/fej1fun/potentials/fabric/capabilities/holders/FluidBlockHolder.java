@@ -4,7 +4,6 @@ import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityH
 import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidVariantStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
-import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;

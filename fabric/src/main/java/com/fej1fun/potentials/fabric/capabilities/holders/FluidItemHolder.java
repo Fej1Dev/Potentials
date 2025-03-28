@@ -5,7 +5,6 @@ import com.fej1fun.potentials.fabric.fluid.FabricFluidItemStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidItemVariantStorage;
 import com.fej1fun.potentials.fabric.utils.ItemStackStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
-import com.fej1fun.potentials.providers.EnergyProvider;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;

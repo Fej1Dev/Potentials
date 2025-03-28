@@ -12,15 +12,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 import test.gas.GasProvider;
 import test.gas.GasTank;
 import test.gas.IGasStorage;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK, FluidProvider.BLOCK, GasProvider.BLOCK {
     BaseFluidStorage tanks = new BaseFluidStorage(6, 1000);
