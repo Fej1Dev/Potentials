@@ -3,13 +3,9 @@ package test;
 import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.capabilities.types.BlockCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.ItemCapabilityHolder;
-import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
-import com.mojang.serialization.Codec;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -22,8 +18,6 @@ import org.slf4j.LoggerFactory;
 import test.gas.GasProvider;
 import test.gas.IGasStorage;
 
-import java.util.function.UnaryOperator;
-
 //TESTS ARE FOR VERSIONS 1.21-1.21.1
 public class TestMain {
     public static final String MOD_ID = "potentials_test";
@@ -32,15 +26,6 @@ public class TestMain {
     public static DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
     public static DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(MOD_ID, Registries.BLOCK_ENTITY_TYPE);
-    public static DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(MOD_ID, Registries.DATA_COMPONENT_TYPE);
-
-    public static final RegistrySupplier<DataComponentType<Integer>> ENERGY = register("energy", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
-    public static final RegistrySupplier<DataComponentType<FluidAmountMapDataComponent>> FLUID_AMOUNT = register("fluid_amount", builder -> builder
-            .persistent(FluidAmountMapDataComponent.CODEC)
-            .networkSynchronized(FluidAmountMapDataComponent.STREAM_CODEC));
-    private static <T> RegistrySupplier<DataComponentType<T>> register(String name, UnaryOperator<DataComponentType.Builder<T>> builderOperator) {
-        return DATA_COMPONENTS.register(name, () -> builderOperator.apply(DataComponentType.builder()).build());
-    }
 
     public static final BlockCapabilityHolder<IGasStorage, Void> GAS_BLOCK =
             BlockCapabilityHolder.createVoid(IGasStorage.class, ResourceLocation.fromNamespaceAndPath(MOD_ID, "gas_block"));
@@ -58,7 +43,6 @@ public class TestMain {
 
     public static void init() {
         BLOCKS.register();
-        DATA_COMPONENTS.register();
         ITEMS.register();
         BLOCK_ENTITY_TYPES.register();
 

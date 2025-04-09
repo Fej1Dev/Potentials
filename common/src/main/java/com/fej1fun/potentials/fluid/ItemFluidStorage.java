@@ -1,8 +1,8 @@
 package com.fej1fun.potentials.fluid;
 
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
+import com.fej1fun.potentials.registry.DataComponetRegistry;
 import dev.architectury.fluid.FluidStack;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,23 +13,21 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     protected final long maxFill;
     protected final long maxDrain;
     protected final ItemStack stack;
-    protected final DataComponentType<FluidAmountMapDataComponent> component;
     private final int tanks;
 
-    public ItemFluidStorage(DataComponentType<FluidAmountMapDataComponent> component, ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
+    public ItemFluidStorage(ItemStack stack, int tanks, long maxAmount, long maxFill, long maxDrain) {
         this.maxAmount = maxAmount;
         this.maxFill = maxFill;
         this.maxDrain = maxDrain;
         this.stack = stack;
-        this.component = component;
         this.tanks = tanks;
 
-        if (!this.stack.has(component))
-            this.stack.set(component, getEmpty());
+        if (!this.stack.has(DataComponetRegistry.FLUID_LIST.get()))
+            this.stack.set(DataComponetRegistry.FLUID_LIST.get(), getEmpty());
     }
 
-    public ItemFluidStorage(DataComponentType<FluidAmountMapDataComponent> component, ItemStack stack, int tanks, long maxAmount) {
-        this(component, stack, tanks, maxAmount, maxAmount, maxAmount);
+    public ItemFluidStorage(ItemStack stack, int tanks, long maxAmount) {
+        this(stack, tanks, maxAmount, maxAmount, maxAmount);
     }
 
     private FluidAmountMapDataComponent getEmpty() {
@@ -37,7 +35,7 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     }
 
     private FluidAmountMapDataComponent getComponent() {
-        return this.stack.getOrDefault(this.component, getEmpty());
+        return this.stack.getOrDefault(DataComponetRegistry.FLUID_LIST.get(), getEmpty());
     }
 
     @Override

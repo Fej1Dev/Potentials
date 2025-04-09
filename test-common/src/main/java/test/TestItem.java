@@ -39,12 +39,12 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
 
     @Override
     public UniversalEnergyStorage getEnergy(@NotNull ItemStack stack) {
-        return new ItemEnergyStorage(stack, TestMain.ENERGY.get(), capacity, maxReceive, maxExtract);
+        return new ItemEnergyStorage(stack, capacity, maxReceive, maxExtract);
     }
 
     @Override
     public UniversalFluidItemStorage getFluidTank(@NotNull ItemStack stack) {
-        return new ItemFluidStorage(TestMain.FLUID_AMOUNT.get(), stack, 1, 10000);
+        return new ItemFluidStorage(stack, 1, 10000);
     }
 
     @Override
