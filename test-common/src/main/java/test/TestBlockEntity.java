@@ -63,7 +63,8 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
     @Override
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
-        energy.setEnergyStored(compoundTag.getInt("energy"));
+        compoundTag.getInt("energy").ifPresent(energy::setEnergyStored);
+
         for (int i = 0; i < tanks.getTanks(); i++) {
 
             if (compoundTag.contains("fluid-"+i)) {

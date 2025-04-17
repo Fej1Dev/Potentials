@@ -39,9 +39,9 @@ dependencies {
     modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
 
     //for testing
-    modImplementation "curse.maven:energized-power-782147:5510660"
-    modImplementation "curse.maven:reborncore-237903:5939580"
-    modImplementation "curse.maven:techreborn-233564:5939581"
+    modLocalRuntime "curse.maven:energized-power-782147:6341107"
+    modLocalRuntime "curse.maven:reborncore-237903:6347877"
+    modLocalRuntime "curse.maven:techreborn-233564:6347878"
 
     implementation project(path: ":fabric", configuration: "namedElements")
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
