@@ -81,14 +81,6 @@ subprojects {
             // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
             repositories {
                 maven {
-                    name = "GithubPackages"
-                    url = "https://maven.pkg.github.com/Fej1Dev/Potentials"
-                    credentials {
-                        username = System.getenv("GITHUB_ACTOR")
-                        password = System.getenv("GITHUB_TOKEN")
-                    }
-                }
-                maven {
                     name = "ExodusStudio"
                     url = "https://maven.exodusstudio.org/releases"
                     credentials {
@@ -137,21 +129,6 @@ subprojects {
                     }
 
                 }
-
-//            github {
-//                repository = "Fej1Dev/Potentials"
-//                accessToken = providers.gradleProperty("GITHUB_TOKEN")
-//                commitish = "main"
-//                tagName = "${type}/${minecraft_version}"
-//
-//                // Upload the files to a previously created release, by providing another github publish task
-//                // This is useful in multi-project builds where you want to publish multiple subprojects to a single release
-//                parent project(":").tasks.named("publishGithub")
-//
-//                // Optionally allow the release to be created without any attached files.
-//                // This is useful when you have subprojects using the parent option that you want to publish a single release.
-//                allowEmptyFiles = true
-//            }
             }
         }
     }

@@ -1,1 +1,2 @@
-- Mark as also compatible with 1.21.5
+- Fix intermediary mappings change in 1.21.5
+- Update Team Reborn Energy
