@@ -1,6 +1,6 @@
 package com.fej1fun.potentials.energy;
 
-import com.fej1fun.potentials.registry.DataComponetRegistry;
+import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 
 public class ItemEnergyStorage implements UniversalEnergyStorage {
@@ -9,25 +9,27 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
     protected final int capacity;
     protected final int maxReceive;
     protected final int maxExtract;
+    protected final DataComponentType<Integer> component;
 
-    public ItemEnergyStorage(final ItemStack stack, int capacity, int maxReceive, int maxExtract) {
+    public ItemEnergyStorage(final ItemStack stack, DataComponentType<Integer> component, int capacity, int maxReceive, int maxExtract) {
         this.stack = stack;
         this.capacity = capacity;
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
+        this.component = component;
 
-        if (!this.stack.has(DataComponetRegistry.ENERGY.get()))
-            stack.set(DataComponetRegistry.ENERGY.get(), 0);
+        if (!this.stack.has(component))
+            stack.set(component, 0);
 
     }
 
-    public ItemEnergyStorage(ItemStack stack, int capacity) {
-        this(stack, capacity, capacity, capacity);
+    public ItemEnergyStorage(ItemStack stack, DataComponentType<Integer> component, int capacity) {
+        this(stack, component, capacity, capacity, capacity);
     }
 
     @Override
     public int getEnergy() {
-        return stack.getOrDefault(DataComponetRegistry.ENERGY.get(), 0);
+        return stack.getOrDefault(component, 0);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
      * This method does not check for max receive and extract, or if energy can be inserted or extracted
      */
     public void setEnergyStored(int amount) {
-        stack.set(DataComponetRegistry.ENERGY.get(), Math.clamp(amount, 0, getMaxEnergy()));
+        stack.set(component, Math.clamp(amount, 0, getMaxEnergy()));
     }
 
     @Override
