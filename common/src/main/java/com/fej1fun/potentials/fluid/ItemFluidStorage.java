@@ -79,8 +79,10 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
             if (!(getFluidInTank(i).getFluid() == stack.getFluid() || getFluidInTank(i).isEmpty())) continue;
             if (getFluidValueInTank(i) >= this.maxAmount) continue;
             filled = Math.clamp(Math.min(this.maxFill, stack.getAmount()), 0L, this.maxAmount - getFluidValueInTank(i));
-            if (!simulate)
+            if (!simulate) {
                 setFluidInTank(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
+                setChanged();
+            }
 
             break;
         }
@@ -95,8 +97,10 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
             if (getFluidInTank(i).isEmpty()) continue;
             if (getFluidInTank(i).getFluid()!=stack.getFluid()) continue;
             drained = Math.min(getFluidValueInTank(i), Math.min(this.maxDrain, stack.getAmount()));
-            if (!simulate)
+            if (!simulate) {
                 setFluidInTank(i, stack.copyWithAmount(getFluidValueInTank(i) - drained));
+                setChanged();
+            }
 
             break;
         }
@@ -111,5 +115,9 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     @Override
     public ItemStack getContainer() {
         return this.stack;
+    }
+
+    public void setChanged() {
+        this.stack.set(this.component, getComponent());
     }
 }

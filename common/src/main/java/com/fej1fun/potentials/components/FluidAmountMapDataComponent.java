@@ -19,19 +19,22 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FluidAmountMapDataComponent implements Serializable {
-
-    @SuppressWarnings("all")
     public static final Codec<FluidAmountMapDataComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             BuiltInRegistries.FLUID.holderByNameCodec().listOf().fieldOf("fluids")
                     .forGetter(component ->
-                        component.fluids.stream().map(fluid -> (Holder<Fluid>) fluid.builtInRegistryHolder()).toList()),
+                            component.fluids.stream()
+                                    .map(BuiltInRegistries.FLUID::wrapAsHolder)
+                                    .toList()),
             Codec.LONG.listOf().fieldOf("amounts").forGetter(component -> component.amounts)
     ).apply(instance, FluidAmountMapDataComponent::create));
-    @SuppressWarnings("all")
+
     public static final StreamCodec<RegistryFriendlyByteBuf, FluidAmountMapDataComponent> STREAM_CODEC = StreamCodec.composite(
-            ByteBufCodecs.holderRegistry(Registries.FLUID).apply(ByteBufCodecs.list()), component ->
-                    component.fluids.stream().map(fluid-> (Holder<Fluid>) fluid.builtInRegistryHolder()).toList(),
-            ByteBufCodecs.VAR_LONG.apply(ByteBufCodecs.list()), component -> component.amounts,
+            ByteBufCodecs.holderRegistry(Registries.FLUID).apply(ByteBufCodecs.list()),
+            component -> component.fluids.stream()
+                    .map(BuiltInRegistries.FLUID::wrapAsHolder)
+                    .toList(),
+            ByteBufCodecs.VAR_LONG.apply(ByteBufCodecs.list()),
+            component -> component.amounts,
             FluidAmountMapDataComponent::create
     );
 
