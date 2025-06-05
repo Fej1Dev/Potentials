@@ -1,12 +1,18 @@
 package com.fej1fun.potentials.fluid;
 
+import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import dev.architectury.fluid.FluidStack;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 public class ItemFluidStorage implements UniversalFluidItemStorage {
     protected final long maxAmount;
@@ -118,6 +124,17 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     }
 
     public void setChanged() {
-        this.stack.set(this.component, getComponent());
+        FluidAmountMapDataComponent oldComponent = this.stack.getOrDefault(this.component, getEmpty());
+
+        Map<Fluid, Long> fluidMap = new HashMap<>();
+        for (FluidStack fluidStack : oldComponent.asFluidStackList()) {
+            if (!fluidStack.isEmpty()) {
+                fluidMap.merge(fluidStack.getFluid(), fluidStack.getAmount(), Long::sum);
+            }
+        }
+
+        FluidAmountMapDataComponent newComponent = new FluidAmountMapDataComponent(fluidMap);
+
+        this.stack.set(this.component, newComponent);
     }
 }
