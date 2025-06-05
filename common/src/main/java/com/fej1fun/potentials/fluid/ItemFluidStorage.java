@@ -121,17 +121,6 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     }
 
     public void setChanged() {
-        FluidAmountMapDataComponent oldComponent = this.stack.getOrDefault(this.component, getEmpty());
-
-        Map<Fluid, Long> fluidMap = new HashMap<>();
-        for (FluidStack fluidStack : oldComponent.asFluidStackList()) {
-            if (!fluidStack.isEmpty()) {
-                fluidMap.merge(fluidStack.getFluid(), fluidStack.getAmount(), Long::sum);
-            }
-        }
-
-        FluidAmountMapDataComponent newComponent = new FluidAmountMapDataComponent(fluidMap);
-
-        this.stack.set(this.component, newComponent);
+        this.stack.set(this.component, getComponent().copy());
     }
 }

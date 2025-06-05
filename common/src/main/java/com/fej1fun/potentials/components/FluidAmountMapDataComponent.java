@@ -125,4 +125,8 @@ public class FluidAmountMapDataComponent implements Serializable {
         list.trimToSize();
         return list;
     }
+
+    public FluidAmountMapDataComponent copy() {
+        return new FluidAmountMapDataComponent(new ArrayList<>(this.fluids), new ArrayList<>(this.amounts));
+    }
 }
