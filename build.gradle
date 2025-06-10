@@ -106,7 +106,7 @@ subprojects {
                 curseforge {
                     projectId = "1165185"
                     projectSlug = "potentials" // Required for discord webhook
-                    accessToken = providers.gradleProperty('CURSEFORGE_API_KEY')
+                    accessToken = providers.environmentVariable('CURSEFORGE_API_KEY')
                     for (String version : supported_versions)
                         minecraftVersions.add(version)
 
@@ -119,7 +119,7 @@ subprojects {
 
                 modrinth {
                     projectId = "J9pKOkxP"
-                    accessToken = providers.gradleProperty("MODRINTH_TOKEN")
+                    accessToken = providers.environmentVariable("MODRINTH_TOKEN")
                     for (String version : supported_versions)
                         minecraftVersions.add(version)
 
