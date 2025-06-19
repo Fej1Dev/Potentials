@@ -14,14 +14,14 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class EnergyItemHolder implements NoProviderItemCapabilityHolder<UniversalEnergyStorage, Void>, Registerable {
     public static final EnergyItemHolder INSTANCE = new EnergyItemHolder();
     private EnergyItemHolder() {registerSelf();}
-    private final List<Supplier<Item>> registeredItems = new ArrayList<>();
+    private final Set<Supplier<Item>> registeredItems = new HashSet<>();
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(ItemStack stack) {
