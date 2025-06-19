@@ -1,7 +1,13 @@
-# 0.6.4 changelog
+# 0.7.0 Changelog
 
-## Change
-- revert adding data component registry (you now need to provide your owns, like in 1.21-1.21.4)
+## ADD
+- Add entity capabilities for energy and fluids
 
-## Fix
-- fix data components are not synced to client
+[//]: # (## CHANGE)
+
+[//]: # (- )
+
+[//]: # ()
+[//]: # (## FIX)
+
+[//]: # (- )
