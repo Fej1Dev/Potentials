@@ -1,1 +1,1 @@
-- Mark as also compatible with 1.21.5
+- Add entity capabilities for energy and fluids

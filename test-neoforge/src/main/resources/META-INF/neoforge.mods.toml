@@ -5,7 +5,7 @@ license = "Unlicense"
 
 [[mods]]
 modId = "potentials_test"
-version = "1.0.0"
+version = "${version}"
 displayName = "Potentials Test"
 authors = "Fej1Fun"
 description = ''''''
@@ -21,7 +21,7 @@ side = "BOTH"
 [[dependencies.potentials_test]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.21,1.21.4]"
 ordering = "NONE"
 side = "BOTH"
 
@@ -35,6 +35,6 @@ side = "BOTH"
 [[dependencies.potentials_test]]
 modId = "potentials"
 type = "required"
-versionRange = "[0.1.0,)"
+versionRange = "[0.7.0,)"
 ordering = "AFTER"
 side = "BOTH"
