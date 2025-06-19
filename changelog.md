@@ -1,3 +1,1 @@
-- Mark as compatible with 1.21-1.21.4
-- Add icon
-- Fill descriptions
+- Add entity capabilities for energy and fluids

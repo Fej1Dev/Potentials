@@ -24,6 +24,7 @@ import test.gas.IGasStorage;
 
 import java.util.function.UnaryOperator;
 
+//TESTS ARE FOR VERSIONS 1.21-1.21.1
 public class TestMain {
     public static final String MOD_ID = "potentials_test";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
