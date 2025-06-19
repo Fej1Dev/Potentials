@@ -1,6 +1,6 @@
 package com.fej1fun.potentials.neoforge.capabilities.holders;
 
-import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityHolder;
+import com.fej1fun.potentials.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidStorage;
@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<UniversalFluidStorage, Direction>, Registerable {
+public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<UniversalFluidStorage, Direction>, Registerable {
     public static final FluidBlockHolder INSTANCE = new FluidBlockHolder();
     private FluidBlockHolder() {registerSelf();}
 

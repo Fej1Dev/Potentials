@@ -1,6 +1,6 @@
 package com.fej1fun.potentials.fabric.capabilities.holders;
 
-import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityHolder;
+import com.fej1fun.potentials.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidVariantStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<UniversalFluidStorage, Direction> {
+public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<UniversalFluidStorage, Direction> {
     public static final FluidBlockHolder INSTANCE = new FluidBlockHolder();
     private final BlockApiLookup<Storage<FluidVariant>, @Nullable Direction> blockApiLookup = FluidStorage.SIDED;
 
