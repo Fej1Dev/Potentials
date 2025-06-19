@@ -23,7 +23,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
     public static final FluidEntityHolder INSTANCE = new FluidEntityHolder();
     private FluidEntityHolder() {registerSelf();}
 
-    private final List<Supplier<EntityType<? extends Entity>>> registeredEntities = new ArrayList<>();
+    private final Set<Supplier<EntityType<? extends Entity>>> registeredEntities = new HashSet<>();
 
     @Override
     public @Nullable UniversalFluidStorage getCapability(Entity entity, Direction direction) {

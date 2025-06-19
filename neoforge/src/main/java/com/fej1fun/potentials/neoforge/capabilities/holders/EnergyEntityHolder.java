@@ -15,15 +15,15 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<UniversalEnergyStorage, Direction>, Registerable {
     public static final EnergyEntityHolder INSTANCE = new EnergyEntityHolder();
     private EnergyEntityHolder() {registerSelf();}
 
-    private final List<Supplier<EntityType<? extends Entity>>> registeredEntities = new ArrayList<>();
+    private final Set<Supplier<EntityType<? extends Entity>>> registeredEntities = new HashSet<>();
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Entity entity, Direction direction) {
