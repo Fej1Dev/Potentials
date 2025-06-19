@@ -1,6 +1,6 @@
 package com.fej1fun.potentials.neoforge.capabilities.holders;
 
-import com.fej1fun.potentials.capabilities.types.NoProviderFluidBlockCapabilityHolder;
+import com.fej1fun.potentials.capabilities.types.NoProviderBlockCapabilityHolder;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidStorage;
@@ -19,16 +19,16 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
-public class FluidBlockHolder implements NoProviderFluidBlockCapabilityHolder<UniversalFluidStorage, Direction>, Registerable {
+public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<UniversalFluidStorage, Direction>, Registerable {
     public static final FluidBlockHolder INSTANCE = new FluidBlockHolder();
     private FluidBlockHolder() {registerSelf();}
 
-    private final List<Supplier<Block>> registeredBlocks = new ArrayList<>();
-    private final List<Supplier<BlockEntityType<?>>> registeredBlockEntities = new ArrayList<>();
+    private final Set<Supplier<Block>> registeredBlocks = new HashSet<>();
+    private final Set<Supplier<BlockEntityType<?>>> registeredBlockEntities = new HashSet<>();
 
     @Override
     public UniversalFluidStorage getCapability(Level level, BlockPos pos, Direction direction) {
