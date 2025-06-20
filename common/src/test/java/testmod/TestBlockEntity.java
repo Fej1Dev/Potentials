@@ -1,4 +1,4 @@
-package test;
+package testmod;
 
 import com.fej1fun.potentials.energy.BaseEnergyStorage;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
@@ -15,9 +15,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import test.gas.GasProvider;
-import test.gas.GasTank;
-import test.gas.IGasStorage;
+import testmod.gas.GasProvider;
+import testmod.gas.GasTank;
+import testmod.gas.IGasStorage;
 
 public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK, FluidProvider.BLOCK, GasProvider.BLOCK {
     BaseFluidStorage tanks = new BaseFluidStorage(6, 1000);

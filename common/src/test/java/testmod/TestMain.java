@@ -1,4 +1,4 @@
-package test;
+package testmod;
 
 import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.capabilities.types.BlockCapabilityHolder;
@@ -19,8 +19,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import test.gas.GasProvider;
-import test.gas.IGasStorage;
+import testmod.gas.GasProvider;
+import testmod.gas.IGasStorage;
 
 import java.util.function.UnaryOperator;
 

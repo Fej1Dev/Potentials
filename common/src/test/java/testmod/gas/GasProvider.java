@@ -1,4 +1,4 @@
-package test.gas;
+package testmod.gas;
 
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;

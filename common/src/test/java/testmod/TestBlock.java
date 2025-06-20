@@ -1,4 +1,4 @@
-package test;
+package testmod;
 
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;

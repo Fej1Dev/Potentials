@@ -1,4 +1,4 @@
-package test.gas;
+package testmod.gas;
 
 public class GasTank implements IGasStorage {
     private int gas = 0;

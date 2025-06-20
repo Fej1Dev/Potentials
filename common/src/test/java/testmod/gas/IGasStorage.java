@@ -1,4 +1,4 @@
-package test.gas;
+package testmod.gas;
 
 public interface IGasStorage {
     void setGas(int gas);

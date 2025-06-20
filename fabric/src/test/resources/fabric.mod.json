@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "test.TestMain::init"
+      "testmod.TestMain::init"
     ]
   },
   "depends": {

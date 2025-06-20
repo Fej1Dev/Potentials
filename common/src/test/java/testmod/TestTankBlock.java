@@ -1,4 +1,4 @@
-package test;
+package testmod;
 
 import com.fej1fun.potentials.fluid.BaseFluidStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;

@@ -1,4 +1,4 @@
-package test;
+package testmod;
 
 import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.energy.ItemEnergyStorage;
@@ -18,9 +18,9 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-import test.gas.GasProvider;
-import test.gas.GasTank;
-import test.gas.IGasStorage;
+import testmod.gas.GasProvider;
+import testmod.gas.GasTank;
+import testmod.gas.IGasStorage;
 
 import java.util.List;
 

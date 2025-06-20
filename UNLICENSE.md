@@ -1,4 +1,4 @@
-ANYTHING UNDER */test FOLDERS IS LICENSED VIA THE (UN)LICENSE BELOW:
+ANYTHING UNDER */testmod FOLDERS IS LICENSED VIA THE (UN)LICENSE BELOW:
 
 This is free and unencumbered software released into the public domain.
 

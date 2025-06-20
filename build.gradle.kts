@@ -37,16 +37,24 @@ subprojects {
 
     configure<LoomGradleExtensionAPI> {
         silentMojangMappingsLicense()
-        runs {
-            named("client") {
-                name("Test Client")
-                source(sourceSets.test.get())
-            }
-            named("server") {
-                name("Test Server")
-                source(sourceSets.test.get())
-            }
-        }
+//        runs {
+//            named("client") {
+//                name("Client")
+//                source(sourceSets.main.get())
+//            }
+//            named("server") {
+//                name("Server")
+//                source(sourceSets.main.get())
+//            }
+//            named("client") {
+//                name("Test Client")
+//                source(sourceSets.test.get())
+//            }
+//            named("server") {
+//                name("Test Server")
+//                source(sourceSets.test.get())
+//            }
+//        }
     }
 
     repositories {
@@ -96,6 +104,9 @@ subprojects {
             val neoforge_version: String by project
             "neoForge"(group = "net.neoforged", name = "neoforge", version = neoforge_version)
         }
+
+        testRuntimeOnly("dev.architectury", "architectury-transformer", "5.2.87", classifier = "agent")
+        testRuntimeOnly("dev.architectury", "architectury-transformer", "5.2.87", classifier = "runtime")
     }
 
     java {
