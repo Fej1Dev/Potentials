@@ -5,7 +5,7 @@ plugins {
     java
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "8.1.1" apply false
-    id("dev.architectury.loom") version "1.7-SNAPSHOT" apply false
+    id("dev.architectury.loom") version "1.10-SNAPSHOT" apply false
     id("architectury-plugin") version "3.4-SNAPSHOT"
     id("me.modmuss50.mod-publish-plugin") version "0.8.4"
 }
@@ -23,6 +23,7 @@ subprojects {
 
     val minecraft_version: String by project
     val archives_name = rootProject.name
+    val mod_version : String by project
 
     val modLoader = project.layout.projectDirectory.asFile.name
     val isCommon = modLoader == "common"
@@ -104,40 +105,32 @@ subprojects {
     }
 
 
-//    publishing {
-//        publications {
-//            mavenJava(MavenPublication) {
-//                groupId "com.fej1fun.potentials"
-//                artifactId "potentials-$modLoader"
-//                version project.version
-//                        from components.java
-//                        pom {
-//                            name = "Potentials" + modLoader.capitalize()
-//                            url = "https://github.com/Fej1Dev/Potentials"
-//                        }
-//            }
-//        }
-//
-//        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-//        repositories {
-//            maven {
-//                name = "GithubPackages"
-//                url = "https://maven.pkg.github.com/Fej1Dev/Potentials"
-//                credentials {
-//                    username = System.getenv("GITHUB_ACTOR")
-//                    password = System.getenv("GITHUB_TOKEN")
-//                }
-//            }
-//            maven {
-//                name = "ExodusStudio"
-//                url = "https://maven.exodusstudio.org/releases"
-//                credentials {
-//                    username = System.getenv("MAVEN_USER")
-//                    password = System.getenv("MAVEN_PASS")
-//                }
-//            }
-//        }
-//    }
+    publishing {
+        publications {
+            create<MavenPublication>("mavenJava") {
+                groupId = "com.fej1fun.potentials"
+                artifactId = "potentials-${modLoader}-${minecraft_version}"
+                version = mod_version
+                from(components["java"])
+                pom {
+                    name = "Potentials" + modLoader.capitalize()
+                    url = "https://github.com/Fej1Dev/Potentials"
+                }
+            }
+        }
+
+        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+        repositories {
+            maven {
+                name = "ExodusStudio"
+                url = uri("https://maven.exodusstudio.org/releases")
+                credentials {
+                    username = System.getenv("MAVEN_USER")
+                    password = System.getenv("MAVEN_PASS")
+                }
+            }
+        }
+    }
 
     if (!isCommon) {
         publishMods {

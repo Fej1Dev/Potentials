@@ -14,6 +14,4 @@ rootProject.name = "potentials"
 include("common")
 include("fabric")
 include("neoforge")
-//include 'test-common'
-//include 'test-fabric'
-//include 'test-neoforge'
+
