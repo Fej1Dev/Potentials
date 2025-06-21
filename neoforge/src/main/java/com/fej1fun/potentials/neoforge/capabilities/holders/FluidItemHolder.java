@@ -13,15 +13,15 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.fluids.capability.IFluidHandlerItem;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<UniversalFluidItemStorage, Void>, Registerable {
     public static final FluidItemHolder INSTANCE = new FluidItemHolder();
     private FluidItemHolder() {registerSelf();}
 
-    private final List<Supplier<Item>> registeredItems = new ArrayList<>();
+    private final Set<Supplier<Item>> registeredItems = new HashSet<>();
 
     @Override
     public UniversalFluidItemStorage getCapability(ItemStack stack) {

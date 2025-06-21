@@ -9,8 +9,10 @@ Neoforge and Fabric simultaneously!
 You can create your own capabilities or use existing ones.
 Current implementations:
 - Energy Blocks and Block Entities
+- Energy Entities
 - Energy Items
 - Fluid Storage Blocks and Block Entities
+- Fluid Entities
 - Fluid Storage Items
 
 ### How to Use?
@@ -23,7 +25,7 @@ repositories {
 Now add the api to each of your modules' `build.gradle` file
 ```
 dependencies {
-    modApi("com.fej1fun.potentials:potentials-PLATFORM:VERSION")
+    modApi("com.fej1fun.potentials:potentials-${platform}-${mc_version}:${potentials_version}")
 }
 ```
 replace PLATFORM for that build.gradle's platform: common, fabric, neoforge.

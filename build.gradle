@@ -1,7 +1,7 @@
 import groovy.json.JsonSlurper
 
 plugins {
-    id 'dev.architectury.loom' version '1.6-SNAPSHOT' apply false
+    id 'dev.architectury.loom' version '1.10-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.4-SNAPSHOT'
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
@@ -28,7 +28,7 @@ subprojects {
 
     base {
         // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
-        archivesName = "${rootProject.archives_name}-${modLoader}-${rootProject.minecraft_version}"
+        archivesName = "${mod_id}-${modLoader}-${minecraft_version}"
     }
 
     repositories {
@@ -68,8 +68,8 @@ subprojects {
             publications {
                 mavenJava(MavenPublication) {
                     groupId "com.fej1fun.potentials"
-                    artifactId "potentials-$modLoader"
-                    version project.version
+                    artifactId "potentials-${modLoader}-${minecraft_version}"
+                    version mod_version
                     from components.java
                     pom {
                         name = "Potentials" + modLoader.capitalize()
@@ -92,8 +92,8 @@ subprojects {
                     name = "ExodusStudio"
                     url = "https://maven.exodusstudio.org/releases"
                     credentials {
-                        username = System.getenv("MAVEN_USER")
-                        password = System.getenv("MAVEN_PASS")
+                        username = System.getenv("EXODUS_MAVEN_USERNAME") // DO NOT CHANGE
+                        password = System.getenv("EXODUS_MAVEN_KEY") // DO NOT CHANGE
                     }
                 }
             }

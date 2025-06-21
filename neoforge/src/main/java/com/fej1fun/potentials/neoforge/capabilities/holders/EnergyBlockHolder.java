@@ -20,15 +20,17 @@ import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
 
 public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<UniversalEnergyStorage, Direction>, Registerable {
     public static final EnergyBlockHolder INSTANCE = new EnergyBlockHolder();
     private EnergyBlockHolder() {registerSelf();}
 
-    private final List<Supplier<Block>> registeredBlocks = new ArrayList<>();
-    private final List<Supplier<BlockEntityType<?>>> registeredBlockEntities = new ArrayList<>();
+    private final Set<Supplier<Block>> registeredBlocks = new HashSet<>();
+    private final Set<Supplier<BlockEntityType<?>>> registeredBlockEntities = new HashSet<>();
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, Direction direction) {
