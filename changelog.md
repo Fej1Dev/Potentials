@@ -1,13 +1,4 @@
-# 0.7.0 Changelog
+# 0.7.1 Changelog
 
-## ADD
-- Add entity capabilities for energy and fluids
-
-[//]: # (## CHANGE)
-
-[//]: # (- )
-
-[//]: # ()
-[//]: # (## FIX)
-
-[//]: # (- )
+## Hotfix
+- Mark minecraft 1.21.5 as supported on fabric
