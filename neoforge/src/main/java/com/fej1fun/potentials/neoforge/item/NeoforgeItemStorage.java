@@ -3,9 +3,10 @@ package com.fej1fun.potentials.neoforge.item;
 import com.fej1fun.potentials.item.UniversalItemStorage;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 
-public class NeoforgeItemStorage implements IItemHandler {
+public class NeoforgeItemStorage implements IItemHandlerModifiable {
 
     final UniversalItemStorage itemStorage;
 
@@ -35,5 +36,10 @@ public class NeoforgeItemStorage implements IItemHandler {
 
     public boolean isItemValid(int slot, @NotNull ItemStack stack) {
         return itemStorage.isItemValid(slot, stack);
+    }
+
+    @Override
+    public void setStackInSlot(int i, ItemStack arg) {
+
     }
 }

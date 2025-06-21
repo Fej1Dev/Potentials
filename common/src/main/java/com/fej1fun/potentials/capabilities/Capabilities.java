@@ -28,5 +28,11 @@ public final class Capabilities {
         private Fluid() {}
     }
 
+    public static final class Item {
+
+
+        private Item() {}
+    }
+
     private Capabilities() {}
 }
