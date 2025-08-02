@@ -1,4 +1,4 @@
-# 0.7.1 Changelog
+# 0.7.2 Changelog
 
-## Hotfix
-- Mark minecraft 1.21.5 as supported on fabric
+## Change
+- Mark Minecraft 1.21.7 & 1.21.8 as supported versions.
