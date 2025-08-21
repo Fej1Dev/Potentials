@@ -33,6 +33,7 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public int insert(int amount, boolean simulate) {
+        if (amount < 0) return extract(amount, simulate);
         if (!canInsertEnergy()) return 0;
 
         int toReceive = Math.clamp(this.capacity - getEnergy(), 0, Math.min(this.maxReceive, amount));
@@ -44,6 +45,7 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public int extract(int amount, boolean simulate) {
+        if (amount < 0) return insert(amount, simulate);
         if (!canExtractEnergy()) return 0;
 
         int toExtract = Math.min(getEnergy(), Math.min(this.maxExtract, amount));

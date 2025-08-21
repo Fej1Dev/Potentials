@@ -1,1 +1,2 @@
-- Add entity capabilities for energy and fluids
+# Fix
+- Fix crash when inserting/extracting negative energy
