@@ -81,14 +81,6 @@ subprojects {
             // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
             repositories {
                 maven {
-                    name = "GithubPackages"
-                    url = "https://maven.pkg.github.com/Fej1Dev/Potentials"
-                    credentials {
-                        username = System.getenv("GITHUB_ACTOR")
-                        password = System.getenv("GITHUB_TOKEN")
-                    }
-                }
-                maven {
                     name = "ExodusStudio"
                     url = "https://maven.exodusstudio.org/releases"
                     credentials {
