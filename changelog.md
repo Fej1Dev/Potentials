@@ -1,4 +1,4 @@
-# 0.7.2 Changelog
+# 0.7.3 Changelog
 
-## Change
-- Mark Minecraft 1.21.7 & 1.21.8 as supported versions.
+## Fix
+- Fix version range on neoforge
