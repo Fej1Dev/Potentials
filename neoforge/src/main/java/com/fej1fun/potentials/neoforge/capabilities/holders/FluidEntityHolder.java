@@ -12,7 +12,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -27,8 +28,8 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
 
     @Override
     public @Nullable UniversalFluidStorage getCapability(Entity entity, Direction direction) {
-        IFluidHandler fluidTank = entity.getCapability(Capabilities.FluidHandler.ENTITY, direction);
-        return fluidTank == null ? null : new UniversalFluidHandler(fluidTank);
+        ResourceHandler<FluidResource> fluidTank = entity.getCapability(Capabilities.Fluid.ENTITY, direction);
+        return fluidTank == null ? null : new UniversalFluidHandler((NeoForgeFluidStorage) fluidTank);
     }
 
     @Override
@@ -38,12 +39,12 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
 
     @Override
     public ResourceLocation getIdentifier() {
-        return Capabilities.FluidHandler.BLOCK.name();
+        return Capabilities.Fluid.BLOCK.name();
     }
 
     @Override
     public void register(RegisterCapabilitiesEvent event) {
-        registeredEntities.forEach(entityType -> event.registerEntity(Capabilities.FluidHandler.ENTITY,
+        registeredEntities.forEach(entityType -> event.registerEntity(Capabilities.Fluid.ENTITY,
                 entityType.get(), (entity, ctx) -> {
                     if (entity instanceof FluidProvider.ENTITY provider) {
                         UniversalFluidStorage fluidTank = provider.getFluidTank(ctx);

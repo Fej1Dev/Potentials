@@ -11,7 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -25,7 +25,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(ItemStack stack) {
-        IEnergyStorage energyStorage = stack.getCapability(Capabilities.EnergyStorage.ITEM);
+        EnergyHandler energyStorage = stack.getCapability(Capabilities.Energy.ITEM, null);
         return energyStorage == null ? null : new UniversalIEnergyStorage(energyStorage);
     }
 
@@ -36,12 +36,12 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
 
     @Override
     public ResourceLocation getIdentifier() {
-        return Capabilities.EnergyStorage.ITEM.name();
+        return Capabilities.Energy.ITEM.name();
     }
 
     @Override
     public void register(RegisterCapabilitiesEvent event) {
-        registeredItems.forEach(item -> event.registerItem(Capabilities.EnergyStorage.ITEM, (stack, ctx) -> {
+        registeredItems.forEach(item -> event.registerItem(Capabilities.Energy.ITEM, (stack, ctx) -> {
             if (stack.getItem() instanceof EnergyProvider.ITEM energyItem) {
                 UniversalEnergyStorage energy = energyItem.getEnergy(stack);
                 return energy == null ? null : new NeoForgeEnergyStorage(energy);

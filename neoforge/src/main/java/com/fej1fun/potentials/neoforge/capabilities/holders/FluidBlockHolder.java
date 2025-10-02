@@ -16,7 +16,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -37,8 +38,8 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
 
     @Override
     public @Nullable UniversalFluidStorage getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction direction) {
-        IFluidHandler fluidTank = level.getCapability(Capabilities.FluidHandler.BLOCK, pos, state, blockEntity, direction);
-        return fluidTank == null ? null : new UniversalFluidHandler(fluidTank);
+        ResourceHandler<FluidResource> fluidTank = level.getCapability(Capabilities.Fluid.BLOCK, pos, state, blockEntity, direction);
+        return fluidTank == null ? null : new UniversalFluidHandler((NeoForgeFluidStorage) fluidTank);
     }
 
     @Override
@@ -53,13 +54,13 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
 
     @Override
     public ResourceLocation getIdentifier() {
-        return Capabilities.FluidHandler.BLOCK.name();
+        return Capabilities.Fluid.BLOCK.name();
     }
 
     @Override
     public void register(RegisterCapabilitiesEvent event) {
         registeredBlocks.forEach(block ->
-                event.registerBlock(Capabilities.FluidHandler.BLOCK, (level, pos, state, blockEntity, direction) -> {
+                event.registerBlock(Capabilities.Fluid.BLOCK, (level, pos, state, blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
                         UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
                         return fluid == null ? null : new NeoForgeFluidStorage(fluid);
@@ -72,7 +73,7 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
                 }, block.get()));
 
         registeredBlockEntities.forEach(type ->
-                event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, type.get(), (blockEntity, direction) -> {
+                event.registerBlockEntity(Capabilities.Fluid.BLOCK, type.get(), (blockEntity, direction) -> {
                     if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
                         UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
                         return fluid == null ? null : new NeoForgeFluidStorage(fluid);

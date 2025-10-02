@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "potentials_test",
-  "version": "${version}",
+  "version": "2.0.0",
   "name": "Potentials Test",
   "description": "",
   "authors": [
@@ -25,10 +25,10 @@
   "mixins": [
   ],
   "depends": {
-    "fabricloader": ">=0.16.7",
-    "minecraft": "~1.21",
+    "fabricloader": ">=0.17.2",
+    "minecraft": "~1.21.9",
     "java": ">=21",
-    "architectury": ">=13.0.2",
+    "architectury": ">=18.0.3",
     "fabric-api": "*",
     "potentials": ">=0.7.0"
   }

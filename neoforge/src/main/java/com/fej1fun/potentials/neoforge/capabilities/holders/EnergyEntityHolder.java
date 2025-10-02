@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
@@ -28,7 +28,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Entity entity, Direction direction) {
         if (entity == null) return null;
-        IEnergyStorage energyStorage = entity.getCapability(Capabilities.EnergyStorage.ENTITY, direction);
+        EnergyHandler energyStorage = entity.getCapability(Capabilities.Energy.ENTITY, direction);
         return energyStorage == null ? null : new UniversalIEnergyStorage(energyStorage);
     }
 
@@ -39,12 +39,12 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
 
     @Override
     public ResourceLocation getIdentifier() {
-        return Capabilities.EnergyStorage.ENTITY.name();
+        return Capabilities.Energy.ENTITY.name();
     }
 
     @Override
     public void register(RegisterCapabilitiesEvent event) {
-        registeredEntities.forEach(entityType -> event.registerEntity(Capabilities.EnergyStorage.ENTITY,
+        registeredEntities.forEach(entityType -> event.registerEntity(Capabilities.Energy.ENTITY,
                 entityType.get(), (entity, ctx) -> {
             if (entity instanceof EnergyProvider.ENTITY provider) {
                 UniversalEnergyStorage energy = provider.getEnergy(ctx);

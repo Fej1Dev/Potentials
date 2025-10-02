@@ -1,11 +1,11 @@
 modLoader = "javafml"
-loaderVersion = "[4,)"
+loaderVersion = "[10,)"
 issueTrackerURL = "https://github.com/Fej1Dev/Potentials/issues"
 license = "Unlicense"
 
 [[mods]]
 modId = "potentials_test"
-version = "${version}"
+version = "2.0.0"
 displayName = "Potentials Test"
 authors = "Fej1Fun"
 description = ''''''
@@ -14,21 +14,21 @@ description = ''''''
 [[dependencies.potentials_test]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.0,)"
+versionRange = "[21.9,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.potentials_test]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,1.21.4]"
+versionRange = "[1.21.9,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.potentials_test]]
 modId = "architectury"
 type = "required"
-versionRange = "[13.0.2,)"
+versionRange = "[18.0.3,)"
 ordering = "AFTER"
 side = "BOTH"
 

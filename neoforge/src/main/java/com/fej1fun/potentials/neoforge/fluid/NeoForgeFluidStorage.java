@@ -1,12 +1,15 @@
 package com.fej1fun.potentials.neoforge.fluid;
 
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
-import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.NotNull;
 
-public class NeoForgeFluidStorage implements IFluidHandler {
+public class NeoForgeFluidStorage implements ResourceHandler<FluidResource> {
 
     final UniversalFluidStorage fluidStorage;
 
@@ -15,41 +18,52 @@ public class NeoForgeFluidStorage implements IFluidHandler {
     }
 
     @Override
-    public int getTanks() {
+    public int size() {
         return fluidStorage.getTanks();
     }
 
     @Override
-    public @NotNull FluidStack getFluidInTank(int i) {
-        return FluidStackHooksForge.toForge(fluidStorage.getFluidInTank(i));
+    public FluidResource getResource(int tank) {
+        FluidStack stack = fluidStorage.getFluidInTank(tank);
+        return stack.isEmpty() ? FluidResource.EMPTY : FluidResource.of(FluidStackHooksForge.toForge(stack));
     }
 
     @Override
-    public int getTankCapacity(int i) {
-        return (int) fluidStorage.getTankCapacity(i);
+    public long getAmountAsLong(int tank) {
+        return fluidStorage.getFluidInTank(tank).getAmount();
     }
 
     @Override
-    public boolean isFluidValid(int i, @NotNull FluidStack fluidStack) {
-        return fluidStorage.isFluidValid(i, FluidStackHooksForge.fromForge(fluidStack));
+    public long getCapacityAsLong(int tank, FluidResource resource) {
+        return fluidStorage.getTankCapacity(tank);
     }
 
     @Override
-    public int fill(@NotNull FluidStack fluidStack, FluidAction fluidAction) {
-        return (int) fluidStorage.fill(FluidStackHooksForge.fromForge(fluidStack), fluidAction.simulate());
+    public boolean isValid(int tank, FluidResource resource) {
+        return fluidStorage.isFluidValid(tank, FluidStackHooksForge.fromForge(resource.toStack(getAmountAsInt(tank))));
     }
 
     @Override
-    public @NotNull FluidStack drain(@NotNull FluidStack fluidStack, FluidAction fluidAction) {
-        return FluidStackHooksForge.toForge(fluidStorage.drain(FluidStackHooksForge.fromForge(fluidStack), fluidAction.simulate()));
-    }
-
-    @Override
-    public @NotNull FluidStack drain(int maxDrain, @NotNull FluidAction fluidAction) {
-        for (dev.architectury.fluid.FluidStack stack : fluidStorage) {
-            if (stack.isEmpty()) continue;
-            return FluidStackHooksForge.toForge(fluidStorage.drain(stack.copyWithAmount(maxDrain), fluidAction.simulate()));
+    public int insert(int tank, FluidResource resource, int amount, TransactionContext transactionContext) {
+        if (resource.isEmpty()) {
+            return 0;
         }
-        return FluidStack.EMPTY;
+        try (Transaction tx = Transaction.open(null)) {
+            int inserted = Math.toIntExact(fluidStorage.fill(FluidStackHooksForge.fromForge(resource.toStack(amount)), false));
+            tx.commit();
+            return inserted;
+        }
+    }
+
+    @Override
+    public int extract(int tank, FluidResource resource, int amount, TransactionContext transactionContext) {
+        if (resource.isEmpty()) {
+            return 0;
+        }
+        try (Transaction tx = Transaction.open(null)) {
+            FluidStack extracted = fluidStorage.drain(FluidStackHooksForge.fromForge(resource.toStack(amount)), false);
+            tx.commit();
+            return Math.toIntExact(extracted.getAmount());
+        }
     }
 }

@@ -16,12 +16,10 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -39,7 +37,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction direction) {
-        IEnergyStorage energyStorage = level.getCapability(Capabilities.EnergyStorage.BLOCK, pos, state, blockEntity, direction);
+        EnergyHandler energyStorage = level.getCapability(Capabilities.Energy.BLOCK, pos, state, blockEntity, direction);
         return energyStorage == null ? null : new UniversalIEnergyStorage(energyStorage);
     }
 
@@ -55,13 +53,13 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
 
     @Override
     public ResourceLocation getIdentifier() {
-        return Capabilities.EnergyStorage.BLOCK.name();
+        return Capabilities.Energy.BLOCK.name();
     }
 
     @Override
     public void register(RegisterCapabilitiesEvent event) {
         registeredBlocks.forEach(block ->
-                event.registerBlock(Capabilities.EnergyStorage.BLOCK, (level, pos, state, blockEntity, direction) -> {
+                event.registerBlock(Capabilities.Energy.BLOCK, (level, pos, state, blockEntity, direction) -> {
                     if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
                             UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
                             return energy == null ? null : new NeoForgeEnergyStorage(energy);
@@ -73,7 +71,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
                     return null;
                 }, block.get()));
         registeredBlockEntities.forEach(type ->
-                event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, type.get(), ((blockEntity, direction) -> {
+                event.registerBlockEntity(Capabilities.Energy.BLOCK, type.get(), ((blockEntity, direction) -> {
                     if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
                         UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
                         return energy == null ? null : new NeoForgeEnergyStorage(energy);

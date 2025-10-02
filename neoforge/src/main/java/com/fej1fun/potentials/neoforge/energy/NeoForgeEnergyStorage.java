@@ -1,45 +1,43 @@
 package com.fej1fun.potentials.neoforge.energy;
 
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.NotNull;
 
-public class NeoForgeEnergyStorage implements IEnergyStorage {
+public class NeoForgeEnergyStorage implements EnergyHandler {
     final UniversalEnergyStorage universalEnergyStorage;
 
     public NeoForgeEnergyStorage(@NotNull UniversalEnergyStorage universalEnergyStorage) {
        this.universalEnergyStorage = universalEnergyStorage;
     }
 
-
     @Override
-    public int receiveEnergy(int toReceive, boolean simulate) {
-        return universalEnergyStorage.insert(toReceive, simulate);
-    }
-
-    @Override
-    public int extractEnergy(int toExtract, boolean simulate) {
-        return universalEnergyStorage.extract(toExtract, simulate);
-    }
-
-    @Override
-    public int getEnergyStored() {
+    public long getAmountAsLong() {
         return universalEnergyStorage.getEnergy();
     }
 
     @Override
-    public int getMaxEnergyStored() {
+    public long getCapacityAsLong() {
         return universalEnergyStorage.getMaxEnergy();
     }
 
     @Override
-    public boolean canExtract() {
-        return universalEnergyStorage.canExtractEnergy();
+    public int insert(int toReceive, TransactionContext transactionContext) {
+        try (Transaction tx = Transaction.open(null)) {
+            int inserted = universalEnergyStorage.insert(toReceive, false);
+            tx.commit();
+            return inserted;
+        }
     }
 
     @Override
-    public boolean canReceive() {
-        return universalEnergyStorage.canInsertEnergy();
+    public int extract(int toReceive, TransactionContext transactionContext) {
+        try (Transaction tx = Transaction.open(null)) {
+            int extracted = universalEnergyStorage.extract(toReceive, false);
+            tx.commit();
+            return extracted;
+        }
     }
-
 }

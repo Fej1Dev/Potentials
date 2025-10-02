@@ -14,6 +14,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 import test.gas.GasProvider;
 import test.gas.GasTank;
@@ -46,31 +48,6 @@ public class TestBlockEntity extends BlockEntity implements EnergyProvider.BLOCK
 //            }
 //        }
 //    }
-
-
-    @Override
-    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        super.saveAdditional(compoundTag, provider);
-        compoundTag.putInt("energy", energy.getEnergy());
-        for (int i = 0; i < tanks.getTanks(); i++) {
-
-            if (!tanks.getFluidInTank(i).isEmpty()) {
-                compoundTag.put("fluid-"+i, FluidStackHooks.write(provider, tanks.getFluidInTank(i), new CompoundTag()));
-            }
-        }
-    }
-
-    @Override
-    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
-        super.loadAdditional(compoundTag, provider);
-        energy.setEnergyStored(compoundTag.getInt("energy"));
-        for (int i = 0; i < tanks.getTanks(); i++) {
-
-            if (compoundTag.contains("fluid-"+i)) {
-                tanks.setFluidInTank(i, FluidStackHooks.read(provider, compoundTag.get("fluid-"+i)).orElse(FluidStack.empty()));
-            }
-        }
-    }
 
 
     @Override
