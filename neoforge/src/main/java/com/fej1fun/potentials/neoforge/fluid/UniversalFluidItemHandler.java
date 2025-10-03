@@ -37,8 +37,7 @@ public class UniversalFluidItemHandler implements UniversalFluidItemStorage {
 
     @Override
     public boolean isFluidValid(int tank, FluidStack stack) {
-        //return fluidHandler.isFluidValid(tank, FluidStackHooksForge.toForge(stack)); TODO implement this
-        return true;
+        return fluidHandler.isValid(tank, FluidResource.of(FluidStackHooksForge.toForge(stack)));
     }
 
     @Override

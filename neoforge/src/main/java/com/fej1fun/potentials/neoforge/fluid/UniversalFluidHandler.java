@@ -34,8 +34,7 @@ public class UniversalFluidHandler implements UniversalFluidStorage {
 
     @Override
     public boolean isFluidValid(int tank, FluidStack stack) {
-        return true;
-        //return fluidHandler.isFluidValid(tank, FluidStackHooksForge.toForge(stack)); TODO implement this
+        return this.fluidHandler.isValid(tank, FluidResource.of(FluidStackHooksForge.toForge(stack)));
     }
 
     @Override
