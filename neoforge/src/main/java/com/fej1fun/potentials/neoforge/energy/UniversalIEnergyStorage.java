@@ -34,11 +34,11 @@ public class UniversalIEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public boolean canInsertEnergy() {
-        return true;//energy.canReceive(); TODO implement this
+        return getEnergy() < getMaxEnergy();
     }
 
     @Override
     public boolean canExtractEnergy() {
-        return true;//energy.canExtract(); TODO implement this
+        return getEnergy() > 0;
     }
 }
