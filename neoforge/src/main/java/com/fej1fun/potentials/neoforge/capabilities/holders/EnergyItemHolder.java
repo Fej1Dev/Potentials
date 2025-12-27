@@ -6,7 +6,7 @@ import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.energy.NeoForgeEnergyStorage;
 import com.fej1fun.potentials.neoforge.energy.UniversalIEnergyStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -35,7 +35,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return Capabilities.Energy.ITEM.name();
     }
 

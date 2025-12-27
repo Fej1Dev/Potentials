@@ -8,7 +8,7 @@ import com.fej1fun.potentials.providers.EnergyProvider;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -71,7 +71,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return EnergyStorage.SIDED.getId();
     }
 

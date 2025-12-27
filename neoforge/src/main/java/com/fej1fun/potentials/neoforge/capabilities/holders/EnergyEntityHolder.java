@@ -7,7 +7,7 @@ import com.fej1fun.potentials.neoforge.energy.NeoForgeEnergyStorage;
 import com.fej1fun.potentials.neoforge.energy.UniversalIEnergyStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -38,7 +38,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return Capabilities.Energy.ENTITY.name();
     }
 

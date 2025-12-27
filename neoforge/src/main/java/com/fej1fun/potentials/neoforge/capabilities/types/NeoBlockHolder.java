@@ -5,7 +5,7 @@ import com.fej1fun.potentials.capabilities.types.providers.BlockCapabilityProvid
 import com.fej1fun.potentials.capabilities.types.providers.CapabilityProvider;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -58,7 +58,7 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y>, Register
 //    }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return blockCapability.name();
     }
 

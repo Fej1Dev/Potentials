@@ -8,7 +8,7 @@ import com.fej1fun.potentials.fabric.energy.UniversalEnergyWrapper;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import net.fabricmc.fabric.api.lookup.v1.entity.EntityApiLookup;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.Nullable;
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 
 public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<UniversalEnergyStorage, Direction> {
     public static final EnergyEntityHolder INSTANCE = new EnergyEntityHolder();
-    EntityApiLookup<EnergyStorage, @Nullable Direction> entityApiLookup = EntityApiLookup.get(ResourceLocation.fromNamespaceAndPath(Potentials.MOD_ID, "sided_energy"), EnergyStorage.class, Direction.class);
+    EntityApiLookup<EnergyStorage, @Nullable Direction> entityApiLookup = EntityApiLookup.get(Identifier.fromNamespaceAndPath(Potentials.MOD_ID, "sided_energy"), EnergyStorage.class, Direction.class);
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Entity entity, Direction direction) {
@@ -43,7 +43,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return entityApiLookup.getId();
     }
 }

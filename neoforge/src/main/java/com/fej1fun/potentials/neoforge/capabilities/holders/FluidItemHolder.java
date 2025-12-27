@@ -6,7 +6,7 @@ import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidStorage;
 import com.fej1fun.potentials.neoforge.fluid.UniversalFluidItemHandler;
 import com.fej1fun.potentials.providers.FluidProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -36,7 +36,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return Capabilities.Fluid.ITEM.name();
     }
 

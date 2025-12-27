@@ -8,7 +8,7 @@ import com.fej1fun.potentials.fabric.utils.ItemStackStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.context.ContainerItemContext;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +41,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return EnergyStorage.ITEM.getId();
     }
 }

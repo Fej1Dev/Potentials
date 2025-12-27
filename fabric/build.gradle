@@ -1,5 +1,5 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
+    id 'com.gradleup.shadow'
 }
 
 architectury {
@@ -28,9 +28,7 @@ dependencies {
     include modApi('teamreborn:energy:4.1.0')
 
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version+$rootProject.minecraft_version"
 
     modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
 
@@ -46,11 +44,11 @@ processResources {
     }
 }
 
-shadowJar {
+tasks.shadowJar {
     configurations = [project.configurations.shadowBundle]
     archiveClassifier = 'dev-shadow'
 }
 
 remapJar {
-    input.set shadowJar.archiveFile
+    input.set tasks.shadowJar.archiveFile
 }

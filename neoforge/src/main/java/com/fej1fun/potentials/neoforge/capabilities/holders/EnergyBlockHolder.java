@@ -8,7 +8,7 @@ import com.fej1fun.potentials.neoforge.energy.UniversalIEnergyStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -52,7 +52,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return Capabilities.Energy.BLOCK.name();
     }
 

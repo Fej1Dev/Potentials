@@ -105,11 +105,6 @@ public class FluidAmountMapDataComponent implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (obj instanceof FluidAmountMapDataComponent component)
             return component.fluids.equals(this.fluids) && component.amounts.equals(this.amounts);

@@ -3,7 +3,7 @@ package com.fej1fun.potentials.fabric.capabilities.types;
 import com.fej1fun.potentials.capabilities.types.ItemCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.providers.CapabilityProvider;
 import net.fabricmc.fabric.api.lookup.v1.item.ItemApiLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -29,7 +29,7 @@ public class FabricItemProviderHolder<X,Y> implements ItemCapabilityHolder<X,Y> 
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return itemApiLookup.getId();
     }
 }

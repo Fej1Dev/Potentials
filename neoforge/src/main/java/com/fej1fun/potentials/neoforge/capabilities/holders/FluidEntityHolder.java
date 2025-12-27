@@ -7,7 +7,7 @@ import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidStorage;
 import com.fej1fun.potentials.neoforge.fluid.UniversalFluidHandler;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -38,7 +38,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return Capabilities.Fluid.BLOCK.name();
     }
 

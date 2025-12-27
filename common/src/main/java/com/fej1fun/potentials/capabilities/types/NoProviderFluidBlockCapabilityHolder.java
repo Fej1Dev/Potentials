@@ -1,7 +1,7 @@
 package com.fej1fun.potentials.capabilities.types;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -17,6 +17,6 @@ public interface NoProviderFluidBlockCapabilityHolder<X, Y> {
     @Nullable X getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Y context);
     void registerForBlock(Supplier<Block> block);
     void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType);
-    ResourceLocation getIdentifier();
+    Identifier getIdentifier();
 
 }

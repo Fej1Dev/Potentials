@@ -3,7 +3,7 @@ package com.fej1fun.potentials.neoforge.capabilities.types;
 import com.fej1fun.potentials.capabilities.types.ItemCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.providers.CapabilityProvider;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.ItemCapability;
@@ -36,7 +36,7 @@ public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y>, Registerab
 //    }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return itemCapability.name();
     }
 

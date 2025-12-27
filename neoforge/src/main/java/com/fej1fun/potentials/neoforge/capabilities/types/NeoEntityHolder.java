@@ -3,7 +3,7 @@ package com.fej1fun.potentials.neoforge.capabilities.types;
 import com.fej1fun.potentials.capabilities.types.EntityCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.providers.CapabilityProvider;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.neoforge.capabilities.EntityCapability;
@@ -40,7 +40,7 @@ public class NeoEntityHolder<X,Y> implements EntityCapabilityHolder<X,Y>, Regist
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return entityCapability.name();
     }
 

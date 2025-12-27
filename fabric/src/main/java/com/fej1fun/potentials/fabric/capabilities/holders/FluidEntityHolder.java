@@ -11,7 +11,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.Nullable;
@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<UniversalFluidStorage, Direction> {
     public static final FluidEntityHolder INSTANCE = new FluidEntityHolder();
     private final EntityApiLookup<Storage<FluidVariant>, @Nullable Direction> entityApiLookup =
-            EntityApiLookup.get(ResourceLocation.fromNamespaceAndPath(Potentials.MOD_ID, "entity_fluid_storage"), Storage.asClass(), Direction.class);
+            EntityApiLookup.get(Identifier.fromNamespaceAndPath(Potentials.MOD_ID, "entity_fluid_storage"), Storage.asClass(), Direction.class);
 
     @Override
     public UniversalFluidStorage getCapability(Entity entity, Direction direction) {
@@ -46,7 +46,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return FluidStorage.ITEM.getId();
     }
 }

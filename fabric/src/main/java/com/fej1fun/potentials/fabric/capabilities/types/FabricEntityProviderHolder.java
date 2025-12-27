@@ -3,7 +3,7 @@ package com.fej1fun.potentials.fabric.capabilities.types;
 import com.fej1fun.potentials.capabilities.types.EntityCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.providers.CapabilityProvider;
 import net.fabricmc.fabric.api.lookup.v1.entity.EntityApiLookup;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +30,7 @@ public class FabricEntityProviderHolder<X,Y> implements EntityCapabilityHolder<X
     }
 
     @Override
-    public ResourceLocation getIdentifier() {
+    public Identifier getIdentifier() {
         return entityApiLookup.getId();
     }
 }
