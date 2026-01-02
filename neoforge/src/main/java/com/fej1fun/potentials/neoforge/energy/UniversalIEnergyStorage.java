@@ -24,12 +24,28 @@ public class UniversalIEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public int insert(int amount, boolean simulate) {
-        return energy.insert(amount, Transaction.open(null));
+        try (Transaction tx = Transaction.open(null)) {
+            int toReturn = energy.insert(amount, tx);
+            if (!simulate) {
+                tx.commit();
+            } else {
+                tx.close();
+            }
+            return toReturn;
+        }
     }
 
     @Override
     public int extract(int amount, boolean simulate) {
-        return energy.extract(amount, Transaction.open(null));
+        try (Transaction tx = Transaction.open(null)) {
+            int toReturn = energy.extract(amount, tx);
+            if (!simulate) {
+                tx.commit();
+            } else {
+                tx.close();
+            }
+            return toReturn;
+        }
     }
 
     @Override

@@ -25,19 +25,11 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
 
     @Override
     public int insert(int toReceive, TransactionContext transactionContext) {
-        try (Transaction tx = Transaction.open(null)) {
-            int inserted = universalEnergyStorage.insert(toReceive, false);
-            tx.commit();
-            return inserted;
-        }
+        return universalEnergyStorage.insert(toReceive, false);
     }
 
     @Override
     public int extract(int toReceive, TransactionContext transactionContext) {
-        try (Transaction tx = Transaction.open(null)) {
-            int extracted = universalEnergyStorage.extract(toReceive, false);
-            tx.commit();
-            return extracted;
-        }
+       return  universalEnergyStorage.extract(toReceive, false);
     }
 }

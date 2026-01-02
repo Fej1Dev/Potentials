@@ -117,4 +117,10 @@ public class FluidAmountMapDataComponent implements Serializable {
         list.trimToSize();
         return list;
     }
+
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
