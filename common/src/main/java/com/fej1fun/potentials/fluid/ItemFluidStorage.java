@@ -54,7 +54,8 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     }
 
     public void setFluidInTank(int tank, FluidStack fluidStack) {
-        getComponent().setFluidStack(tank, fluidStack);
+        FluidAmountMapDataComponent newComponentValue = getComponent().setFluidStack(tank, fluidStack);
+        this.stack.set(this.component, newComponentValue);
     }
 
     public long getFluidValueInTank(int tank) {

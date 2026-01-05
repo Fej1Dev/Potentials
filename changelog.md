@@ -1,5 +1,5 @@
-# 0.8.3 changelog
+# 0.8.4 changelog
 
 
 ## Fix
-- Fix FluidAmountMapDataComponent.
+- Fix setFluidInTank doesn't update the component

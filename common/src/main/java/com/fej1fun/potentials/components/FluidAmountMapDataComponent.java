@@ -91,17 +91,20 @@ public class FluidAmountMapDataComponent implements Serializable {
         return FluidStack.create(getFluid(i), getAmount(i));
     }
 
-    public void setFluid(int i, Fluid fluid) {
+    public FluidAmountMapDataComponent setFluid(int i, Fluid fluid) {
         this.fluids.set(i, fluid);
+        return this;
     }
 
-    public void setAmount(int i, Long amount) {
+    public FluidAmountMapDataComponent setAmount(int i, Long amount) {
         this.amounts.set(i, amount);
+        return this;
     }
 
-    public void setFluidStack(int i, FluidStack stack) {
+    public FluidAmountMapDataComponent setFluidStack(int i, FluidStack stack) {
         setFluid(i, stack.getFluid());
         setAmount(i, stack.getAmount());
+        return this;
     }
 
     @Override
