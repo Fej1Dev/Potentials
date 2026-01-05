@@ -3,6 +3,7 @@ package com.fej1fun.potentials.neoforge.energy;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.NotNull;
 
 public class UniversalIEnergyStorage implements UniversalEnergyStorage {
@@ -38,6 +39,31 @@ public class UniversalIEnergyStorage implements UniversalEnergyStorage {
     @Override
     public int extract(int amount, boolean simulate) {
         try (Transaction tx = Transaction.open(null)) {
+            int toReturn = energy.extract(amount, tx);
+            if (!simulate) {
+                tx.commit();
+            } else {
+                tx.close();
+            }
+            return toReturn;
+        }
+    }
+
+    public int insert(int amount, boolean simulate, TransactionContext context) {
+        try (Transaction tx = Transaction.open(context)) {
+            int toReturn = energy.insert(amount, tx);
+            if (!simulate) {
+                tx.commit();
+            } else {
+                tx.close();
+            }
+            return toReturn;
+        }
+    }
+
+
+    public int extract(int amount, boolean simulate, TransactionContext context) {
+        try (Transaction tx = Transaction.open(context)) {
             int toReturn = energy.extract(amount, tx);
             if (!simulate) {
                 tx.commit();
