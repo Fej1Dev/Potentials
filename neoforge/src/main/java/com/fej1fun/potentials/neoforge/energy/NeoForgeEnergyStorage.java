@@ -1,13 +1,15 @@
 package com.fej1fun.potentials.neoforge.energy;
 
+import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.NotNull;
 
 public class NeoForgeEnergyStorage implements EnergyHandler {
-    final UniversalIEnergyStorage universalEnergyStorage;
+    final UniversalEnergyStorage universalEnergyStorage;
 
-    public NeoForgeEnergyStorage(@NotNull UniversalIEnergyStorage universalEnergyStorage) {
+    public NeoForgeEnergyStorage(@NotNull UniversalEnergyStorage universalEnergyStorage) {
        this.universalEnergyStorage = universalEnergyStorage;
     }
 
@@ -23,11 +25,11 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
 
     @Override
     public int insert(int toReceive, TransactionContext transactionContext) {
-        return universalEnergyStorage.insert(toReceive, false, transactionContext);
+        return universalEnergyStorage.insert(toReceive, false);
     }
 
     @Override
     public int extract(int toReceive, TransactionContext transactionContext) {
-       return  universalEnergyStorage.extract(toReceive, false, transactionContext);
+       return  universalEnergyStorage.extract(toReceive, false);
     }
 }

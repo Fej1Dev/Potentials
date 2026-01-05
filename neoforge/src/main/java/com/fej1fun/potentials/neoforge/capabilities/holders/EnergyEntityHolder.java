@@ -47,7 +47,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
         registeredEntities.forEach(entityType -> event.registerEntity(Capabilities.Energy.ENTITY,
                 entityType.get(), (entity, ctx) -> {
             if (entity instanceof EnergyProvider.ENTITY provider) {
-                UniversalIEnergyStorage energy = (UniversalIEnergyStorage) provider.getEnergy(ctx);
+                UniversalEnergyStorage energy = provider.getEnergy(ctx);
                 return energy == null ? null : new NeoForgeEnergyStorage(energy);
             }
             return null;
