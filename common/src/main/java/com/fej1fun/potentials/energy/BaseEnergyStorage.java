@@ -17,6 +17,7 @@ public class BaseEnergyStorage implements UniversalEnergyStorage {
         this(capacity, capacity, capacity);
     }
 
+    @Override
     public void setEnergyStored(int energy) {
         this.energy = Math.clamp(energy, 0, getMaxEnergy());
     }

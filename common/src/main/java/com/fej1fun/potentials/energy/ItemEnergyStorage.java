@@ -37,9 +37,7 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
         return capacity;
     }
 
-    /**
-     * This method does not check for max receive and extract, or if energy can be inserted or extracted
-     */
+    @Override
     public void setEnergyStored(int amount) {
         stack.set(component, Math.clamp(amount, 0, getMaxEnergy()));
     }
@@ -75,5 +73,4 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
 
         return toExtract;
     }
-
 }

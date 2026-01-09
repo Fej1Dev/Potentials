@@ -1,6 +1,7 @@
 package com.fej1fun.potentials.neoforge.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderBlockCapabilityHolder;
+import com.fej1fun.potentials.energy.BaseEnergyStorage;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.energy.NeoForgeEnergyStorage;
@@ -62,11 +63,11 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
                 event.registerBlock(Capabilities.Energy.BLOCK, (level, pos, state, blockEntity, direction) -> {
                     if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
                             UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
-                            return energy == null ? null : new NeoForgeEnergyStorage(energy);
+                            return energy == null ? null : new NeoForgeEnergyStorage((BaseEnergyStorage) energy);
                     }
                     if (state.getBlock() instanceof EnergyProvider.BLOCK energyBlock) {
                         UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
-                        return energy == null ? null : new NeoForgeEnergyStorage(energy);
+                        return energy == null ? null : new NeoForgeEnergyStorage((BaseEnergyStorage) energy);
                     }
                     return null;
                 }, block.get()));
@@ -74,7 +75,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
                 event.registerBlockEntity(Capabilities.Energy.BLOCK, type.get(), ((blockEntity, direction) -> {
                     if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
                         UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
-                        return energy == null ? null : new NeoForgeEnergyStorage(energy);
+                        return energy == null ? null : new NeoForgeEnergyStorage((BaseEnergyStorage) energy);
                     }
                     return null;
                 })));

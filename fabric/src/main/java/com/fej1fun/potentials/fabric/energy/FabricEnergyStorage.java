@@ -58,8 +58,7 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
 
     @Override
     protected void readSnapshot(Integer integer) {
-        this.universalEnergyStorage.extract(Integer.MAX_VALUE, false);
-        this.universalEnergyStorage.insert(integer, false);
+        this.universalEnergyStorage.setEnergyStored(integer);
     }
 
 }

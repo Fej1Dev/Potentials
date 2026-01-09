@@ -1,6 +1,7 @@
 package com.fej1fun.potentials.neoforge.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderItemCapabilityHolder;
+import com.fej1fun.potentials.energy.BaseEnergyStorage;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.energy.NeoForgeEnergyStorage;
@@ -44,7 +45,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
         registeredItems.forEach(item -> event.registerItem(Capabilities.Energy.ITEM, (stack, ctx) -> {
             if (stack.getItem() instanceof EnergyProvider.ITEM energyItem) {
                 UniversalEnergyStorage energy = energyItem.getEnergy(stack);
-                return energy == null ? null : new NeoForgeEnergyStorage(energy);
+                return energy == null ? null : new NeoForgeEnergyStorage((BaseEnergyStorage) energy);
             }
             return null;
         }, item.get()));

@@ -1,5 +1,6 @@
-# 0.8.4 changelog
+# 0.8.5 changelog
 
 
 ## Fix
-- Fix setFluidInTank doesn't update the component
+- Fix fluid component update
+- Fix energy on neoforge

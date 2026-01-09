@@ -6,10 +6,10 @@ import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
 
 public class UniversalIEnergyStorage implements UniversalEnergyStorage {
-    final EnergyHandler energy;
+    final NeoForgeEnergyStorage energy;
 
     public UniversalIEnergyStorage(@NotNull EnergyHandler energy) {
-        this.energy = energy;
+        this.energy = (NeoForgeEnergyStorage) energy;
     }
 
     @Override
@@ -23,13 +23,25 @@ public class UniversalIEnergyStorage implements UniversalEnergyStorage {
     }
 
     @Override
-    public int insert(int amount, boolean simulate) {
-        try (Transaction tx = Transaction.open(null)) {
-            int toReturn = energy.insert(amount, tx);
-            if (!simulate) {
-                tx.commit();
+    public void setEnergyStored(int amount) {
+        try (Transaction tx = Transaction.openRoot()) {
+            if (getEnergy() < amount) {
+                energy.insert(amount - getEnergy(), tx);
             } else {
+                energy.extract(getEnergy() - amount, tx);
+            }
+            tx.commit();
+        }
+    }
+
+    @Override
+    public int insert(int amount, boolean simulate) {
+        try (Transaction tx = Transaction.openRoot()) {
+            int toReturn = energy.insert(amount, tx, simulate);
+            if (simulate) {
                 tx.close();
+            } else {
+                tx.commit();
             }
             return toReturn;
         }
@@ -37,12 +49,12 @@ public class UniversalIEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public int extract(int amount, boolean simulate) {
-        try (Transaction tx = Transaction.open(null)) {
-            int toReturn = energy.extract(amount, tx);
-            if (!simulate) {
-                tx.commit();
-            } else {
+        try (Transaction tx = Transaction.openRoot()) {
+            int toReturn = energy.extract(amount, tx, simulate);
+            if (simulate) {
                 tx.close();
+            } else {
+                tx.commit();
             }
             return toReturn;
         }
