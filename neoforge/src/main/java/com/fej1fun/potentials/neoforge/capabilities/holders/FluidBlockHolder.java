@@ -39,7 +39,7 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
     @Override
     public @Nullable UniversalFluidStorage getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Direction direction) {
         ResourceHandler<FluidResource> fluidTank = level.getCapability(Capabilities.Fluid.BLOCK, pos, state, blockEntity, direction);
-        return fluidTank == null ? null : new UniversalFluidHandler((NeoForgeFluidStorage) fluidTank);
+        return fluidTank == null ? null : new UniversalFluidHandler(fluidTank);
     }
 
     @Override

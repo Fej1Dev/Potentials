@@ -29,7 +29,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
     @Override
     public @Nullable UniversalFluidStorage getCapability(Entity entity, Direction direction) {
         ResourceHandler<FluidResource> fluidTank = entity.getCapability(Capabilities.Fluid.ENTITY, direction);
-        return fluidTank == null ? null : new UniversalFluidHandler((NeoForgeFluidStorage) fluidTank);
+        return fluidTank == null ? null : new UniversalFluidHandler(fluidTank);
     }
 
     @Override

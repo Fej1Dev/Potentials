@@ -1,6 +1,5 @@
-# 0.8.5 changelog
+# 0.8.6 changelog
 
 
 ## Fix
-- Fix fluid component update
-- Fix energy on neoforge
+- Fix neoforge's bucket errors when trying to use fluid storage capabilities.

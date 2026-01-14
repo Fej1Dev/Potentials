@@ -3,6 +3,7 @@ package com.fej1fun.potentials.neoforge.fluid;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
+import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,9 +12,9 @@ import java.util.Iterator;
 import java.util.List;
 
 public class UniversalFluidHandler implements UniversalFluidStorage {
-    protected final NeoForgeFluidStorage fluidHandler;
+    protected final ResourceHandler<FluidResource> fluidHandler;
 
-    public UniversalFluidHandler(NeoForgeFluidStorage fluidHandler) {
+    public UniversalFluidHandler(ResourceHandler<FluidResource> fluidHandler) {
         this.fluidHandler = fluidHandler;
     }
 
