@@ -4,6 +4,7 @@ import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,10 +13,10 @@ import java.util.Iterator;
 import java.util.List;
 
 public class UniversalFluidItemHandler implements UniversalFluidItemStorage {
-    protected final NeoForgeFluidStorage fluidHandler;
+    protected final ResourceHandler<FluidResource> fluidHandler;
     protected final ItemStack stack;
 
-    public UniversalFluidItemHandler(NeoForgeFluidStorage fluidHandler, ItemStack stack) {
+    public UniversalFluidItemHandler(ResourceHandler<FluidResource> fluidHandler, ItemStack stack) {
         this.fluidHandler = fluidHandler;
         this.stack = stack;
     }

@@ -27,7 +27,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     @Override
     public UniversalFluidItemStorage getCapability(ItemStack stack) {
         ResourceHandler<FluidResource> fluidTank = stack.getCapability(Capabilities.Fluid.ITEM, null);
-        return fluidTank == null ? null : new UniversalFluidItemHandler((NeoForgeFluidStorage) fluidTank, stack);
+        return fluidTank == null ? null : new UniversalFluidItemHandler(fluidTank, stack);
     }
 
     @Override

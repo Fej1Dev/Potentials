@@ -1,5 +1,5 @@
-# 0.8.6 changelog
+# 0.8.7 changelog
 
 
 ## Fix
-- Fix neoforge's bucket errors when trying to use fluid storage capabilities.
+- Fix neoforge's bucket errors when trying to use fluid storage capabilities (I missed one in 0.8.6 oops).
