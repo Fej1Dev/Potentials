@@ -1,5 +1,5 @@
-# 0.8.7 changelog
+# 0.8.8 changelog
 
 
 ## Fix
-- Fix neoforge's bucket errors when trying to use fluid storage capabilities (I missed one in 0.8.6 oops).
+- Make ItemEnergyStorage extends BaseEnergyStorage to fix a crash on NeoForge

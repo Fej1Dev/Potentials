@@ -3,19 +3,14 @@ package com.fej1fun.potentials.energy;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 
-public class ItemEnergyStorage implements UniversalEnergyStorage {
+public class ItemEnergyStorage extends BaseEnergyStorage {
 
     protected final ItemStack stack;
-    protected final int capacity;
-    protected final int maxReceive;
-    protected final int maxExtract;
     protected final DataComponentType<Integer> component;
 
     public ItemEnergyStorage(final ItemStack stack, DataComponentType<Integer> component, int capacity, int maxReceive, int maxExtract) {
+        super(capacity, maxReceive, maxExtract);
         this.stack = stack;
-        this.capacity = capacity;
-        this.maxReceive = maxReceive;
-        this.maxExtract = maxExtract;
         this.component = component;
 
         if (!this.stack.has(component))
@@ -33,23 +28,8 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
     }
 
     @Override
-    public int getMaxEnergy() {
-        return capacity;
-    }
-
-    @Override
     public void setEnergyStored(int amount) {
         stack.set(component, Math.clamp(amount, 0, getMaxEnergy()));
-    }
-
-    @Override
-    public boolean canInsertEnergy() {
-        return maxReceive > 0;
-    }
-
-    @Override
-    public boolean canExtractEnergy() {
-        return maxExtract > 0;
     }
 
     @Override
@@ -68,6 +48,24 @@ public class ItemEnergyStorage implements UniversalEnergyStorage {
         if (!canExtractEnergy()) return 0;
 
         int toExtract = Math.min(getEnergy(), Math.min(this.maxExtract, amount));
+        if (!simulate)
+            setEnergyStored(getEnergy() - toExtract);
+
+        return toExtract;
+    }
+
+    @Override
+    public int insertWithoutLimits(int amount, boolean simulate) {
+        int toReceive = Math.clamp(this.capacity - getEnergy(), 0, amount);
+        if (!simulate)
+            setEnergyStored(getEnergy() + toReceive);
+
+        return toReceive;
+    }
+
+    @Override
+    public int extractWithoutLimits(int amount, boolean simulate) {
+        int toExtract = Math.min(getEnergy(), amount);
         if (!simulate)
             setEnergyStored(getEnergy() - toExtract);
 
