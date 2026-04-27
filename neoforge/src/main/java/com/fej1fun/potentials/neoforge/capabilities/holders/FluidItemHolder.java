@@ -7,12 +7,15 @@ import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidStorage;
 import com.fej1fun.potentials.neoforge.fluid.UniversalFluidItemHandler;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.VanillaContainerWrapper;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -26,8 +29,24 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
 
     @Override
     public UniversalFluidItemStorage getCapability(ItemStack stack) {
-        ResourceHandler<FluidResource> fluidTank = stack.getCapability(Capabilities.Fluid.ITEM, null);
-        return fluidTank == null ? null : new UniversalFluidItemHandler(fluidTank, stack);
+        ItemAccess itemAccess = createItemAccess(stack);
+        ResourceHandler<FluidResource> fluidTank = itemAccess.getCapability(Capabilities.Fluid.ITEM);
+        if (fluidTank != null) {
+            return new UniversalFluidItemHandler(fluidTank, stack, itemAccess);
+        }
+
+        ResourceHandler<FluidResource> fallback = stack.getCapability(Capabilities.Fluid.ITEM, null);
+        return fallback == null ? null : new UniversalFluidItemHandler(fallback, stack);
+    }
+
+    private ItemAccess createItemAccess(ItemStack stack) {
+        var container = VanillaContainerWrapper.of(new SimpleContainer(stack) {
+            @Override
+            public void setItem(int slot, ItemStack stack, boolean performSideEffects) {
+                getItems().set(slot, stack);
+            }
+        });
+        return ItemAccess.forHandlerIndex(container, 0);
     }
 
     @Override

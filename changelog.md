@@ -1,5 +1,5 @@
-# 0.8.8 changelog
+# 0.8.9 changelog
 
 
 ## Fix
-- Make ItemEnergyStorage extends BaseEnergyStorage to fix a crash on NeoForge
+- Fix fluid transfer on NeoForge
