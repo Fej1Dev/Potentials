@@ -28,14 +28,14 @@ repositories {
 }
 
 dependencies {
-    include modApi('teamreborn:energy:4.1.0')
+    include api('teamreborn:energy:5.0.0')
 
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version+$rootProject.minecraft_version"
+    implementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    implementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version+$rootProject.minecraft_version"
 
-    modImplementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
+    implementation "dev.architectury:architectury-fabric:$rootProject.architectury_api_version"
 
-    implementation project(path: ":fabric", configuration: "namedElements")
-    common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    common(project(path: ":test-common", configuration: "namedElements")) { transitive false }
+    implementation project(path: ":fabric")
+    common(project(path: ":common")) { transitive false }
+    common(project(path: ":test-common")) { transitive false }
 }

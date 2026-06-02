@@ -19,12 +19,17 @@ public class BaseFluidStorage implements UniversalFluidStorage {
     public BaseFluidStorage(int tanks, long capacity, long maxFill, long maxDrain) {
         this.tanks = tanks;
         this.capacity = capacity;
-        fluidStacks = NonNullList.create();
-        for (int i = 0; i < tanks; i++) {
-            fluidStacks.add(FluidStack.empty());
-        }
+        this.fluidStacks = NonNullList.create();
         this.maxFill = maxFill;
         this.maxDrain = maxDrain;
+    }
+
+    private void ensureInitialized() {
+        if (fluidStacks.isEmpty()) {
+            for (int i = 0; i < tanks; i++) {
+                fluidStacks.add(FluidStack.empty());
+            }
+        }
     }
 
     public BaseFluidStorage(int tanks, long capacity) {
@@ -40,14 +45,17 @@ public class BaseFluidStorage implements UniversalFluidStorage {
      * @return A copy of the FluidStack */
     @Override
     public FluidStack getFluidInTank(int tank) {
+        ensureInitialized();
         return fluidStacks.get(tank).copy();
     }
 
     public long getFluidValueInTank(int tank) {
+        ensureInitialized();
         return fluidStacks.get(tank).getAmount();
     }
 
     public void setFluidInTank(int tank, FluidStack stack) {
+        ensureInitialized();
         stack.setAmount(Math.clamp(stack.getAmount(), 0, getTankCapacity(tank)));
         fluidStacks.set(tank, stack);
     }
@@ -64,6 +72,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
 
     @Override
     public long fill(FluidStack stack, boolean simulate) {
+        ensureInitialized();
         long filled = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
@@ -80,6 +89,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
 
     @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
+        ensureInitialized();
         long drained = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
@@ -95,6 +105,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
     }
 
     public long fillWithoutLimits(FluidStack stack, boolean simulate) {
+        ensureInitialized();
         long filled = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
@@ -110,6 +121,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
     }
 
     public FluidStack drainWithoutLimits(FluidStack stack, boolean simulate) {
+        ensureInitialized();
         long drained = 0;
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
@@ -126,6 +138,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
 
     @Override
     public @NotNull Iterator<FluidStack> iterator() {
+        ensureInitialized();
         return fluidStacks.iterator();
     }
 }

@@ -61,10 +61,10 @@ public class TestItem extends Item implements EnergyProvider.ITEM, FluidProvider
             Direction direction = useOnContext.getClickedFace();
             UniversalFluidStorage fluids = Capabilities.Fluid.BLOCK.getCapability(level, pos, direction);
             if (useOnContext.getPlayer() != null && fluids!=null) {
-                useOnContext.getPlayer().displayClientMessage(Component.literal("Tanks: " + fluids.getTanks()), false);
+                useOnContext.getPlayer().sendSystemMessage(Component.literal("Tanks: " + fluids.getTanks()));
                 for (int i = 0; i < fluids.getTanks(); i++) {
-                    useOnContext.getPlayer().displayClientMessage(Component.literal(fluids.getFluidInTank(i).getFluid().defaultFluidState().toString()), false);
-                    useOnContext.getPlayer().displayClientMessage(Component.literal(fluids.getFluidInTank(i).getAmount() + "/" + fluids.getTankCapacity(i)), false);
+                    useOnContext.getPlayer().sendSystemMessage(Component.literal(fluids.getFluidInTank(i).getFluid().defaultFluidState().toString()));
+                    useOnContext.getPlayer().sendSystemMessage(Component.literal(fluids.getFluidInTank(i).getAmount() + "/" + fluids.getTankCapacity(i)));
                 }
             }
         }
