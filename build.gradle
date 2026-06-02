@@ -1,3 +1,4 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import groovy.json.JsonSlurper
 
 plugins {
@@ -51,6 +52,12 @@ subprojects {
 
     tasks.withType(JavaCompile).configureEach {
         it.options.release = 25
+    }
+
+    afterEvaluate {
+        tasks.withType(ShadowJar).configureEach {
+            zip64 = true
+        }
     }
 
     if (!isTest) {
