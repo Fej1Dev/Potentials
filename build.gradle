@@ -1,49 +1,22 @@
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 import groovy.json.JsonSlurper
 
 plugins {
-    id 'dev.architectury.loom-no-remap' version '1.14-SNAPSHOT' apply false
+    id 'dev.architectury.loom-no-remap' version '1.17-SNAPSHOT' apply false
     id 'architectury-plugin' version '3.5-SNAPSHOT'
     id 'com.gradleup.shadow' version '9.4.2' apply false
-    id "me.modmuss50.mod-publish-plugin" version "1.1.0"
+    id 'me.modmuss50.mod-publish-plugin' version '1.1.0' apply false
 }
 
 architectury {
-    minecraft = project.minecraft_version
+    minecraft = rootProject.minecraft_version
 }
 
 allprojects {
+    apply plugin: 'java-library'
+    apply plugin: 'architectury-plugin'
+
     group = rootProject.maven_group
     version = rootProject.mod_version
-}
-
-subprojects {
-    apply plugin: 'dev.architectury.loom-no-remap'
-    apply plugin: 'architectury-plugin'
-    apply plugin: 'maven-publish'
-    apply plugin: 'me.modmuss50.mod-publish-plugin'
-
-    def modLoader = project.name
-    boolean isCommon = modLoader == "common"
-    boolean isTest = modLoader.contains('test')
-
-    base {
-        // Set up a suffixed format for the mod jar names, e.g. `example-fabric`.
-        archivesName = "${mod_id}-${modLoader}-${minecraft_version}"
-    }
-
-    repositories {
-        mavenLocal()
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
-    }
-
-    dependencies {
-        minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
-    }
 
     java {
         sourceCompatibility = JavaVersion.VERSION_25
@@ -51,39 +24,103 @@ subprojects {
     }
 
     tasks.withType(JavaCompile).configureEach {
-        it.options.release = 25
+        options.release = 25
+    }
+}
+
+subprojects {
+    apply plugin: 'dev.architectury.loom-no-remap'
+    apply plugin: 'maven-publish'
+
+    boolean isCommon = project.name == 'common' || project.name == 'test-common'
+    boolean isTest = project.name.startsWith('test-')
+
+    base {
+        archivesName = "${rootProject.mod_id}-${project.name}-${rootProject.minecraft_version}"
     }
 
-    afterEvaluate {
-        tasks.withType(ShadowJar).configureEach {
+    repositories {
+        mavenLocal()
+        maven { url = "https://maven.saps.dev/minecraft" }
+    }
+
+    dependencies {
+        minecraft "net.minecraft:minecraft:$rootProject.minecraft_version"
+    }
+
+    // Loader-specific subprojects (fabric, neoforge, test-fabric, test-neoforge) need
+    // shadow to bundle common classes into a single jar.
+    if (!isCommon) {
+        apply plugin: 'com.gradleup.shadow'
+
+        configurations {
+            common {
+                canBeResolved = true
+                canBeConsumed = false
+            }
+            shadowCommon {
+                canBeResolved = true
+                canBeConsumed = false
+            }
+            compileClasspath.extendsFrom common
+            runtimeClasspath.extendsFrom common
+        }
+
+        jar {
+            archiveClassifier = 'raw'
+        }
+
+        shadowJar {
+            dependsOn jar
+            mainSpec.sourcePaths.clear()
+            from(zipTree(jar.archiveFile))
+            configurations = [project.configurations.shadowCommon]
+            archiveClassifier = null
             zip64 = true
         }
+
+        assemble.dependsOn shadowJar
     }
 
+    // Only the production subprojects (common, fabric, neoforge) are published.
     if (!isTest) {
-    // Configure Maven publishing.
+        apply plugin: 'me.modmuss50.mod-publish-plugin'
+
+        // Expose the shadowed jar as the Maven outgoing artifact so dependents
+        // (and the publish tasks) receive the fully-bundled jar, not the raw one.
+        if (!isCommon) {
+            configurations {
+                apiElements {
+                    outgoing.artifacts.clear()
+                    outgoing.artifact(project.tasks.shadowJar)
+                }
+                runtimeElements {
+                    outgoing.artifacts.clear()
+                    outgoing.artifact(project.tasks.shadowJar)
+                }
+            }
+        }
+
         publishing {
             publications {
                 mavenJava(MavenPublication) {
                     groupId "com.fej1fun.potentials"
-                    artifactId "potentials-${modLoader}-${minecraft_version}"
-                    version mod_version
+                    artifactId "potentials-${project.name}-${rootProject.minecraft_version}"
+                    version rootProject.mod_version
                     from components.java
                     pom {
-                        name = "Potentials" + modLoader.capitalize()
+                        name = "Potentials ${project.name.capitalize()}"
                         url = "https://github.com/Fej1Dev/Potentials"
                     }
                 }
             }
-
-            // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
             repositories {
                 maven {
                     name = "ExodusStudio"
                     url = "https://maven.exodusstudio.org/releases"
                     credentials {
-                        username = System.getenv("EXODUS_MAVEN_USERNAME") // DO NOT CHANGE
-                        password = System.getenv("EXODUS_MAVEN_KEY") // DO NOT CHANGE
+                        username = System.getenv("EXODUS_MAVEN_USERNAME")
+                        password = System.getenv("EXODUS_MAVEN_KEY")
                     }
                 }
             }
@@ -91,57 +128,37 @@ subprojects {
 
         if (!isCommon) {
             publishMods {
+                def supported_versions = new JsonSlurper()
+                        .parseText("${rootProject.supported_minecraft_versions}")
+                        .versions
 
-                def parsedJson = new JsonSlurper().parseText("${supported_minecraft_versions}")
-                def supported_versions = parsedJson.versions
-
-                file = file("../${modLoader.capitalize()}/build/libs/potentials-${modLoader}-${minecraft_version}-${mod_version}.jar")
-                changelog = file("../changelog.md").getText('UTF-8')
-                type = release_type == 'alpha' ? ALPHA : (release_type == 'beta' ? BETA : STABLE)
-                modLoaders.add(modLoader)
-                displayName = "[${modLoader.capitalize()} ${minecraft_version}] Potentials ${mod_version}"
+                file = project.tasks.shadowJar.archiveFile
+                changelog = rootProject.file("changelog.md").getText('UTF-8')
+                type = rootProject.release_type == 'alpha' ? ALPHA
+                     : rootProject.release_type == 'beta'  ? BETA
+                     : STABLE
+                modLoaders.add(project.name)
+                displayName = "[${project.name.capitalize()} ${rootProject.minecraft_version}] Potentials ${rootProject.mod_version}"
 
                 curseforge {
                     projectId = "1165185"
-                    projectSlug = "potentials" // Required for discord webhook
-                    accessToken = System.getenv('CURSEFORGE_API_KEY')
-                    for (String version : supported_versions)
-                        minecraftVersions.add(version)
-
+                    projectSlug = "potentials"
+                    accessToken = providers.environmentVariable('CURSEFORGE_API_KEY')
+                    for (String ver : supported_versions)
+                        minecraftVersions.add(ver)
                     javaVersions.add(JavaVersion.VERSION_21)
                     requires("architectury-api")
-                    if (modLoader == "fabric") {
-                        requires("fabric-api")
-                    }
+                    if (project.name == "fabric") requires("fabric-api")
                 }
 
                 modrinth {
                     projectId = "J9pKOkxP"
-                    accessToken = System.getenv("MODRINTH_TOKEN")
-                    for (String version : supported_versions)
-                        minecraftVersions.add(version)
-
+                    accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+                    for (String ver : supported_versions)
+                        minecraftVersions.add(ver)
                     requires("architectury-api")
-                    if (modLoader == "fabric") {
-                        requires("fabric-api")
-                    }
-
+                    if (project.name == "fabric") requires("fabric-api")
                 }
-
-//            github {
-//                repository = "Fej1Dev/Potentials"
-//                accessToken = providers.gradleProperty("GITHUB_TOKEN")
-//                commitish = "main"
-//                tagName = "${type}/${minecraft_version}"
-//
-//                // Upload the files to a previously created release, by providing another github publish task
-//                // This is useful in multi-project builds where you want to publish multiple subprojects to a single release
-//                parent project(":").tasks.named("publishGithub")
-//
-//                // Optionally allow the release to be created without any attached files.
-//                // This is useful when you have subprojects using the parent option that you want to publish a single release.
-//                allowEmptyFiles = true
-//            }
             }
         }
     }

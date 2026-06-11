@@ -9,5 +9,4 @@ public class TestNeoMain {
     public TestNeoMain(IEventBus bus) {
         TestMain.init();
     }
-
 }

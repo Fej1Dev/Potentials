@@ -1,26 +1,17 @@
-plugins {
-    id 'com.gradleup.shadow'
-}
-
 architectury {
     platformSetupLoomIde()
     neoForge()
 }
 
 loom {
-    accessWidenerPath = project(":common").loom.accessWidenerPath
-
     mods {
-        forge {
-            sourceSet project(":neoforge").sourceSets.main
+        potentials {
+            sourceSet project(':neoforge').sourceSets.main
         }
     }
 }
 
 configurations {
-    common
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
     developmentNeoForge.extendsFrom common
 }
 
@@ -29,12 +20,9 @@ repositories {
         name = 'NeoForged'
         url = 'https://maven.neoforged.net/releases'
     }
-
     exclusiveContent {
         forRepository {
-            maven {
-                url "https://cursemaven.com"
-            }
+            maven { url "https://cursemaven.com" }
         }
         filter {
             includeGroup "curse.maven"
@@ -44,10 +32,20 @@ repositories {
 
 dependencies {
     neoForge "net.neoforged:neoforge:$rootProject.neoforge_version"
-
     implementation "dev.architectury:architectury-neoforge:$rootProject.architectury_api_version"
 
-    implementation(project(path: ":neoforge")) { transitive false }
-    common(project(path: ":common")) { transitive false }
-    common(project(path: ":test-common")) { transitive false }
+    // Compile-only: the mods block provides these via source set outputs at dev-run time.
+    // Keeping them on the runtime module path would create split-package conflicts because
+    // :neoforge's shadow jar already bundles :common's packages.
+    compileOnly project(path: ':neoforge')
+    compileOnly project(path: ':common')
+
+    // test-common lives in the test.* package space — no overlap with com.fej1fun.potentials.*,
+    // so it can safely be its own module on the runtime path without split-package conflicts.
+    common(project(path: ':test-common')) { transitive = false }
+}
+
+shadowJar {
+    exclude 'fabric.mod.json'
+    exclude 'architectury.common.json'
 }
