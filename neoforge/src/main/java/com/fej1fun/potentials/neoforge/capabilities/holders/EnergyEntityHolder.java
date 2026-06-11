@@ -1,7 +1,6 @@
 package com.fej1fun.potentials.neoforge.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderEntityCapabilityHolder;
-import com.fej1fun.potentials.energy.BaseEnergyStorage;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
 import com.fej1fun.potentials.neoforge.energy.NeoForgeEnergyStorage;
@@ -49,7 +48,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
                 entityType.get(), (entity, ctx) -> {
             if (entity instanceof EnergyProvider.ENTITY provider) {
                 UniversalEnergyStorage energy = provider.getEnergy(ctx);
-                return energy == null ? null : new NeoForgeEnergyStorage((BaseEnergyStorage) energy);
+                return energy == null ? null : new NeoForgeEnergyStorage(energy);
             }
             return null;
         }));

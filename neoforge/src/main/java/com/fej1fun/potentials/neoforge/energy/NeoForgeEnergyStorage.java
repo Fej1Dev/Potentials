@@ -1,6 +1,6 @@
 package com.fej1fun.potentials.neoforge.energy;
 
-import com.fej1fun.potentials.energy.BaseEnergyStorage;
+import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
@@ -10,29 +10,29 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
     private final SnapshotJournal<Integer> snapshotJournal = new SnapshotJournal<>() {
         @Override
         protected Integer createSnapshot() {
-            return baseEnergyStorage.getEnergy();
+            return storage.getEnergy();
         }
 
         @Override
         protected void revertToSnapshot(Integer snapshot) {
-            baseEnergyStorage.setEnergyStored(snapshot);
+            storage.setEnergyStored(snapshot);
         }
     };
 
-    private final BaseEnergyStorage baseEnergyStorage;
+    private final UniversalEnergyStorage storage;
 
-    public NeoForgeEnergyStorage(@NotNull BaseEnergyStorage baseEnergyStorage) {
-        this.baseEnergyStorage = baseEnergyStorage;
+    public NeoForgeEnergyStorage(@NotNull UniversalEnergyStorage storage) {
+        this.storage = storage;
     }
 
     @Override
     public long getAmountAsLong() {
-        return baseEnergyStorage.getEnergy();
+        return storage.getEnergy();
     }
 
     @Override
     public long getCapacityAsLong() {
-        return baseEnergyStorage.getMaxEnergy();
+        return storage.getMaxEnergy();
     }
 
     @Override
@@ -46,20 +46,20 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
     }
 
     public int insert(int toReceive, TransactionContext transactionContext, boolean simulate) {
-        int amount = baseEnergyStorage.insert(toReceive, simulate);
+        int amount = storage.insert(toReceive, true);
         if (amount > 0 && !simulate) {
             snapshotJournal.updateSnapshots(transactionContext);
+            storage.insert(toReceive, false);
         }
-
         return amount;
     }
 
     public int extract(int toExtract, TransactionContext transactionContext, boolean simulate) {
-        int amount = baseEnergyStorage.extract(toExtract, simulate);
+        int amount = storage.extract(toExtract, true);
         if (amount > 0 && !simulate) {
             snapshotJournal.updateSnapshots(transactionContext);
+            storage.extract(toExtract, false);
         }
-
         return amount;
     }
 }

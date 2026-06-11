@@ -47,6 +47,6 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
 
     @Override
     public Identifier getIdentifier() {
-        return FluidStorage.ITEM.getId();
+        return entityApiLookup.getId();
     }
 }

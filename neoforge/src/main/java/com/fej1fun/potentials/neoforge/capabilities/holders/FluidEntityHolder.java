@@ -39,7 +39,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
 
     @Override
     public Identifier getIdentifier() {
-        return Capabilities.Fluid.BLOCK.name();
+        return Capabilities.Fluid.ENTITY.name();
     }
 
     @Override

@@ -41,6 +41,10 @@ public class UniversalFluidHandler implements UniversalFluidStorage {
 
     @Override
     public long fill(FluidStack stack, boolean simulate) {
+        if (stack == null || stack.isEmpty()) {
+            return 0;
+        }
+
         try (Transaction transaction = Transaction.open(null)) {
             long inserted = fluidHandler.insert(FluidResource.of(FluidStackHooksForge.toForge(stack)), (int) stack.getAmount(), transaction);
             if (simulate || inserted == 0L) {
@@ -54,6 +58,10 @@ public class UniversalFluidHandler implements UniversalFluidStorage {
 
     @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
+        if (stack == null || stack.isEmpty()) {
+            return FluidStack.empty();
+        }
+
         try (Transaction transaction = Transaction.open(null)) {
             long extracted = fluidHandler.extract(FluidResource.of(FluidStackHooksForge.toForge(stack)), (int) stack.getAmount(), transaction);
             if (simulate || extracted == 0L) {

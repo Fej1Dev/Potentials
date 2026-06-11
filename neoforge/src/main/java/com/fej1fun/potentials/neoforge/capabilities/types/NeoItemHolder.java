@@ -18,6 +18,7 @@ public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y>, Registerab
 
     public NeoItemHolder(ItemCapability<X, Y> itemCapability) {
         this.itemCapability = itemCapability;
+        registerSelf();
     }
 
 
