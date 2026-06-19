@@ -2,7 +2,7 @@ package com.fej1fun.potentials.neoforge.fluid;
 
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import dev.architectury.fluid.FluidStack;
-import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
+import dev.architectury.hooks.fluid.neoforge.FluidStackHooksForge;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.access.ItemAccess;
