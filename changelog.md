@@ -1,11 +1,4 @@
-# 0.9.1 changelog
-
-
-## Changes
-- Update Arch Loom to 1.17
+# 0.9.2 changelog
 
 ## Fixes
-- Fix crash during fluid tank fill/drain
-- Fix item holder on neoforge doesn't register
-- Fix fluid entity holder identifier
-- Fix crash with energy on neoforge
+- Fix item fluid components sync on dedicated server

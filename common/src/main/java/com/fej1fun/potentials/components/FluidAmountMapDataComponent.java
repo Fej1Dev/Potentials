@@ -69,6 +69,13 @@ public class FluidAmountMapDataComponent implements Serializable {
         return Collections.unmodifiableList(stacks);
     }
 
+    public Map<Fluid, Long> asFluidAmountMap() {
+        Map<Fluid, Long> map = new HashMap<>();
+        for (int i = 0; i < this.fluids.size(); i++)
+            map.put(getFluid(i), getAmount(i));
+        return map;
+    }
+
     public Fluid getFluid(int i) {
         return this.fluids.get(i);
     }
