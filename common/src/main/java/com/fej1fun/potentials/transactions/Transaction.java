@@ -4,7 +4,6 @@ import com.fej1fun.potentials.platform.TransactionManager;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
 
-
 @ApiStatus.NonExtendable
 public interface Transaction extends AutoCloseable, TransactionContext {
     static Transaction openRoot() {

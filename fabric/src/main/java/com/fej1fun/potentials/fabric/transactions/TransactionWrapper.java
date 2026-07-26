@@ -29,4 +29,8 @@ public class TransactionWrapper implements Transaction {
     public int depth() {
         return transaction.nestingDepth();
     }
+
+    public net.fabricmc.fabric.api.transfer.v1.transaction.Transaction getUnderlyingTransaction() {
+        return transaction;
+    }
 }

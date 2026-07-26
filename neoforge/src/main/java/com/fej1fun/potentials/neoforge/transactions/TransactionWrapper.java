@@ -29,4 +29,8 @@ public class TransactionWrapper implements Transaction {
     public Transaction openNested() {
         return new TransactionWrapper(net.neoforged.neoforge.transfer.transaction.Transaction.open(transaction));
     }
+
+    public net.neoforged.neoforge.transfer.transaction.Transaction getUnderlyingTransaction() {
+        return transaction;
+    }
 }
