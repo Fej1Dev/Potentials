@@ -12,6 +12,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 import team.reborn.energy.api.EnergyStorage;
 
 import java.util.function.Supplier;
@@ -32,7 +33,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
     }
 
     @Override
-    public void registerForEntity(Supplier<EntityType<? extends Entity>> entity) {
+    public <T extends Entity> void registerForEntity(Supplier<EntityType<T>> entity) {
         entityApiLookup.registerForType((entity1, direction) -> {
             if (entity1 instanceof EnergyProvider.ENTITY provider) {
                 UniversalEnergyStorage energy = provider.getEnergy(direction);

@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public interface NoProviderEntityCapabilityHolder<X, Y> {
 
     @Nullable X getCapability(Entity entity, Y context);
-    void registerForEntity(Supplier<EntityType<? extends Entity>> entity);
+    <T extends Entity> void registerForEntity(Supplier<EntityType<T>> entity);
     Identifier getIdentifier();
 
 }

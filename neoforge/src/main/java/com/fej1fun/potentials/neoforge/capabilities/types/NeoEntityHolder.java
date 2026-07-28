@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.function.Supplier;
 
 public class NeoEntityHolder<X,Y> implements EntityCapabilityHolder<X,Y>, Registerable {
-    private final HashMap<Supplier<EntityType<?>>, CapabilityProvider<Entity, X, Y>> registeredEntities = new HashMap<>();
+    private final HashMap<Supplier<? extends EntityType<? extends Entity>>, CapabilityProvider<Entity, X, Y>> registeredEntities = new HashMap<>();
     private final EntityCapability<X,Y> entityCapability;
 
     public NeoEntityHolder(EntityCapability<X, Y> entityCapability) {
@@ -27,13 +27,9 @@ public class NeoEntityHolder<X,Y> implements EntityCapabilityHolder<X,Y>, Regist
     }
 
     @Override
-    public void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType) {
+    public <T extends Entity> void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<T>> entityType) {
         registeredEntities.put(entityType, provider);
     }
-
-//    public HashMap<EntityType<?>, CapabilityProvider<Entity, X, Y>> getRegisteredEntities() {
-//        return registeredEntities;
-//    }
 
     public EntityCapability<X, Y> getEntityCapability() {
         return entityCapability;

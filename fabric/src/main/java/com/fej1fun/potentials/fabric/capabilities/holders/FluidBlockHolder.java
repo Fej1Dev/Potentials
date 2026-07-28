@@ -47,7 +47,7 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
     }
 
     @Override
-    public void registerForBlock(Supplier<Block> block) {
+    public <T extends Block> void registerForBlock(Supplier<T> block) {
         blockApiLookup.registerForBlocks((level, pos, state, blockEntity, direction) -> {
             if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
                 UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);
@@ -62,7 +62,7 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
     }
 
     @Override
-    public void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
+    public <T extends BlockEntity> void registerForBlockEntity(Supplier<BlockEntityType<T>> blockEntityType) {
         blockApiLookup.registerForBlockEntity((blockEntity, direction) -> {
             if (blockEntity instanceof FluidProvider.BLOCK fluidBlock) {
                 UniversalFluidStorage fluid = fluidBlock.getFluidTank(direction);

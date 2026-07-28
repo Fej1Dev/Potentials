@@ -25,7 +25,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     public static final FluidItemHolder INSTANCE = new FluidItemHolder();
     private FluidItemHolder() {registerSelf();}
 
-    private final Set<Supplier<Item>> registeredItems = new HashSet<>();
+    private final Set<Supplier<? extends Item>> registeredItems = new HashSet<>();
 
     @Override
     public UniversalFluidItemStorage getCapability(ItemStack stack) {
@@ -50,7 +50,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     }
 
     @Override
-    public void registerForItem(Supplier<Item> item) {
+    public <T extends Item> void registerForItem(Supplier<T> item) {
         registeredItems.add(item);
     }
 

@@ -14,6 +14,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.function.Supplier;
 
@@ -34,7 +35,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
     }
 
     @Override
-    public void registerForEntity(Supplier<EntityType<? extends Entity>> entity) {
+    public <T extends Entity> void registerForEntity(Supplier<EntityType<T>> entity) {
         entityApiLookup.registerForType((entity1, context) -> {
             if (entity1 instanceof FluidProvider.ENTITY fluidItem) {
                 UniversalFluidStorage fluid = fluidItem.getFluidTank(context);

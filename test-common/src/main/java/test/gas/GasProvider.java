@@ -12,4 +12,8 @@ public class GasProvider {
         @Nullable IGasStorage getGas(ItemStack stack);
     }
 
+    public interface ENTITY {
+        @Nullable IGasStorage getGas();
+    }
+
 }

@@ -12,6 +12,7 @@ import net.minecraft.core.Direction;
 import org.jetbrains.annotations.Nullable;
 
 public final class Capabilities {
+
     public static final class Energy {
         public static final NoProviderBlockCapabilityHolder<UniversalEnergyStorage, @Nullable Direction> BLOCK = CapabilitiesHelper.getEnergyBlockCapability();
         public static final NoProviderEntityCapabilityHolder<UniversalEnergyStorage, @Nullable Direction> ENTITY = CapabilitiesHelper.getEnergyEntityCapability();

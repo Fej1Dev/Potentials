@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 
 public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y>, Registerable {
     private final ItemCapability<X,Y> itemCapability;
-    private final HashMap<Supplier<Item>, CapabilityProvider<ItemStack, X, Y>> registeredItems = new HashMap<>();
+    private final HashMap<Supplier<? extends Item>, CapabilityProvider<ItemStack, X, Y>> registeredItems = new HashMap<>();
 
     public NeoItemHolder(ItemCapability<X, Y> itemCapability) {
         this.itemCapability = itemCapability;
@@ -28,7 +28,7 @@ public class NeoItemHolder<X,Y> implements ItemCapabilityHolder<X,Y>, Registerab
     }
 
     @Override
-    public void registerForItem(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item) {
+    public <T extends Item> void registerForItem(CapabilityProvider<ItemStack, X, Y> provider, Supplier<T> item) {
         registeredItems.put(item, provider);
     }
 

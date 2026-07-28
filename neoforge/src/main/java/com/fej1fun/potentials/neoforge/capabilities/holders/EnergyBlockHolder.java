@@ -27,8 +27,8 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     public static final EnergyBlockHolder INSTANCE = new EnergyBlockHolder();
     private EnergyBlockHolder() {registerSelf();}
 
-    private final Set<Supplier<Block>> registeredBlocks = new HashSet<>();
-    private final Set<Supplier<BlockEntityType<?>>> registeredBlockEntities = new HashSet<>();
+    private final Set<Supplier<? extends Block>> registeredBlocks = new HashSet<>();
+    private final Set<Supplier<? extends BlockEntityType<?>>> registeredBlockEntities = new HashSet<>();
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Level level, BlockPos pos, Direction direction) {
@@ -42,12 +42,12 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     }
 
     @Override
-    public void registerForBlock(Supplier<Block> block) {
+    public <T extends Block> void registerForBlock(Supplier<T> block) {
         registeredBlocks.add(block);
     }
 
     @Override
-    public void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
+    public <T extends BlockEntity> void registerForBlockEntity(Supplier<BlockEntityType<T>> blockEntityType) {
         registeredBlockEntities.add(blockEntityType);
     }
 

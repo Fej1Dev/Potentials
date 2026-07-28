@@ -24,7 +24,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
     public static final FluidEntityHolder INSTANCE = new FluidEntityHolder();
     private FluidEntityHolder() {registerSelf();}
 
-    private final Set<Supplier<EntityType<? extends Entity>>> registeredEntities = new HashSet<>();
+    private final Set<Supplier<? extends EntityType<? extends Entity>>> registeredEntities = new HashSet<>();
 
     @Override
     public @Nullable UniversalFluidStorage getCapability(Entity entity, Direction direction) {
@@ -33,7 +33,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
     }
 
     @Override
-    public void registerForEntity(Supplier<EntityType<? extends Entity>> entity) {
+    public <T extends Entity> void registerForEntity(Supplier<EntityType<T>> entity) {
         registeredEntities.add(entity);
     }
 

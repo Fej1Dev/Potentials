@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.function.Supplier;
 
@@ -33,12 +34,12 @@ public class FabricBlockProviderHolder<X,Y> implements BlockCapabilityHolder<X,Y
     }
 
     @Override
-    public void registerForBlock(BlockCapabilityProvider<X, Y> provider, Supplier<Block> block) {
+    public <T extends Block> void registerForBlock(BlockCapabilityProvider<X, Y> provider, Supplier<T> block) {
         blockApiLookup.registerForBlocks(provider::getCapability, block.get());
     }
 
     @Override
-    public void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, Supplier<BlockEntityType<?>> blockEntityType) {
+    public <T extends BlockEntity> void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, Supplier<BlockEntityType<T>> blockEntityType) {
         blockApiLookup.registerForBlockEntity(provider::getCapability, blockEntityType.get());
     }
 
