@@ -19,7 +19,7 @@ public interface ItemCapabilityHolder<X,Y> {
 
 
    @Nullable X getCapability(ItemStack stack, Y context);
-   void registerForItem(CapabilityProvider<ItemStack, X, Y> provider, Supplier<Item> item);
+   <T extends Item> void registerForItem(CapabilityProvider<ItemStack, X, Y> provider, Supplier<T> item);
    Identifier getIdentifier();
 
 }

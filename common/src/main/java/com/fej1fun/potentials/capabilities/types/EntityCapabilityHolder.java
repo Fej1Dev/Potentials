@@ -6,6 +6,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -23,7 +24,7 @@ public interface EntityCapabilityHolder<X,Y> {
 
 
     @Nullable X getCapability(Entity entity, Y context);
-    void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType);
+    <T extends Entity> void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<T>> entityType);
     Identifier getIdentifier();
 
 }

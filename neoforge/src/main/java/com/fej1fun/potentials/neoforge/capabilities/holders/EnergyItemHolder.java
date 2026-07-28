@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 public class EnergyItemHolder implements NoProviderItemCapabilityHolder<UniversalEnergyStorage, Void>, Registerable {
     public static final EnergyItemHolder INSTANCE = new EnergyItemHolder();
     private EnergyItemHolder() {registerSelf();}
-    private final Set<Supplier<Item>> registeredItems = new HashSet<>();
+    private final Set<Supplier<? extends Item>> registeredItems = new HashSet<>();
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(ItemStack stack) {
@@ -30,7 +30,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
     }
 
     @Override
-    public void registerForItem(Supplier<Item> item) {
+    public <T extends Item> void registerForItem(Supplier<T> item) {
         registeredItems.add(item);
     }
 

@@ -23,7 +23,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
     public static final EnergyEntityHolder INSTANCE = new EnergyEntityHolder();
     private EnergyEntityHolder() {registerSelf();}
 
-    private final Set<Supplier<EntityType<? extends Entity>>> registeredEntities = new HashSet<>();
+    private final Set<Supplier<? extends EntityType<? extends Entity>>> registeredEntities = new HashSet<>();
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(Entity entity, Direction direction) {
@@ -33,7 +33,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
     }
 
     @Override
-    public void registerForEntity(Supplier<EntityType<? extends Entity>> entity) {
+    public <T extends Entity> void registerForEntity(Supplier<EntityType<T>> entity) {
         registeredEntities.add(entity);
     }
 

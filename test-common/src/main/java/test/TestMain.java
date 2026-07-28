@@ -2,6 +2,7 @@ package test;
 
 import com.fej1fun.potentials.capabilities.Capabilities;
 import com.fej1fun.potentials.capabilities.types.BlockCapabilityHolder;
+import com.fej1fun.potentials.capabilities.types.EntityCapabilityHolder;
 import com.fej1fun.potentials.capabilities.types.ItemCapabilityHolder;
 import com.fej1fun.potentials.components.FluidAmountMapDataComponent;
 import com.mojang.serialization.Codec;
@@ -12,6 +13,9 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -36,6 +40,7 @@ public class TestMain {
     public static DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
     public static DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(MOD_ID, Registries.BLOCK_ENTITY_TYPE);
     public static DeferredRegister<DataComponentType<?>> DATA_COMPONENTS = DeferredRegister.create(MOD_ID, Registries.DATA_COMPONENT_TYPE);
+    public static DeferredRegister<EntityType<?>> ENTITY_TYPES = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
 
     public static final RegistrySupplier<DataComponentType<Integer>> ENERGY = register("energy", builder -> builder.persistent(Codec.INT).networkSynchronized(ByteBufCodecs.INT));
     public static final RegistrySupplier<DataComponentType<FluidAmountMapDataComponent>> FLUID_AMOUNT = register("fluid_amount", builder -> builder
@@ -49,13 +54,19 @@ public class TestMain {
             BlockCapabilityHolder.createVoid(IGasStorage.class, Identifier.fromNamespaceAndPath(MOD_ID, "gas_block"));
     public static final ItemCapabilityHolder<IGasStorage, Void> GAS_ITEM =
             ItemCapabilityHolder.createVoid(IGasStorage.class, Identifier.fromNamespaceAndPath(MOD_ID, "gas_item"));
+    public static final EntityCapabilityHolder<IGasStorage, Void> GAS_ENTITY =
+            EntityCapabilityHolder.createVoid(IGasStorage.class, Identifier.fromNamespaceAndPath(MOD_ID, "gas_item"));
 
-    public static final RegistrySupplier<Block> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(MOD_ID, "test_block")))));
-    public static final RegistrySupplier<Block> TEST_TANK_BLOCK = BLOCKS.register("test_tank_block", () -> new TestTankBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(MOD_ID, "test_tank_block")))));
+    public static final RegistrySupplier<TestBlock> TEST_BLOCK = BLOCKS.register("test_block", () -> new TestBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(MOD_ID, "test_block")))));
+    public static final RegistrySupplier<TestTankBlock> TEST_TANK_BLOCK = BLOCKS.register("test_tank_block", () -> new TestTankBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).setId(ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(MOD_ID, "test_tank_block")))));
 
-    public static final RegistrySupplier<Item> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "test_item"))), 1024, 1024, 1024));
-    public static final RegistrySupplier<Item> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "test_block")))));
-    public static final RegistrySupplier<Item> TEST_TANK_ITEM = ITEMS.register("test_tank", () -> new BlockItem(TEST_TANK_BLOCK.get(),new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "test_tank")))));
+    public static final RegistrySupplier<TestItem> TEST_ITEM = ITEMS.register("test_item", () -> new TestItem(new Item.Properties().stacksTo(1).setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "test_item"))), 1024, 1024, 1024));
+    public static final RegistrySupplier<BlockItem> TEST_BLOCK_ITEM = ITEMS.register("test_block", () -> new BlockItem(TEST_BLOCK.get(),new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "test_block")))));
+    public static final RegistrySupplier<BlockItem> TEST_TANK_ITEM = ITEMS.register("test_tank", () -> new BlockItem(TEST_TANK_BLOCK.get(),new Item.Properties().setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, "test_tank")))));
+
+    public static final RegistrySupplier<EntityType<TestEntity>> TEST_ENTITY = ENTITY_TYPES.register("test_entity",
+            () -> EntityType.Builder.of(TestEntity::new, MobCategory.MISC)
+                    .build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(MOD_ID, "test_entity"))));
 
     public static final Supplier<BlockEntityType<?>> TEST_BLOCK_ENTITY_TYPE = BLOCK_ENTITY_TYPES.register("test_block_entity_type",
             () -> new BlockEntityType<>(TestBlockEntity::new, Set.of(TEST_BLOCK.get())));
@@ -65,6 +76,7 @@ public class TestMain {
         DATA_COMPONENTS.register();
         ITEMS.register();
         BLOCK_ENTITY_TYPES.register();
+        ENTITY_TYPES.register();
 
         Capabilities.Energy.BLOCK.registerForBlock(TEST_BLOCK);
         Capabilities.Fluid.BLOCK.registerForBlock(TEST_BLOCK);
@@ -72,6 +84,9 @@ public class TestMain {
 
         Capabilities.Energy.ITEM.registerForItem(TEST_ITEM);
         Capabilities.Fluid.ITEM.registerForItem(TEST_ITEM);
+
+        Capabilities.Fluid.ENTITY.registerForEntity(TEST_ENTITY);
+        Capabilities.Energy.ENTITY.registerForEntity(TEST_ENTITY);
 
         //you dont need to register for block entity separately, registering for block is automatically handles for block entities
         // Capabilities.Energy.BLOCK.registerForBlockEntity(TEST_BLOCK_ENTITY_TYPE);
@@ -91,7 +106,14 @@ public class TestMain {
             return null;
         }, TEST_BLOCK);
 
-        GAS_ITEM.registerForItem((stack, context) -> stack.getItem() instanceof GasProvider.ITEM gasItem ? gasItem.getGas(stack) : null, TEST_ITEM);
+        GAS_ITEM.registerForItem((stack, context) ->
+                        stack.getItem() instanceof GasProvider.ITEM gasItem ? gasItem.getGas(stack) : null,
+                TEST_ITEM
+        );
 
+        GAS_ENTITY.registerForEntity((entity, context) ->
+                        entity instanceof GasProvider.ENTITY gasEntity ? gasEntity.getGas() : null,
+                TEST_ENTITY
+        );
     }
 }

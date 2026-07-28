@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Block;
 
 import java.util.function.Supplier;
 
@@ -32,7 +33,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
     }
 
     @Override
-    public void registerForItem(Supplier<Item> item) {
+    public <T extends Item> void registerForItem(Supplier<T> item) {
         itemApiLookup.registerForItems((stack, context) -> {
             if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
                 UniversalFluidItemStorage fluid = fluidItem.getFluidTank(stack);

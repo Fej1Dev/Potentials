@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 public interface NoProviderItemCapabilityHolder<X,Y> {
 
    @Nullable X getCapability(ItemStack stack);
-   void registerForItem(Supplier<Item> item);
+   <T extends Item> void registerForItem(Supplier<T> item);
    Identifier getIdentifier();
 
 }

@@ -7,10 +7,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
+@Deprecated
 public interface NoProviderFluidItemCapabilityHolder<X,Y> {
 
    @Nullable X getCapability(ItemStack stack);
-   void registerForItem(Supplier<Item> item);
+   <T extends Item> void registerForItem(Supplier<T> item);
    Identifier getIdentifier();
 
 }

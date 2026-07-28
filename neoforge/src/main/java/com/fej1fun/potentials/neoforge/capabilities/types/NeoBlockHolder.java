@@ -19,8 +19,8 @@ import java.util.function.Supplier;
 
 public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y>, Registerable {
     private final BlockCapability<X,Y> blockCapability;
-    private final HashMap<Supplier<Block>, BlockCapabilityProvider<X, Y>> registeredBlocks = new HashMap<>();
-    private final HashMap<Supplier<BlockEntityType<?>>, CapabilityProvider<BlockEntity, X, Y>> registeredBlockEntities = new HashMap<>();
+    private final HashMap<Supplier<? extends Block>, BlockCapabilityProvider<X, Y>> registeredBlocks = new HashMap<>();
+    private final HashMap<Supplier<? extends BlockEntityType<? extends BlockEntity>>, CapabilityProvider<BlockEntity, X, Y>> registeredBlockEntities = new HashMap<>();
 
     public NeoBlockHolder(BlockCapability<X, Y> blockCapability) {
         this.blockCapability = blockCapability;
@@ -38,13 +38,13 @@ public class NeoBlockHolder<X,Y> implements BlockCapabilityHolder<X,Y>, Register
     }
 
     @Override
-    public void registerForBlock(BlockCapabilityProvider<X, Y> provider, Supplier<Block> block) {
+    public <T extends Block> void registerForBlock(BlockCapabilityProvider<X, Y> provider, Supplier<T> block) {
         registeredBlocks.put(block, provider);
 
     }
 
     @Override
-    public void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, Supplier<BlockEntityType<?>> blockEntityType) {
+    public <T extends BlockEntity> void registerForBlockEntity(CapabilityProvider<BlockEntity, X, Y> provider, Supplier<BlockEntityType<T>> blockEntityType) {
         registeredBlockEntities.put(blockEntityType, provider);
 
     }

@@ -30,7 +30,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
     }
 
     @Override
-    public void registerForItem(Supplier<Item> item) {
+    public <T extends Item> void registerForItem(Supplier<T> item) {
         itemApiLookup.registerForItems((stack, ctx) -> {
             if (stack.getItem() instanceof EnergyProvider.ITEM provider) {
                 UniversalEnergyStorage energy = provider.getEnergy(stack);

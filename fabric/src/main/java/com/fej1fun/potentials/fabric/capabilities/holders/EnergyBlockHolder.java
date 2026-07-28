@@ -45,7 +45,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     }
 
     @Override
-    public void registerForBlock(Supplier<Block> block) {
+    public <T extends Block> void registerForBlock(Supplier<T> block) {
         blockApiLookup.registerForBlocks((level, blockPos, state, blockEntity,direction) -> {
             if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
                 UniversalEnergyStorage energy = energyBlock.getEnergy(direction);
@@ -60,7 +60,7 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
     }
 
     @Override
-    public void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType) {
+    public <T extends BlockEntity> void registerForBlockEntity(Supplier<BlockEntityType<T>> blockEntityType) {
         blockApiLookup.registerForBlockEntity((blockEntity, direction) -> {
             if (blockEntity instanceof EnergyProvider.BLOCK energyBlock) {
                 UniversalEnergyStorage energy = energyBlock.getEnergy(direction);

@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.lookup.v1.entity.EntityApiLookup;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
@@ -24,9 +25,8 @@ public class FabricEntityProviderHolder<X,Y> implements EntityCapabilityHolder<X
     }
 
     @Override
-    public void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<?>> entityType) {
+    public <T extends Entity> void registerForEntity(CapabilityProvider<Entity, X, Y> provider, Supplier<EntityType<T>> entityType) {
         entityApiLookup.registerForType(provider::getCapability, entityType.get());
-
     }
 
     @Override

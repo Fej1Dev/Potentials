@@ -1,4 +1,4 @@
-# 0.9.2 changelog
+# 0.9.3 changelog
 
-## Fixes
-- Fix item fluid components sync on dedicated server
+## Dev Fixes
+- Fix generics issue

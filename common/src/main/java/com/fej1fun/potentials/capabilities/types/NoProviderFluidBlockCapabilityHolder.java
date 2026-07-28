@@ -11,12 +11,13 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
+@Deprecated
 public interface NoProviderFluidBlockCapabilityHolder<X, Y> {
 
     @Nullable X getCapability(Level level, BlockPos pos, Y context);
     @Nullable X getCapability(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity, Y context);
-    void registerForBlock(Supplier<Block> block);
-    void registerForBlockEntity(Supplier<BlockEntityType<?>> blockEntityType);
+    <T extends Block> void registerForBlock(Supplier<T> block);
+    <T extends BlockEntity> void registerForBlockEntity(Supplier<BlockEntityType<T>> blockEntityType);
     Identifier getIdentifier();
 
 }
