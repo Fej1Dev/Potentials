@@ -1,13 +1,17 @@
 package com.fej1fun.potentials.fabric.fluid;
 
+import com.fej1fun.potentials.fluid.FluidSnapshots;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 
-/// Returns values in droplets
-public class SingleSlotFluidStorage implements SingleSlotStorage<FluidVariant> {
+import java.util.List;
+
+public class SingleSlotFluidStorage extends SnapshotParticipant<List<FluidStack>> implements SingleSlotStorage<FluidVariant> {
     private final UniversalFluidStorage fluidStorage;
     private final int slot;
 
@@ -18,11 +22,13 @@ public class SingleSlotFluidStorage implements SingleSlotStorage<FluidVariant> {
 
     @Override
     public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+        updateSnapshots(transaction);
         return fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false) * 81L;
     }
 
     @Override
     public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+        updateSnapshots(transaction);
         return fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false).getAmount() * 81L;
     }
 
@@ -44,5 +50,15 @@ public class SingleSlotFluidStorage implements SingleSlotStorage<FluidVariant> {
     @Override
     public long getCapacity() {
         return fluidStorage.getTankCapacity(slot)*81;
+    }
+
+    @Override
+    protected List<FluidStack> createSnapshot() {
+        return FluidSnapshots.take(fluidStorage);
+    }
+
+    @Override
+    protected void readSnapshot(List<FluidStack> snapshot) {
+        FluidSnapshots.restore(fluidStorage, snapshot);
     }
 }

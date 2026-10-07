@@ -1,19 +1,22 @@
 package com.fej1fun.potentials.fabric.fluid;
 
+import com.fej1fun.potentials.fluid.FluidSnapshots;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
+import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
+import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class FabricFluidItemStorage implements SlottedStorage<FluidVariant> {
+public class FabricFluidItemStorage extends SnapshotParticipant<List<FluidStack>> implements SlottedStorage<FluidVariant> {
     private final UniversalFluidItemStorage fluidStorage;
 
     public FabricFluidItemStorage(UniversalFluidItemStorage fluidStorage) {
@@ -32,11 +35,13 @@ public class FabricFluidItemStorage implements SlottedStorage<FluidVariant> {
 
     @Override
     public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+        updateSnapshots(transaction);
         return fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false) * 81L;
     }
 
     @Override
     public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+        updateSnapshots(transaction);
         return fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false).getAmount() * 81L;
     }
 
@@ -47,5 +52,15 @@ public class FabricFluidItemStorage implements SlottedStorage<FluidVariant> {
             toReturn.add(new SingleSlotFluidStorage(fluidStorage, i));
         }
         return toReturn.iterator();
+    }
+
+    @Override
+    protected List<FluidStack> createSnapshot() {
+        return FluidSnapshots.take(fluidStorage);
+    }
+
+    @Override
+    protected void readSnapshot(List<FluidStack> snapshot) {
+        FluidSnapshots.restore(fluidStorage, snapshot);
     }
 }

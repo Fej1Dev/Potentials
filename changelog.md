@@ -1,4 +1,4 @@
-# 0.9.3 changelog
+# 0.10.0 changelog
 
-## Dev Fixes
-- Fix generics issue
+## Changes
+- Implement transactions for fluid transfer

@@ -1,17 +1,18 @@
 package com.fej1fun.potentials.neoforge.fluid;
 
+import com.fej1fun.potentials.fluid.FluidSnapshots;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.forge.FluidStackHooksForge;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.IntSupplier;
+import java.util.List;
 
-public class NeoForgeFluidStorage implements ResourceHandler<FluidResource> {
+public class NeoForgeFluidStorage extends SnapshotJournal<List<FluidStack>> implements ResourceHandler<FluidResource> {
 
     private final UniversalFluidStorage storage;
 
@@ -50,8 +51,8 @@ public class NeoForgeFluidStorage implements ResourceHandler<FluidResource> {
         if (resource.isEmpty() || amount <= 0) {
             return 0;
         }
-        return runInTransaction(transactionContext,
-                () -> Math.toIntExact(storage.fill(toArchitecturyStack(resource, amount), false)));
+        updateSnapshots(transactionContext);
+        return Math.toIntExact(storage.fill(toArchitecturyStack(resource, amount), false));
     }
 
     @Override
@@ -59,19 +60,21 @@ public class NeoForgeFluidStorage implements ResourceHandler<FluidResource> {
         if (resource.isEmpty() || amount <= 0) {
             return 0;
         }
-        return runInTransaction(transactionContext,
-                () -> Math.toIntExact(storage.drain(toArchitecturyStack(resource, amount), false).getAmount()));
+        updateSnapshots(transactionContext);
+        return Math.toIntExact(storage.drain(toArchitecturyStack(resource, amount), false).getAmount());
     }
 
     private FluidStack toArchitecturyStack(FluidResource resource, int amount) {
         return FluidStackHooksForge.fromForge(resource.toStack(amount));
     }
 
-    private int runInTransaction(TransactionContext transactionContext, IntSupplier operation) {
-        try (Transaction tx = Transaction.open(transactionContext)) {
-            int transferred = operation.getAsInt();
-            tx.commit();
-            return transferred;
-        }
+    @Override
+    protected List<FluidStack> createSnapshot() {
+        return FluidSnapshots.take(storage);
+    }
+
+    @Override
+    protected void revertToSnapshot(List<FluidStack> snapshot) {
+        FluidSnapshots.restore(storage, snapshot);
     }
 }
