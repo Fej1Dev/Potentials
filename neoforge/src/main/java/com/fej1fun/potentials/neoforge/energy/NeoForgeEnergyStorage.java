@@ -1,6 +1,7 @@
 package com.fej1fun.potentials.neoforge.energy;
 
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.neoforge.utils.DeferredJournal;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
@@ -18,6 +19,7 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
             storage.setEnergyStored(snapshot);
         }
     };
+    private final DeferredJournal deferredJournal = new DeferredJournal();
 
     private final UniversalEnergyStorage storage;
 
@@ -48,6 +50,10 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
     public int insert(int toReceive, TransactionContext transactionContext, boolean simulate) {
         int amount = storage.insert(toReceive, true);
         if (amount > 0 && !simulate) {
+            if (storage.deferUntilCommit()) {
+                deferredJournal.defer(transactionContext, () -> storage.insert(amount, false));
+                return amount;
+            }
             snapshotJournal.updateSnapshots(transactionContext);
             storage.insert(toReceive, false);
         }
@@ -57,6 +63,10 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
     public int extract(int toExtract, TransactionContext transactionContext, boolean simulate) {
         int amount = storage.extract(toExtract, true);
         if (amount > 0 && !simulate) {
+            if (storage.deferUntilCommit()) {
+                deferredJournal.defer(transactionContext, () -> storage.extract(amount, false));
+                return amount;
+            }
             snapshotJournal.updateSnapshots(transactionContext);
             storage.extract(toExtract, false);
         }

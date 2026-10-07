@@ -1,5 +1,6 @@
 package com.fej1fun.potentials.fabric.fluid;
 
+import com.fej1fun.potentials.fabric.utils.DeferredParticipant;
 import com.fej1fun.potentials.fluid.FluidSnapshots;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import dev.architectury.fluid.FluidStack;
@@ -18,6 +19,7 @@ import java.util.List;
 
 public class FabricFluidItemStorage extends SnapshotParticipant<List<FluidStack>> implements SlottedStorage<FluidVariant> {
     private final UniversalFluidItemStorage fluidStorage;
+    private final DeferredParticipant deferredParticipant = new DeferredParticipant();
 
     public FabricFluidItemStorage(UniversalFluidItemStorage fluidStorage) {
         this.fluidStorage = fluidStorage;
@@ -35,12 +37,24 @@ public class FabricFluidItemStorage extends SnapshotParticipant<List<FluidStack>
 
     @Override
     public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+        if (fluidStorage.deferUntilCommit()) {
+            long filled = fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), true);
+            if (filled > 0)
+                deferredParticipant.defer(transaction, () -> fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, filled), false));
+            return filled * 81L;
+        }
         updateSnapshots(transaction);
         return fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false) * 81L;
     }
 
     @Override
     public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+        if (fluidStorage.deferUntilCommit()) {
+            long drained = fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), true).getAmount();
+            if (drained > 0)
+                deferredParticipant.defer(transaction, () -> fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, drained), false));
+            return drained * 81L;
+        }
         updateSnapshots(transaction);
         return fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false).getAmount() * 81L;
     }

@@ -1,6 +1,7 @@
 package com.fej1fun.potentials.fabric.energy;
 
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.fabric.utils.DeferredParticipant;
 import net.fabricmc.fabric.api.transfer.v1.transaction.TransactionContext;
 import net.fabricmc.fabric.api.transfer.v1.transaction.base.SnapshotParticipant;
 import org.jetbrains.annotations.NotNull;
@@ -8,6 +9,7 @@ import team.reborn.energy.api.EnergyStorage;
 
 public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements EnergyStorage {
     final UniversalEnergyStorage universalEnergyStorage;
+    private final DeferredParticipant deferredParticipant = new DeferredParticipant();
 
     public FabricEnergyStorage(@NotNull UniversalEnergyStorage universalEnergyStorage) {
         this.universalEnergyStorage = universalEnergyStorage;
@@ -15,6 +17,12 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
 
     @Override
     public long insert(long amount, TransactionContext transaction){
+        if (universalEnergyStorage.deferUntilCommit()) {
+            int inserted = universalEnergyStorage.insert((int) amount, true);
+            if (inserted > 0)
+                this.deferredParticipant.defer(transaction, () -> universalEnergyStorage.insert(inserted, false));
+            return inserted;
+        }
         if (universalEnergyStorage.insert((int) amount, true) > 0) {
             this.updateSnapshots(transaction);
             return universalEnergyStorage.insert((int) amount, false);
@@ -24,6 +32,12 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
 
     @Override
     public long extract(long amount, TransactionContext transaction) {
+        if (universalEnergyStorage.deferUntilCommit()) {
+            int extracted = universalEnergyStorage.extract((int) amount, true);
+            if (extracted > 0)
+                this.deferredParticipant.defer(transaction, () -> universalEnergyStorage.extract(extracted, false));
+            return extracted;
+        }
         if (universalEnergyStorage.extract((int) amount, true) > 0) {
             this.updateSnapshots(transaction);
             return universalEnergyStorage.extract((int) amount, false);

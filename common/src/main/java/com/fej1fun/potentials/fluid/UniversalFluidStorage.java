@@ -13,4 +13,8 @@ public interface UniversalFluidStorage extends Iterable<FluidStack> {
     default void setFluidInTank(int tank, FluidStack stack) {
         throw new UnsupportedOperationException();
     }
+
+    default boolean deferUntilCommit() {
+        return false;
+    }
 }
