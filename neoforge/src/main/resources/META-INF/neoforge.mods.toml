@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Potentials"
 authors = "Fej1Fun"
 description = '''Library to allow mod developers to use cross platform capabilities'''
-#logoFile = ""
+iconFile = "assets/potentials/icon.png"
 
 [[dependencies.potentials]]
 modId = "neoforge"
@@ -28,6 +28,6 @@ side = "BOTH"
 [[dependencies.potentials]]
 modId = "architectury"
 type = "required"
-versionRange = "[21.0.1,)"
+versionRange = "[21.0.7,)"
 ordering = "AFTER"
 side = "BOTH"
