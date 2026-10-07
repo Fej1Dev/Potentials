@@ -18,14 +18,14 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
     @Override
     public long insert(long amount, TransactionContext transaction){
         if (universalEnergyStorage.deferUntilCommit()) {
-            int inserted = universalEnergyStorage.insert((int) amount, true);
+            int inserted = universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), true);
             if (inserted > 0)
                 this.deferredParticipant.defer(transaction, () -> universalEnergyStorage.insert(inserted, false));
             return inserted;
         }
-        if (universalEnergyStorage.insert((int) amount, true) > 0) {
+        if (universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), true) > 0) {
             this.updateSnapshots(transaction);
-            return universalEnergyStorage.insert((int) amount, false);
+            return universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), false);
         }
         return 0;
     }
@@ -33,14 +33,14 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
     @Override
     public long extract(long amount, TransactionContext transaction) {
         if (universalEnergyStorage.deferUntilCommit()) {
-            int extracted = universalEnergyStorage.extract((int) amount, true);
+            int extracted = universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), true);
             if (extracted > 0)
                 this.deferredParticipant.defer(transaction, () -> universalEnergyStorage.extract(extracted, false));
             return extracted;
         }
-        if (universalEnergyStorage.extract((int) amount, true) > 0) {
+        if (universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), true) > 0) {
             this.updateSnapshots(transaction);
-            return universalEnergyStorage.extract((int) amount, false);
+            return universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), false);
         }
         return 0;
     }
