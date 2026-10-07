@@ -56,11 +56,17 @@ public class UniversalFluidItemHandler implements UniversalFluidItemStorage {
 
     @Override
     public long fill(FluidStack stack, boolean simulate) {
+        if (stack == null || stack.isEmpty()) {
+            return 0;
+        }
         return transfer(stack, simulate, true);
     }
 
     @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
+        if (stack == null || stack.isEmpty()) {
+            return FluidStack.empty();
+        }
         return stack.copyWithAmount(transfer(stack, simulate, false));
     }
 

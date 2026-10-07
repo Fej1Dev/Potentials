@@ -37,6 +37,8 @@ public class FabricFluidItemStorage extends SnapshotParticipant<List<FluidStack>
 
     @Override
     public long insert(FluidVariant resource, long maxAmount, TransactionContext transaction) {
+        if (resource.isBlank())
+            return 0;
         if (fluidStorage.deferUntilCommit()) {
             long filled = fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), true);
             if (filled > 0)
