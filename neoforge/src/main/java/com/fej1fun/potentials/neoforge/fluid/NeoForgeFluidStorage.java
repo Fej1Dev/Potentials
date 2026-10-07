@@ -1,19 +1,22 @@
 package com.fej1fun.potentials.neoforge.fluid;
 
+import com.fej1fun.potentials.fluid.FluidSnapshots;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
+import com.fej1fun.potentials.neoforge.utils.DeferredJournal;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.neoforge.FluidStackHooksForge;
 import net.neoforged.neoforge.transfer.ResourceHandler;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
-import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.SnapshotJournal;
 import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.IntSupplier;
+import java.util.List;
 
-public class NeoForgeFluidStorage implements ResourceHandler<FluidResource> {
+public class NeoForgeFluidStorage extends SnapshotJournal<List<FluidStack>> implements ResourceHandler<FluidResource> {
 
     private final UniversalFluidStorage storage;
+    private final DeferredJournal deferredJournal = new DeferredJournal();
 
     public NeoForgeFluidStorage(@NotNull final UniversalFluidStorage storage) {
         this.storage = storage;
@@ -50,8 +53,15 @@ public class NeoForgeFluidStorage implements ResourceHandler<FluidResource> {
         if (resource.isEmpty() || amount <= 0) {
             return 0;
         }
-        return runInTransaction(transactionContext,
-                () -> Math.toIntExact(storage.fill(toArchitecturyStack(resource, amount), false)));
+        if (storage.deferUntilCommit()) {
+            int filled = Math.toIntExact(storage.fill(toArchitecturyStack(resource, amount), true));
+            if (filled > 0) {
+                deferredJournal.defer(transactionContext, () -> storage.fill(toArchitecturyStack(resource, filled), false));
+            }
+            return filled;
+        }
+        updateSnapshots(transactionContext);
+        return Math.toIntExact(storage.fill(toArchitecturyStack(resource, amount), false));
     }
 
     @Override
@@ -59,19 +69,28 @@ public class NeoForgeFluidStorage implements ResourceHandler<FluidResource> {
         if (resource.isEmpty() || amount <= 0) {
             return 0;
         }
-        return runInTransaction(transactionContext,
-                () -> Math.toIntExact(storage.drain(toArchitecturyStack(resource, amount), false).getAmount()));
+        if (storage.deferUntilCommit()) {
+            int drained = Math.toIntExact(storage.drain(toArchitecturyStack(resource, amount), true).getAmount());
+            if (drained > 0) {
+                deferredJournal.defer(transactionContext, () -> storage.drain(toArchitecturyStack(resource, drained), false));
+            }
+            return drained;
+        }
+        updateSnapshots(transactionContext);
+        return Math.toIntExact(storage.drain(toArchitecturyStack(resource, amount), false).getAmount());
     }
 
     private FluidStack toArchitecturyStack(FluidResource resource, int amount) {
         return FluidStackHooksForge.fromForge(resource.toStack(amount));
     }
 
-    private int runInTransaction(TransactionContext transactionContext, IntSupplier operation) {
-        try (Transaction tx = Transaction.open(transactionContext)) {
-            int transferred = operation.getAsInt();
-            tx.commit();
-            return transferred;
-        }
+    @Override
+    protected List<FluidStack> createSnapshot() {
+        return FluidSnapshots.take(storage);
+    }
+
+    @Override
+    protected void revertToSnapshot(List<FluidStack> snapshot) {
+        FluidSnapshots.restore(storage, snapshot);
     }
 }

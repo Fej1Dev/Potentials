@@ -14,20 +14,20 @@ description = '''Library to allow mod developers to use cross platform capabilit
 [[dependencies.potentials]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21.9,)"
+versionRange = "[26.2.0.57,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.potentials]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.9,)"
+versionRange = "[26.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.potentials]]
 modId = "architectury"
 type = "required"
-versionRange = "[18.0.3,)"
+versionRange = "[21.0.1,)"
 ordering = "AFTER"
 side = "BOTH"
