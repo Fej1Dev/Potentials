@@ -13,12 +13,12 @@ public class UniversalEnergyWrapper implements UniversalEnergyStorage {
 
     @Override
     public int getEnergy() {
-        return (int) energyStorage.getAmount();
+        return (int) Math.min(energyStorage.getAmount(), Integer.MAX_VALUE);
     }
 
     @Override
     public int getMaxEnergy() {
-        return (int) energyStorage.getCapacity();
+        return (int) Math.min(energyStorage.getCapacity(), Integer.MAX_VALUE);
     }
 
     @Override
