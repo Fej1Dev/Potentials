@@ -51,6 +51,7 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         return fluidStacks.get(tank).getAmount();
     }
 
+    @Override
     public void setFluidInTank(int tank, FluidStack stack) {
         stack.setAmount(Math.clamp(stack.getAmount(), 0, getTankCapacity(tank)));
         fluidStacks.set(tank, stack);

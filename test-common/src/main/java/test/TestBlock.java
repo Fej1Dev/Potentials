@@ -1,6 +1,5 @@
 package test;
 
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -11,11 +10,6 @@ public class TestBlock extends BaseEntityBlock {
 
     protected TestBlock(Properties properties) {
         super(properties);
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(TestBlock::new);
     }
 
     @Override

@@ -10,4 +10,8 @@ public interface UniversalEnergyStorage {
     int extract(int amount, boolean simulate);
     boolean canInsertEnergy();
     boolean canExtractEnergy();
+
+    default boolean deferUntilCommit() {
+        return false;
+    }
 }
