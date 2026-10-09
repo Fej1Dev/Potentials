@@ -5,6 +5,7 @@ import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidVariantStorage;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.FluidProvider;
+import com.fej1fun.potentials.fabric.utils.FabricTransactionHelper;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -37,10 +38,10 @@ public class FluidBlockHolder implements NoProviderBlockCapabilityHolder<Univers
 
         if (blockEntity != null)
             if (blockEntity instanceof FluidProvider.BLOCK provider)
-                return provider.getFluidTank(context);
+                return FabricTransactionHelper.wrap(provider.getFluidTank(context));
 
         if (Objects.requireNonNullElseGet(state, () -> level.getBlockState(pos)).getBlock() instanceof FluidProvider.BLOCK provider)
-            return provider.getFluidTank(context);
+            return FabricTransactionHelper.wrap(provider.getFluidTank(context));
 
         Storage<FluidVariant> fluidStorage = blockApiLookup.find(level, pos, state, blockEntity, context);
         return fluidStorage == null ? null : new UniversalFluidVariantStorage(fluidStorage);
