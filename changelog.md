@@ -1,4 +1,4 @@
-# 0.10.1 changelog
+# 0.11.0 changelog
 
 ## Fixes
 - Fix deferred transfers accepting more than the storage limit in one transaction
