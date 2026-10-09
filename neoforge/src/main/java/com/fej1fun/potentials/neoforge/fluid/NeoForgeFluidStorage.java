@@ -62,7 +62,8 @@ public class NeoForgeFluidStorage extends SnapshotJournal<List<FluidStack>> impl
             }
             return filled;
         }
-        updateSnapshots(transactionContext);
+        if (!(storage instanceof ItemAccessFluidStorage))
+            updateSnapshots(transactionContext);
         return Math.toIntExact(storage.fill(toArchitecturyStack(resource, amount), false));
     }
 
@@ -79,7 +80,8 @@ public class NeoForgeFluidStorage extends SnapshotJournal<List<FluidStack>> impl
             }
             return drained;
         }
-        updateSnapshots(transactionContext);
+        if (!(storage instanceof ItemAccessFluidStorage))
+            updateSnapshots(transactionContext);
         return Math.toIntExact(storage.drain(toArchitecturyStack(resource, amount), false).getAmount());
     }
 

@@ -12,10 +12,6 @@ public class ItemEnergyStorage extends BaseEnergyStorage {
         super(capacity, maxReceive, maxExtract);
         this.stack = stack;
         this.component = component;
-
-        if (!this.stack.has(component))
-            stack.set(component, 0);
-
     }
 
     public ItemEnergyStorage(ItemStack stack, DataComponentType<Integer> component, int capacity) {

@@ -3,6 +3,7 @@ package com.fej1fun.potentials.neoforge.capabilities.holders;
 import com.fej1fun.potentials.capabilities.types.NoProviderFluidItemCapabilityHolder;
 import com.fej1fun.potentials.fluid.UniversalFluidItemStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
+import com.fej1fun.potentials.neoforge.fluid.ItemAccessFluidStorage;
 import com.fej1fun.potentials.neoforge.fluid.NeoForgeFluidStorage;
 import com.fej1fun.potentials.neoforge.fluid.UniversalFluidItemHandler;
 import com.fej1fun.potentials.providers.FluidProvider;
@@ -29,6 +30,9 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
 
     @Override
     public UniversalFluidItemStorage getCapability(ItemStack stack) {
+        if (stack.getItem() instanceof FluidProvider.ITEM provider)
+            return provider.getFluidTank(stack);
+
         ItemAccess itemAccess = createItemAccess(stack);
         ResourceHandler<FluidResource> fluidTank = itemAccess.getCapability(Capabilities.Fluid.ITEM);
         if (fluidTank != null) {
@@ -64,7 +68,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
         registeredItems.forEach(item -> event.registerItem(Capabilities.Fluid.ITEM, (stack, ctx) -> {
             if (stack.getItem() instanceof FluidProvider.ITEM fluidItem) {
                 UniversalFluidItemStorage fluid = fluidItem.getFluidTank(stack);
-                return fluid == null ? null : new NeoForgeFluidStorage(fluid);
+                return fluid == null ? null : new NeoForgeFluidStorage(ctx == null ? fluid : new ItemAccessFluidStorage(ctx));
             }
             return null;
         }, item.get()));

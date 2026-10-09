@@ -34,7 +34,8 @@ public class SingleSlotFluidStorage extends SnapshotParticipant<List<FluidStack>
                 deferredParticipant.defer(transaction, resource, false, filled, () -> fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, filled), false));
             return filled * 81L;
         }
-        updateSnapshots(transaction);
+        if (!(fluidStorage instanceof ContainerItemFluidStorage))
+            updateSnapshots(transaction);
         return fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false) * 81L;
     }
 
@@ -47,7 +48,8 @@ public class SingleSlotFluidStorage extends SnapshotParticipant<List<FluidStack>
                 deferredParticipant.defer(transaction, resource, true, drained, () -> fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, drained), false));
             return drained * 81L;
         }
-        updateSnapshots(transaction);
+        if (!(fluidStorage instanceof ContainerItemFluidStorage))
+            updateSnapshots(transaction);
         return fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), false).getAmount() * 81L;
     }
 

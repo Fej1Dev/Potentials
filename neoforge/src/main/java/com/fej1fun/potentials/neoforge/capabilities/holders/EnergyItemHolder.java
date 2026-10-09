@@ -3,6 +3,7 @@ package com.fej1fun.potentials.neoforge.capabilities.holders;
 import com.fej1fun.potentials.capabilities.types.NoProviderItemCapabilityHolder;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.neoforge.capabilities.Registerable;
+import com.fej1fun.potentials.neoforge.energy.ItemAccessEnergyStorage;
 import com.fej1fun.potentials.neoforge.energy.NeoForgeEnergyStorage;
 import com.fej1fun.potentials.neoforge.energy.UniversalIEnergyStorage;
 import com.fej1fun.potentials.providers.EnergyProvider;
@@ -25,6 +26,9 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
 
     @Override
     public @Nullable UniversalEnergyStorage getCapability(ItemStack stack) {
+        if (stack.getItem() instanceof EnergyProvider.ITEM provider)
+            return provider.getEnergy(stack);
+
         EnergyHandler energyStorage = stack.getCapability(Capabilities.Energy.ITEM, null);
         return energyStorage == null ? null : new UniversalIEnergyStorage(energyStorage);
     }
@@ -44,7 +48,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
         registeredItems.forEach(item -> event.registerItem(Capabilities.Energy.ITEM, (stack, ctx) -> {
             if (stack.getItem() instanceof EnergyProvider.ITEM energyItem) {
                 UniversalEnergyStorage energy = energyItem.getEnergy(stack);
-                return energy == null ? null : new NeoForgeEnergyStorage(energy);
+                return energy == null ? null : new NeoForgeEnergyStorage(ctx == null ? energy : new ItemAccessEnergyStorage(ctx));
             }
             return null;
         }, item.get()));
