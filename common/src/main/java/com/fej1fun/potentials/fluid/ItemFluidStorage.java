@@ -6,6 +6,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
 import java.util.Iterator;
 
 public class ItemFluidStorage implements UniversalFluidItemStorage {
@@ -23,9 +24,6 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
         this.stack = stack;
         this.component = component;
         this.tanks = tanks;
-
-        if (!this.stack.has(component))
-            this.stack.set(component, getEmpty());
     }
 
     public ItemFluidStorage(DataComponentType<FluidAmountMapDataComponent> component, ItemStack stack, int tanks, long maxAmount) {
@@ -57,7 +55,10 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
     public void setFluidInTank(int tank, FluidStack fluidStack) {
         FluidAmountMapDataComponent newComponentValue = new FluidAmountMapDataComponent(getComponent().asFluidAmountMap());
         newComponentValue.setFluidStack(tank, fluidStack);
-        this.stack.set(this.component, newComponentValue);
+        if (newComponentValue.asFluidStackList().stream().allMatch(FluidStack::isEmpty) && !this.stack.getPrototype().has(this.component))
+            this.stack.remove(this.component);
+        else
+            this.stack.set(this.component, newComponentValue);
     }
 
     public long getFluidValueInTank(int tank) {
@@ -108,6 +109,8 @@ public class ItemFluidStorage implements UniversalFluidItemStorage {
 
     @Override
     public @NotNull Iterator<FluidStack> iterator() {
+        if (this.tanks == 0)
+            return Collections.emptyIterator();
         return getComponent().asFluidStackList().iterator();
     }
 

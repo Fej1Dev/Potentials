@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import com.fej1fun.potentials.fabric.utils.FabricTransactionHelper;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import org.jetbrains.annotations.NotNull;
 
@@ -71,7 +72,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
         if (stack == null || stack.isEmpty())
             return 0;
 
-        try (Transaction transaction = Transaction.openOuter()) {
+        try (Transaction transaction = FabricTransactionHelper.open()) {
 
             long amount = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L;
             if (simulate || amount == 0L)
@@ -88,7 +89,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
         if (stack == null || stack.isEmpty())
             return FluidStack.empty();
 
-        try (Transaction transaction = Transaction.openOuter()) {
+        try (Transaction transaction = FabricTransactionHelper.open()) {
 
             long amount = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L;
             if (simulate || amount == 0L)

@@ -9,22 +9,25 @@ import team.reborn.energy.api.EnergyStorage;
 
 public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements EnergyStorage {
     final UniversalEnergyStorage universalEnergyStorage;
-    private final DeferredParticipant deferredParticipant = new DeferredParticipant();
+    private final DeferredParticipant deferredParticipant;
 
     public FabricEnergyStorage(@NotNull UniversalEnergyStorage universalEnergyStorage) {
         this.universalEnergyStorage = universalEnergyStorage;
+        this.deferredParticipant = DeferredParticipant.of(universalEnergyStorage);
     }
 
     @Override
     public long insert(long amount, TransactionContext transaction){
         if (universalEnergyStorage.deferUntilCommit()) {
-            int inserted = universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), true);
+            long pending = this.deferredParticipant.getPending(null, false);
+            int inserted = (int) Math.max(Math.min(universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), true), universalEnergyStorage.getMaxEnergy() - universalEnergyStorage.getEnergy() - pending), 0);
             if (inserted > 0)
-                this.deferredParticipant.defer(transaction, () -> universalEnergyStorage.insert(inserted, false));
+                this.deferredParticipant.defer(transaction, null, false, inserted, () -> universalEnergyStorage.insert(inserted, false));
             return inserted;
         }
         if (universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), true) > 0) {
-            this.updateSnapshots(transaction);
+            if (!(universalEnergyStorage instanceof UniversalEnergyWrapper || universalEnergyStorage instanceof ContainerItemEnergyStorage))
+                this.updateSnapshots(transaction);
             return universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), false);
         }
         return 0;
@@ -33,13 +36,15 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
     @Override
     public long extract(long amount, TransactionContext transaction) {
         if (universalEnergyStorage.deferUntilCommit()) {
-            int extracted = universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), true);
+            long pending = this.deferredParticipant.getPending(null, true);
+            int extracted = (int) Math.max(Math.min(universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), true), universalEnergyStorage.getEnergy() - pending), 0);
             if (extracted > 0)
-                this.deferredParticipant.defer(transaction, () -> universalEnergyStorage.extract(extracted, false));
+                this.deferredParticipant.defer(transaction, null, true, extracted, () -> universalEnergyStorage.extract(extracted, false));
             return extracted;
         }
         if (universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), true) > 0) {
-            this.updateSnapshots(transaction);
+            if (!(universalEnergyStorage instanceof UniversalEnergyWrapper || universalEnergyStorage instanceof ContainerItemEnergyStorage))
+                this.updateSnapshots(transaction);
             return universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), false);
         }
         return 0;

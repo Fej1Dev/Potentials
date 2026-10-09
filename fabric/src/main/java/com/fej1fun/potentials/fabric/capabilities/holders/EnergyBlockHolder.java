@@ -5,6 +5,7 @@ import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.fabric.energy.FabricEnergyStorage;
 import com.fej1fun.potentials.fabric.energy.UniversalEnergyWrapper;
 import com.fej1fun.potentials.providers.EnergyProvider;
+import com.fej1fun.potentials.fabric.utils.FabricTransactionHelper;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiLookup;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,10 +36,10 @@ public class EnergyBlockHolder implements NoProviderBlockCapabilityHolder<Univer
 
         if (blockEntity != null)
             if (blockEntity instanceof EnergyProvider.BLOCK provider)
-                return provider.getEnergy(context);
+                return FabricTransactionHelper.wrap(provider.getEnergy(context));
 
         if (Objects.requireNonNullElseGet(state, () -> level.getBlockState(pos)).getBlock() instanceof EnergyProvider.BLOCK provider)
-            return provider.getEnergy(context);
+            return FabricTransactionHelper.wrap(provider.getEnergy(context));
 
         EnergyStorage energyStorage = blockApiLookup.find(level, pos, state, blockEntity, context);
         return energyStorage == null ? null : new UniversalEnergyWrapper(energyStorage);

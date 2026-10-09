@@ -18,10 +18,11 @@ import java.util.List;
 
 public class FabricFluidStorage extends SnapshotParticipant<List<FluidStack>> implements SlottedStorage<FluidVariant> {
     private final UniversalFluidStorage fluidStorage;
-    private final DeferredParticipant deferredParticipant = new DeferredParticipant();
+    private final DeferredParticipant deferredParticipant;
 
     public FabricFluidStorage(UniversalFluidStorage fluidStorage) {
         this.fluidStorage = fluidStorage;
+        this.deferredParticipant = DeferredParticipant.of(fluidStorage);
     }
 
     @Override
@@ -39,9 +40,10 @@ public class FabricFluidStorage extends SnapshotParticipant<List<FluidStack>> im
         if (resource.isBlank())
             return 0;
         if (fluidStorage.deferUntilCommit()) {
-            long filled = fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), true);
+            long pending = deferredParticipant.getPending(resource, false);
+            long filled = Math.clamp(fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L + pending), true) - pending, 0L, maxAmount / 81L);
             if (filled > 0)
-                deferredParticipant.defer(transaction, () -> fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, filled), false));
+                deferredParticipant.defer(transaction, resource, false, filled, () -> fluidStorage.fill(FluidStackHooksFabric.fromFabric(resource, filled), false));
             return filled * 81L;
         }
         updateSnapshots(transaction);
@@ -51,9 +53,10 @@ public class FabricFluidStorage extends SnapshotParticipant<List<FluidStack>> im
     @Override
     public long extract(FluidVariant resource, long maxAmount, TransactionContext transaction) {
         if (fluidStorage.deferUntilCommit()) {
-            long drained = fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L), true).getAmount();
+            long pending = deferredParticipant.getPending(resource, true);
+            long drained = Math.clamp(fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, maxAmount / 81L + pending), true).getAmount() - pending, 0L, maxAmount / 81L);
             if (drained > 0)
-                deferredParticipant.defer(transaction, () -> fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, drained), false));
+                deferredParticipant.defer(transaction, resource, true, drained, () -> fluidStorage.drain(FluidStackHooksFabric.fromFabric(resource, drained), false));
             return drained * 81L;
         }
         updateSnapshots(transaction);
