@@ -16,10 +16,11 @@ import java.util.List;
 public class NeoForgeFluidStorage extends SnapshotJournal<List<FluidStack>> implements ResourceHandler<FluidResource> {
 
     private final UniversalFluidStorage storage;
-    private final DeferredJournal deferredJournal = new DeferredJournal();
+    private final DeferredJournal deferredJournal;
 
     public NeoForgeFluidStorage(@NotNull final UniversalFluidStorage storage) {
         this.storage = storage;
+        this.deferredJournal = DeferredJournal.of(storage);
     }
 
     @Override
@@ -54,9 +55,10 @@ public class NeoForgeFluidStorage extends SnapshotJournal<List<FluidStack>> impl
             return 0;
         }
         if (storage.deferUntilCommit()) {
-            int filled = Math.toIntExact(storage.fill(toArchitecturyStack(resource, amount), true));
+            long pending = deferredJournal.getPending(resource, false);
+            int filled = (int) Math.clamp(storage.fill(toArchitecturyStack(resource, (int) Math.min(amount + pending, Integer.MAX_VALUE)), true) - pending, 0L, amount);
             if (filled > 0) {
-                deferredJournal.defer(transactionContext, () -> storage.fill(toArchitecturyStack(resource, filled), false));
+                deferredJournal.defer(transactionContext, resource, false, filled, () -> storage.fill(toArchitecturyStack(resource, filled), false));
             }
             return filled;
         }
@@ -70,9 +72,10 @@ public class NeoForgeFluidStorage extends SnapshotJournal<List<FluidStack>> impl
             return 0;
         }
         if (storage.deferUntilCommit()) {
-            int drained = Math.toIntExact(storage.drain(toArchitecturyStack(resource, amount), true).getAmount());
+            long pending = deferredJournal.getPending(resource, true);
+            int drained = (int) Math.clamp(storage.drain(toArchitecturyStack(resource, (int) Math.min(amount + pending, Integer.MAX_VALUE)), true).getAmount() - pending, 0L, amount);
             if (drained > 0) {
-                deferredJournal.defer(transactionContext, () -> storage.drain(toArchitecturyStack(resource, drained), false));
+                deferredJournal.defer(transactionContext, resource, true, drained, () -> storage.drain(toArchitecturyStack(resource, drained), false));
             }
             return drained;
         }

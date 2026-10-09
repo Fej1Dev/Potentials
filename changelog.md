@@ -1,9 +1,4 @@
-# 0.10.0 changelog
-
-## Changes
-- Implement transactions for fluid transfer
-- Add deferUntilCommit for transactions that can't be rolled back
-- Optimize empty fluid transfer
+# 0.10.1 changelog
 
 ## Fixes
-- Fix a possible energy integer overflow on fabric
+- Fix deferred transfers accepting more than the storage limit in one transaction
