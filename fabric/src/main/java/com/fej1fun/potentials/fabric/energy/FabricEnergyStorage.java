@@ -26,7 +26,8 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
             return inserted;
         }
         if (universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), true) > 0) {
-            this.updateSnapshots(transaction);
+            if (!(universalEnergyStorage instanceof UniversalEnergyWrapper))
+                this.updateSnapshots(transaction);
             return universalEnergyStorage.insert((int) Math.min(amount, Integer.MAX_VALUE), false);
         }
         return 0;
@@ -42,7 +43,8 @@ public class FabricEnergyStorage extends SnapshotParticipant<Integer> implements
             return extracted;
         }
         if (universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), true) > 0) {
-            this.updateSnapshots(transaction);
+            if (!(universalEnergyStorage instanceof UniversalEnergyWrapper))
+                this.updateSnapshots(transaction);
             return universalEnergyStorage.extract((int) Math.min(amount, Integer.MAX_VALUE), false);
         }
         return 0;

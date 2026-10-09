@@ -45,8 +45,8 @@ public class UniversalFluidHandler implements UniversalFluidStorage {
             return 0;
         }
 
-        try (Transaction transaction = Transaction.open(null)) {
-            long inserted = fluidHandler.insert(FluidResource.of(FluidStackHooksForge.toForge(stack)), (int) stack.getAmount(), transaction);
+        try (Transaction transaction = Transaction.open(Transaction.getCurrentOpenedTransaction())) {
+            long inserted = fluidHandler.insert(FluidResource.of(FluidStackHooksForge.toForge(stack)), (int) Math.min(stack.getAmount(), Integer.MAX_VALUE), transaction);
             if (simulate || inserted == 0L) {
                 transaction.close();
             } else {
@@ -62,8 +62,8 @@ public class UniversalFluidHandler implements UniversalFluidStorage {
             return FluidStack.empty();
         }
 
-        try (Transaction transaction = Transaction.open(null)) {
-            long extracted = fluidHandler.extract(FluidResource.of(FluidStackHooksForge.toForge(stack)), (int) stack.getAmount(), transaction);
+        try (Transaction transaction = Transaction.open(Transaction.getCurrentOpenedTransaction())) {
+            long extracted = fluidHandler.extract(FluidResource.of(FluidStackHooksForge.toForge(stack)), (int) Math.min(stack.getAmount(), Integer.MAX_VALUE), transaction);
             if (simulate || extracted == 0L) {
                 transaction.close();
             } else {

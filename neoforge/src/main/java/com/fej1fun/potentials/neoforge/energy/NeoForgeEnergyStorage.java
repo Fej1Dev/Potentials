@@ -57,7 +57,8 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
                     deferredJournal.defer(transactionContext, null, false, deferred, () -> storage.insert(deferred, false));
                 return deferred;
             }
-            snapshotJournal.updateSnapshots(transactionContext);
+            if (!(storage instanceof UniversalIEnergyStorage))
+                snapshotJournal.updateSnapshots(transactionContext);
             storage.insert(toReceive, false);
         }
         return amount;
@@ -72,7 +73,8 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
                     deferredJournal.defer(transactionContext, null, true, deferred, () -> storage.extract(deferred, false));
                 return deferred;
             }
-            snapshotJournal.updateSnapshots(transactionContext);
+            if (!(storage instanceof UniversalIEnergyStorage))
+                snapshotJournal.updateSnapshots(transactionContext);
             storage.extract(toExtract, false);
         }
         return amount;
