@@ -6,3 +6,4 @@
 - Fix crash with fluid items with no tank
 - Fix changes to items made by other mods being lost
 - Fix get item capability make item stop stacking when empty
+- Fix emptied fluid and energy items not stacking with new ones
