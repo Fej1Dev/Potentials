@@ -146,7 +146,7 @@ subprojects {
                     accessToken = providers.environmentVariable('CURSEFORGE_API_KEY')
                     for (String ver : supported_versions)
                         minecraftVersions.add(ver)
-                    javaVersions.add(JavaVersion.VERSION_21)
+                    javaVersions.add(JavaVersion.VERSION_25)
                     requires("architectury-api")
                     if (project.name == "fabric") requires("fabric-api")
                     client = true
