@@ -2,3 +2,4 @@
 
 ## Fixes
 - Fix NPE when accessing other mods items capability on neoforge
+- Fix fluid validity checks on an empty tank on neoforge
