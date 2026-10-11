@@ -4,3 +4,4 @@
 - Fix NPE when accessing other mods items capability on neoforge
 - Fix fluid validity checks on an empty tank on neoforge
 - Fix other mods items not being updated on fabric
+- Fix crash when filling fluid items with multiple tanks
