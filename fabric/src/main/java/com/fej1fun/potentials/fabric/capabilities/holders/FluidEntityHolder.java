@@ -4,6 +4,7 @@ import com.fej1fun.potentials.Potentials;
 import com.fej1fun.potentials.capabilities.types.NoProviderEntityCapabilityHolder;
 import com.fej1fun.potentials.fabric.fluid.FabricFluidStorage;
 import com.fej1fun.potentials.fabric.fluid.UniversalFluidVariantStorage;
+import com.fej1fun.potentials.fabric.utils.FabricTransactionHelper;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import com.fej1fun.potentials.providers.FluidProvider;
 import net.fabricmc.fabric.api.lookup.v1.entity.EntityApiLookup;
@@ -28,7 +29,7 @@ public class FluidEntityHolder implements NoProviderEntityCapabilityHolder<Unive
         if (entity == null) return null;
 
         if (entity instanceof FluidProvider.ENTITY provider)
-            return provider.getFluidTank(direction);
+            return FabricTransactionHelper.wrap(provider.getFluidTank(direction));
 
         Storage<FluidVariant> storage = entityApiLookup.find(entity, direction);
         return storage == null ? null : new UniversalFluidVariantStorage(storage);

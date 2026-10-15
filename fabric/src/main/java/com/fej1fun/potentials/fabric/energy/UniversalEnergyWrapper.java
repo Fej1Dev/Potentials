@@ -1,6 +1,7 @@
 package com.fej1fun.potentials.fabric.energy;
 
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.fabric.utils.FabricTransactionHelper;
 import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import team.reborn.energy.api.EnergyStorage;
 
@@ -13,17 +14,17 @@ public class UniversalEnergyWrapper implements UniversalEnergyStorage {
 
     @Override
     public int getEnergy() {
-        return (int) energyStorage.getAmount();
+        return (int) Math.min(energyStorage.getAmount(), Integer.MAX_VALUE);
     }
 
     @Override
     public int getMaxEnergy() {
-        return (int) energyStorage.getCapacity();
+        return (int) Math.min(energyStorage.getCapacity(), Integer.MAX_VALUE);
     }
 
     @Override
     public int insert(int amount, boolean simulate) {
-        try (Transaction transaction = Transaction.openOuter()) {
+        try (Transaction transaction = FabricTransactionHelper.open()) {
             long inserted = energyStorage.insert(amount, transaction);
 
             if (simulate)
@@ -37,7 +38,7 @@ public class UniversalEnergyWrapper implements UniversalEnergyStorage {
 
     @Override
     public int extract(int amount, boolean simulate) {
-        try (Transaction transaction = Transaction.openOuter()) {
+        try (Transaction transaction = FabricTransactionHelper.open()) {
             long extracted = energyStorage.extract(amount, transaction);
 
             if (simulate)

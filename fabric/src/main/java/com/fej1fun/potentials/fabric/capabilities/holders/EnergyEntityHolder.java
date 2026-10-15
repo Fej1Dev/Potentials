@@ -5,6 +5,7 @@ import com.fej1fun.potentials.capabilities.types.NoProviderEntityCapabilityHolde
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
 import com.fej1fun.potentials.fabric.energy.FabricEnergyStorage;
 import com.fej1fun.potentials.fabric.energy.UniversalEnergyWrapper;
+import com.fej1fun.potentials.fabric.utils.FabricTransactionHelper;
 import com.fej1fun.potentials.providers.EnergyProvider;
 import net.fabricmc.fabric.api.lookup.v1.entity.EntityApiLookup;
 import net.minecraft.core.Direction;
@@ -25,7 +26,7 @@ public class EnergyEntityHolder implements NoProviderEntityCapabilityHolder<Univ
         if (entity == null) return null;
 
         if (entity instanceof EnergyProvider.ENTITY provider)
-            return provider.getEnergy(direction);
+            return FabricTransactionHelper.wrap(provider.getEnergy(direction));
 
         EnergyStorage energyStorage = entityApiLookup.find(entity, direction);
         return energyStorage == null ? null : new UniversalEnergyWrapper(energyStorage);

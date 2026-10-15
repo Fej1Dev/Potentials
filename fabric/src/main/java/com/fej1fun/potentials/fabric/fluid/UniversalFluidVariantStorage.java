@@ -1,5 +1,6 @@
 package com.fej1fun.potentials.fabric.fluid;
 
+import com.fej1fun.potentials.fabric.utils.FabricTransactionHelper;
 import com.fej1fun.potentials.fluid.UniversalFluidStorage;
 import dev.architectury.fluid.FluidStack;
 import dev.architectury.hooks.fluid.fabric.FluidStackHooksFabric;
@@ -68,7 +69,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
 
     @Override
     public long fill(FluidStack stack, boolean simulate) {
-        try (Transaction transaction = Transaction.openOuter()) {
+        try (Transaction transaction = FabricTransactionHelper.open()) {
 
             long amount = storage.insert(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L;
             if (simulate || amount == 0L)
@@ -82,7 +83,7 @@ public class UniversalFluidVariantStorage implements UniversalFluidStorage {
 
     @Override
     public FluidStack drain(FluidStack stack, boolean simulate) {
-        try (Transaction transaction = Transaction.openOuter()) {
+        try (Transaction transaction = FabricTransactionHelper.open()) {
 
             long amount = storage.extract(FluidStackHooksFabric.toFabric(stack), stack.getAmount() * 81L, transaction) / 81L;
             if (simulate || amount == 0L)

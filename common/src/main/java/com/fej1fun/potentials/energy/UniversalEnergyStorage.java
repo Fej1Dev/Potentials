@@ -10,4 +10,8 @@ public interface UniversalEnergyStorage {
     boolean canInsertEnergy();
     boolean canExtractEnergy();
 
+    default boolean deferUntilCommit() {
+        return false;
+    }
+
 }
