@@ -1,9 +1,8 @@
-# 0.10.0 changelog
-
-## Changes
-- Implement transactions for fluid transfer
-- Add deferUntilCommit for transactions that can't be rolled back
-- Optimize empty fluid transfer
+# 0.11.1 changelog
 
 ## Fixes
-- Fix a possible energy integer overflow on fabric
+- Fix NPE when accessing other mods items capability on neoforge
+- Fix fluid validity checks on an empty tank on neoforge
+- Fix other mods items not being updated on fabric
+- Fix crash when filling fluid items with multiple tanks
+- Fix fluid storages ignoring overridden tank capacity

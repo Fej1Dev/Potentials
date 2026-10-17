@@ -122,7 +122,7 @@ public class UniversalFluidItemHandler implements UniversalFluidItemStorage {
     }
 
     private long transfer(FluidStack requestedStack, boolean simulate, boolean inserting) {
-        try (Transaction transaction = Transaction.open(null)) {
+        try (Transaction transaction = Transaction.open(Transaction.getCurrentOpenedTransaction())) {
             int requestedAmount = Math.toIntExact(Math.min(Integer.MAX_VALUE, requestedStack.getAmount()));
             FluidResource requestedResource = FluidResource.of(FluidStackHooksForge.toForge(requestedStack));
 

@@ -73,8 +73,8 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
             if (!(fluidStacks.get(i).getFluid()==stack.getFluid() || fluidStacks.get(i).isEmpty())) continue;
-            if (fluidStacks.get(i).getAmount()>=capacity) continue;
-            filled = Math.clamp(this.capacity - getFluidValueInTank(i), 0L, Math.min(this.maxFill, stack.getAmount()));
+            if (fluidStacks.get(i).getAmount()>=getTankCapacity(i)) continue;
+            filled = Math.clamp(getTankCapacity(i) - getFluidValueInTank(i), 0L, Math.min(this.maxFill, stack.getAmount()));
             if (!simulate)
                 fluidStacks.set(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
 
@@ -104,8 +104,8 @@ public class BaseFluidStorage implements UniversalFluidStorage {
         for (int i = 0; i < getTanks(); i++) {
             if (!isFluidValid(i, stack)) continue;
             if (!(fluidStacks.get(i).getFluid()==stack.getFluid() || fluidStacks.get(i).isEmpty())) continue;
-            if (fluidStacks.get(i).getAmount()>=capacity) continue;
-            filled = Math.clamp(this.capacity - getFluidValueInTank(i), 0L, stack.getAmount());
+            if (fluidStacks.get(i).getAmount()>=getTankCapacity(i)) continue;
+            filled = Math.clamp(getTankCapacity(i) - getFluidValueInTank(i), 0L, stack.getAmount());
             if (!simulate)
                 fluidStacks.set(i, stack.copyWithAmount(getFluidValueInTank(i) + filled));
 

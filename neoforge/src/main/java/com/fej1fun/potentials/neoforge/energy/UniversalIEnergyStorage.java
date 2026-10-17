@@ -24,7 +24,7 @@ public class UniversalIEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public void setEnergyStored(int amount) {
-        try (Transaction tx = Transaction.openRoot()) {
+        try (Transaction tx = Transaction.open(Transaction.getCurrentOpenedTransaction())) {
             if (getEnergy() < amount) {
                 energy.insert(amount - getEnergy(), tx);
             } else {
@@ -36,7 +36,7 @@ public class UniversalIEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public int insert(int amount, boolean simulate) {
-        try (Transaction tx = Transaction.openRoot()) {
+        try (Transaction tx = Transaction.open(Transaction.getCurrentOpenedTransaction())) {
             int toReturn = energy.insert(amount, tx);
             if (simulate) {
                 tx.close();
@@ -49,7 +49,7 @@ public class UniversalIEnergyStorage implements UniversalEnergyStorage {
 
     @Override
     public int extract(int amount, boolean simulate) {
-        try (Transaction tx = Transaction.openRoot()) {
+        try (Transaction tx = Transaction.open(Transaction.getCurrentOpenedTransaction())) {
             int toReturn = energy.extract(amount, tx);
             if (simulate) {
                 tx.close();

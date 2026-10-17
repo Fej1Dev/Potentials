@@ -19,12 +19,13 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
             storage.setEnergyStored(snapshot);
         }
     };
-    private final DeferredJournal deferredJournal = new DeferredJournal();
+    private final DeferredJournal deferredJournal;
 
     private final UniversalEnergyStorage storage;
 
     public NeoForgeEnergyStorage(@NotNull UniversalEnergyStorage storage) {
         this.storage = storage;
+        this.deferredJournal = DeferredJournal.of(storage);
     }
 
     @Override
@@ -51,10 +52,13 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
         int amount = storage.insert(toReceive, true);
         if (amount > 0 && !simulate) {
             if (storage.deferUntilCommit()) {
-                deferredJournal.defer(transactionContext, () -> storage.insert(amount, false));
-                return amount;
+                int deferred = (int) Math.max(Math.min(amount, storage.getMaxEnergy() - storage.getEnergy() - deferredJournal.getPending(null, false)), 0);
+                if (deferred > 0)
+                    deferredJournal.defer(transactionContext, null, false, deferred, () -> storage.insert(deferred, false));
+                return deferred;
             }
-            snapshotJournal.updateSnapshots(transactionContext);
+            if (!(storage instanceof UniversalIEnergyStorage || storage instanceof ItemAccessEnergyStorage))
+                snapshotJournal.updateSnapshots(transactionContext);
             storage.insert(toReceive, false);
         }
         return amount;
@@ -64,10 +68,13 @@ public class NeoForgeEnergyStorage implements EnergyHandler {
         int amount = storage.extract(toExtract, true);
         if (amount > 0 && !simulate) {
             if (storage.deferUntilCommit()) {
-                deferredJournal.defer(transactionContext, () -> storage.extract(amount, false));
-                return amount;
+                int deferred = (int) Math.max(Math.min(amount, storage.getEnergy() - deferredJournal.getPending(null, true)), 0);
+                if (deferred > 0)
+                    deferredJournal.defer(transactionContext, null, true, deferred, () -> storage.extract(deferred, false));
+                return deferred;
             }
-            snapshotJournal.updateSnapshots(transactionContext);
+            if (!(storage instanceof UniversalIEnergyStorage || storage instanceof ItemAccessEnergyStorage))
+                snapshotJournal.updateSnapshots(transactionContext);
             storage.extract(toExtract, false);
         }
         return amount;

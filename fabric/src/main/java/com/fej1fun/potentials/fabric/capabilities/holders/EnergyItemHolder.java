@@ -2,6 +2,7 @@ package com.fej1fun.potentials.fabric.capabilities.holders;
 
 import com.fej1fun.potentials.capabilities.types.NoProviderItemCapabilityHolder;
 import com.fej1fun.potentials.energy.UniversalEnergyStorage;
+import com.fej1fun.potentials.fabric.energy.ContainerItemEnergyStorage;
 import com.fej1fun.potentials.fabric.energy.FabricEnergyStorage;
 import com.fej1fun.potentials.fabric.energy.UniversalEnergyWrapper;
 import com.fej1fun.potentials.fabric.utils.ItemStackStorage;
@@ -34,7 +35,7 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
         itemApiLookup.registerForItems((stack, ctx) -> {
             if (stack.getItem() instanceof EnergyProvider.ITEM provider) {
                 UniversalEnergyStorage energy = provider.getEnergy(stack);
-                return energy == null ? null : new FabricEnergyStorage(energy);
+                return energy == null ? null : new FabricEnergyStorage(new ContainerItemEnergyStorage(ctx));
             }
             return null;
         }, item.get());
