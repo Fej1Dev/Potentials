@@ -35,12 +35,7 @@ public class FluidItemHolder implements NoProviderFluidItemCapabilityHolder<Univ
 
         ItemAccess itemAccess = createItemAccess(stack);
         ResourceHandler<FluidResource> fluidTank = itemAccess.getCapability(Capabilities.Fluid.ITEM);
-        if (fluidTank != null) {
-            return new UniversalFluidItemHandler(fluidTank, stack, itemAccess);
-        }
-
-        ResourceHandler<FluidResource> fallback = stack.getCapability(Capabilities.Fluid.ITEM, null);
-        return fallback == null ? null : new UniversalFluidItemHandler(fallback, stack);
+        return fluidTank == null ? null : new UniversalFluidItemHandler(fluidTank, stack, itemAccess);
     }
 
     private ItemAccess createItemAccess(ItemStack stack) {

@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.transfer.access.ItemAccess;
 import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,7 +30,10 @@ public class EnergyItemHolder implements NoProviderItemCapabilityHolder<Universa
         if (stack.getItem() instanceof EnergyProvider.ITEM provider)
             return provider.getEnergy(stack);
 
-        EnergyHandler energyStorage = stack.getCapability(Capabilities.Energy.ITEM, null);
+        if (stack.isEmpty())
+            return null;
+
+        EnergyHandler energyStorage = ItemAccess.forStack(stack).getCapability(Capabilities.Energy.ITEM);
         return energyStorage == null ? null : new UniversalIEnergyStorage(energyStorage);
     }
 

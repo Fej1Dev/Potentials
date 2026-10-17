@@ -46,7 +46,7 @@ public class NeoForgeFluidStorage extends SnapshotJournal<List<FluidStack>> impl
 
     @Override
     public boolean isValid(int tank, FluidResource resource) {
-        return storage.isFluidValid(tank, toArchitecturyStack(resource, getAmountAsInt(tank)));
+        return storage.isFluidValid(tank, toArchitecturyStack(resource, 1));
     }
 
     @Override
